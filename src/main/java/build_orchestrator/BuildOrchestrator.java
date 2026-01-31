@@ -64,7 +64,7 @@ public final class BuildOrchestrator {
 	/**
 	 * Constructor.
 	 *
-	 * @param params     {@link #params}.
+	 * @param params     {@link #params}.<br>
 	 * @param sourceFile {@link #buildListFile}.
 	 */
 	private BuildOrchestrator(@NotNull BuildOrchestratorParams params, @NotNull File buildListFile) {
