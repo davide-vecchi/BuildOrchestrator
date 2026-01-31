@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.Map;
 
 import static build_orchestrator.AppContext.newAppContext;
-import static dfile.file.DFile.newValidatedFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
+import static dfile.file.FileUtilities.newValidatedFile;
 import static dlog.log.Log.writeLogsHeaders;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
 import static dutil.map.MapUtilities.assertNonEmpty;
