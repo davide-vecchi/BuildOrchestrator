@@ -5,7 +5,6 @@
  */
 package build_orchestrator;
 
-import dfile.file.DFile;
 import dlog.log.Log;
 import dparam.AParams;
 import duser_input_output.impl.consoleUserIO.ColorConsoleUserIO;
@@ -23,6 +22,7 @@ import java.util.Map;
 
 import static build_orchestrator.AppContext.newAppContext;
 import static dfile.file.DFile.newValidatedFile;
+import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dlog.log.Log.writeLogsHeaders;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
@@ -129,19 +129,20 @@ public class BuildOrchestratorMain {
 		}
 		// Process first and only arg (the configuration file) :
 		
-		final DFile configurationFile = processArg_ConfigurationFile(args[ZERO_i].trim());
+		final File configurationFile = processArg_ConfigurationFile(args[ZERO_i].trim());
 		
 		// Setup all the configuration params :
 		
-		final BuildOrchestratorParams params = newBuildOrchestratorParams(readConfigurationMap(configurationFile, ac)
-																									, "Configuration file "
-																									                + dq(configurationFile.getCanonicalPath())
-																									 , ac);
+		final BuildOrchestratorParams params = newBuildOrchestratorParams(readConfigurationMap(configurationFile
+			                                                                       , ac)
+																											 , "Configuration file "+  dq(
+																							                getCanonicalPath(configurationFile))
+																									       , ac);
 		
 		// Initialize the instance of the BuildOrchestrator application, using the configuration params :
 		
-		final DFile buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilePath().value)
-																							, true, TEN_i);
+		final File buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilePath().value)
+																						 , true, TEN_i);
 		
 		final BuildOrchestrator orchestrator = BuildOrchestrator.newInstance(params, buildListFile);
 		
@@ -186,19 +187,9 @@ public class BuildOrchestratorMain {
 	 *                                           <li>If {@code arg} exists as a non-empty file but is too short to be a
 	 *                                               configuration file.</li></ul>
 	 */
-	private static DFile processArg_ConfigurationFile(String argCfgFilePath) {
+	private static File processArg_ConfigurationFile(String argCfgFilePath) {
 		
-		final DFile cfgFile = new DFile(new DFile(argCfgFilePath).getCanonicalPath());
-		
-		cfgFile.assertIsExistingFile("Invalid argument " + dq(argCfgFilePath) + ": ");
-		
-		final long fileLength = cfgFile.length(), minLength = 3;
-		
-		if (fileLength < minLength) {
-			
-			throw new InvalidExternalValueException("Invalid argument " + dq(argCfgFilePath) + ": the configuration file " + dq(cfgFile.getCanonicalPath()) + " is only " + fileLength + " bytes long instead of at least " + minLength + ", so it cannot be a configuration file.");
-		}
-		return cfgFile;
+		return newValidatedFile(argCfgFilePath, true, 3);
 	}
 	
 	/**
@@ -211,10 +202,10 @@ public class BuildOrchestratorMain {
 	 *
 	 * @throws NonUniqueExternalValueException If the given configuration file contains duplicate keys.
 	 */
-	private static Map<String, String> readConfigurationMap(@NotNull DFile      configurationFile
+	private static Map<String, String> readConfigurationMap(@NotNull File       configurationFile
 																												, @NotNull AppContext appContext) {
 		
-		final String cfgFileCanonicalName = configurationFile.getCanonicalPath();
+		final String cfgFileCanonicalName = getCanonicalPath(configurationFile);
 		
 		appContext.outUser(NL + "Reading configuration file " + dq(cfgFileCanonicalName) + "...");
 		

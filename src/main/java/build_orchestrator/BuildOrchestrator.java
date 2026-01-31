@@ -5,7 +5,6 @@
  */
 package build_orchestrator;
 
-import dfile.file.DFile;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -56,7 +55,7 @@ public final class BuildOrchestrator {
    * Factory method (see {@link BuildOrchestrator#BuildOrchestrator} for params).
    */
   public static BuildOrchestrator newInstance(@NotNull BuildOrchestratorParams params
-                                            , @NotNull DFile                   buildListFile) {
+                                            , @NotNull File                    buildListFile) {
     
     return new BuildOrchestrator(params, buildListFile);
   }
