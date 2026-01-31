@@ -56,7 +56,7 @@ public final class BuildOrchestrator {
    * Factory method (see {@link BuildOrchestrator#BuildOrchestrator} for params).
    */
   public static BuildOrchestrator newInstance(@NotNull BuildOrchestratorParams params
-                                            , @NotNull DFile                buildListFile) {
+                                            , @NotNull DFile                   buildListFile) {
     
     return new BuildOrchestrator(params, buildListFile);
   }
