@@ -85,9 +85,9 @@ public class BuildOrchestratorMain {
 			
 			try {
 				
-				showStartupMessages(ac);
-				
 				writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
+				
+				showStartupMessages(ac);
 				
 				orchestrator = newBuildOrchestrator(args, ac);
 				
