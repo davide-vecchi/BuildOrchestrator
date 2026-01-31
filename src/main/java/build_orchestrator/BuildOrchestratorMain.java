@@ -55,7 +55,7 @@ public class BuildOrchestratorMain {
 	/**
 	 * The name of this program. Short name, no description (see #APP_DESCR).
 	 */
-	public static final String APP_NAME = "Build With Maven";
+	public static final String APP_NAME = "Build Orchestrator";
 	
 	/**
 	 * The description of this program. Description, not a Short name (see #APP_NAME).
@@ -113,7 +113,7 @@ public class BuildOrchestratorMain {
 	/**
    * @param args Array of 1 element, which is the path to the configuration file.
    *
-   * @return A new {@link BuildOrchestrator} instance constructed from the given {@code args} and ready to {@link IPSG#run()
+   * @return A new {@link BuildOrchestrator} instance constructed from the given {@code args} and ready to {@link BuildOrchestrator#run()
 	 *         run}.
 	 *
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
@@ -142,9 +142,9 @@ public class BuildOrchestratorMain {
 		final DFile buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilePath().value)
 																							, true, TEN_i);
 		
-		final BuildOrchestrator bwm = BuildOrchestrator.newInstance(params, buildListFile);
+		final BuildOrchestrator orchestrator = BuildOrchestrator.newInstance(params, buildListFile);
 		
-		return bwm;
+		return orchestrator;
 	}
 	
 	
@@ -175,7 +175,7 @@ public class BuildOrchestratorMain {
 	}
 	
 	/**
-	 * @param argCfgFilePath The argument of the IPSG command line that represents the path to the configuration file.
+	 * @param argCfgFilePath The argument of the command line that represents the path to the configuration file.
 	 *
 	 * @return The {@link DFile file} instantiated from the given path string.
 	 *
