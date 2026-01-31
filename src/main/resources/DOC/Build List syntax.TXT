@@ -1,0 +1,100 @@
+
+2026-01-29
+
+Syntax of a Build List (can have empty lines and comments at its top) :
+
+1) List of initialization commands to be issued before starting the build
+   (each line is a command). No empty lines between these commands.
+   The first of these lines MUST always be the following :
+
+   @ECHO OFF
+
+2) At least one empty line.
+
+3) A line consisting of either "PAUSE" or "NO PAUSE" (case insensitive, without
+   the double quotes).
+   It determines whether after the build of each module there will be a
+   pause waiting for a key to be pressed.
+
+4) A line consisting of either "TESTS" or "NO TESTS" (case insensitive, without
+   the double quotes).
+   It determines whether Maven will run the tests for each module.
+
+5) Any number (even 0) of consecutive empty lines.
+
+6) List of blocks of lines (no empty lines inside a block, at least one empty
+   line between blocks).
+
+   One block represents one module to build.
+
+   Inside each block :
+
+     1) Path of main folder of the source of the module to build (where the
+        pom.xml of that module is). With or without the ending [back]slash.
+
+     2) Whole Maven-invoking command. May include any args; they will be passed
+        to this Maven command as they are, no changes.
+
+Notes :
+
+- All empty lines at the top of the file are ignored (so the content can start
+  at any line).
+
+- All leading blanks in a line are ignored (so can indent).
+
+- The hashtag char (#) as the first non-blank char of a line makes the rest of
+  the line be ignored (like a comment).
+
+
+-------------------------------------------------------------------------------
+Example of the content of a Build List :
+-------------------------------------------------------------------------------
+
+#
+# 1) List of initialization commands :
+#
+#    Disable echo :
+#
+@ECHO OFF
+#
+#    Set codepage to UTF-8 (CHCP 65001) :
+#
+CHCP 65001 >NUL
+#
+# 2) At least one empty line :
+
+#
+# 3) The "pause or not" line :
+# PAUSE
+NO PAUSE
+#
+#
+# 4) The "tests or not" line :
+TESTS
+# NO TESTS
+#
+# 5) Any number (even 0) of consecutive empty lines.
+#
+# 6) 1st block of lines, so representing the 1st module to build :
+#
+#    1) Path of the module :
+#
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\TestNG
+#
+#    2) Whole Maven-invoking command :
+#
+mvn clean install -XYZ Whatever
+#
+# Empty line (to mark the end of this block) :
+
+# 2nd block of lines, so representing the 2nd module to build :
+#
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat
+mvn clean install
+
+# 3rd block of lines, so representing the 3rd module to build :
+#
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
+mvn clean install -D -XYZ -Whatever
+
+-------------------------------------------------------------------------------
