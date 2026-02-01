@@ -147,7 +147,7 @@ class BuildList {
     // Phase 1: Split file into sections with line number tracking :
     
     final TwoObjects<Map<String, List<LineWithNumber>>
-                   , List<LineWithNumber>> lines = calcSectionLines(buildListFile, allLinesWithNumbers);
+                   , List<LineWithNumber>> lines = extractSectionLines(buildListFile, allLinesWithNumbers);
     
     final Map<String, List<LineWithNumber>> sectionLines =   lines.o1;
     
@@ -173,7 +173,7 @@ class BuildList {
     
     // Parse Initialization section :
     
-    result.initCommands = readInitCommandsSection(sectionLines, initSectionKey);
+    result.initCommands = extractInitCommandsSection(sectionLines, initSectionKey);
     
     // Parse Options section :
     
@@ -185,7 +185,7 @@ class BuildList {
     
     // Parse Modules section :
     
-    result.moduleBlocks = readModulesSection(buildListFile, sectionLines, modulesSectionKey, ac);
+    result.moduleBlocks = extractModulesSection(buildListFile, sectionLines, modulesSectionKey, ac);
     
     // Validate at least one module exists :
     
@@ -224,10 +224,10 @@ class BuildList {
    *
    * @return TODO @@@@ COMMENT
    */
-  private static List<ModuleBlock> readModulesSection(@NotNull  File                             buildListFile
-                                                    , @NotEmpty Map<String,List<LineWithNumber>> sectionLines
-                                                    , @NotBlank String                           modulesSectionKey
-                                                    , @NotNull  AppContext                       ac) {
+  private static List<ModuleBlock> extractModulesSection(@NotNull  File                             buildListFile
+                                                       , @NotEmpty Map<String,List<LineWithNumber>> sectionLines
+                                                       , @NotBlank String                           modulesSectionKey
+                                                       , @NotNull  AppContext                       ac) {
     
     final List<ModuleBlock> moduleBlocks = new ArrayList<>();
     
@@ -385,8 +385,9 @@ class BuildList {
    *
    * @return TODO @@@@ COMMENT
    */
-  private static @NotNull List<String> readInitCommandsSection(@NotEmpty Map<String,List<LineWithNumber>> sectionLines
-                                                             , @NotEmpty String                           initSectionKey) {
+  private static @NotNull List<String> extractInitCommandsSection(
+                                                              @NotEmpty Map<String, List<LineWithNumber>> sectionLines
+                                                            , @NotEmpty String                            initSectionKey) {
     final List<String> result = new ArrayList<>();
     
     final List<LineWithNumber> rawInitLines = sectionLines.get(initSectionKey);
@@ -467,8 +468,8 @@ class BuildList {
    * @return TODO @@@@@ COMMENT
    */
   private static TwoObjects<Map<String, List<LineWithNumber>>
-                          , List<LineWithNumber>> calcSectionLines(@NotNull  File                 buildListFile
-                                                                 , @NotEmpty List<LineWithNumber> allLinesWithNumbers) {
+                          , List<LineWithNumber>> extractSectionLines(@NotNull  File                 buildListFile
+                                                                    , @NotEmpty List<LineWithNumber> allLinesWithNumbers) {
     
     final Map<String, List<LineWithNumber>> sectionLines = HashMap.newHashMap(3);
     
