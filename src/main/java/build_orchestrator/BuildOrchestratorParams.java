@@ -61,6 +61,17 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		this.appContext = appContext;
 	}
 	
+	
+	/**
+	 * Sets new instances of all the params into this {@link BuildOrchestratorParams}.
+	 */
+	public void addAllParams() {
+		
+		// Param buildListFilePath :
+		
+		this.buildListFilePath = new ParamMono<>(this, "BuildListFile");
+	}
+	
 	@Override
 	public void populate() {
 		

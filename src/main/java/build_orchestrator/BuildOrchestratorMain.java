@@ -165,6 +165,11 @@ public class BuildOrchestratorMain {
 		final BuildOrchestratorParams allParams =  new BuildOrchestratorParams(
 																													assertNonEmpty(configurationMap), sourceDescr
 																																												, appContext);
+		
+		// Create all the existing params, as empty :
+		
+		allParams.addAllParams();
+		
 		// Populate and validate all the existing params :
 		
 		allParams.populate();

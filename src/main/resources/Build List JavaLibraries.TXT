@@ -2,13 +2,16 @@
 # DJavaLibraries artifact group's Build List.
 # (REPOS subfolder : "JavaLibraries\").
 #
-# See "src/main/resources/DOC/Build List syntax.TXT" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ for the syntax.
+# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
+
 
 [Initialization]
 
 @ECHO OFF
 
 CHCP 65001 >NUL
+
+
 
 [Options]
 
@@ -21,6 +24,8 @@ CHCP 65001 >NUL
 
 NoPause
 NOTESTS
+
+
 
 [Modules]
 
