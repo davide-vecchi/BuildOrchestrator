@@ -268,8 +268,8 @@ class BuildList {
         if (modulePath.trim().isEmpty()) {
           
           throw new MissingExternalValueException("Empty module path at line " + pathLineNumber
-                                                  + " in [" + MODULES_SECTION_NAME + "] section of file "
-                                                  + getCanonicalPathAsDescr(buildListFile));
+                                                + " in [" + MODULES_SECTION_NAME + "] section of file "
+                                                + getCanonicalPathAsDescr(buildListFile));
         }
         // Normalize path for case‑insensitive duplicate check on Windows :
         
@@ -280,8 +280,8 @@ class BuildList {
         if (seenModulePaths.contains(normalizedPath)) {
           
           throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath + "' at line " + pathLineNumber
-                                                    + " in [" + MODULES_SECTION_NAME + "] section of file "
-                                                    + getCanonicalPathAsDescr(buildListFile) + ". Each module must have a unique path.");
+                                                  + " in [" + MODULES_SECTION_NAME + "] section of file "
+                                                  + getCanonicalPathAsDescr(buildListFile) + ". Each module must have a unique path.");
         }
         seenModulePaths.add(normalizedPath);
         
@@ -292,7 +292,7 @@ class BuildList {
         if (listIndex >= rawModuleLines.size()) {
           
           throw new MissingExternalValueException("Incomplete module block in file " + getCanonicalPathAsDescr(buildListFile)
-                                                  + ". Module path at line " + pathLineNumber + " has no corresponding Maven command.");
+                                                + ". Module path at line " + pathLineNumber + " has no corresponding Maven command.");
         }
         final LineWithNumber commandLineWithNumber = rawModuleLines.get(listIndex);
         
@@ -309,9 +309,9 @@ class BuildList {
         if (mavenCommand.isEmpty()) {
           
           throw new MissingExternalValueException("Empty Maven command at line " + commandLineNumber
-                                                  + " for module path at line " + pathLineNumber
-                                                  + " in file " + getCanonicalPathAsDescr(buildListFile)
-                                                  + ". Module blocks must be exactly 2 consecutive non‑empty lines.");
+                                                + " for module path at line " + pathLineNumber
+                                                + " in file " + getCanonicalPathAsDescr(buildListFile)
+                                                + ". Module blocks must be exactly 2 consecutive non‑empty lines.");
         }
         // Basic Maven command validation :
         
@@ -320,7 +320,7 @@ class BuildList {
         if (! mavenCommandUpper.startsWith("MVN ")) {
           
           ac.outDevLog("Warning: Maven command at line " + commandLineNumber + " for module '" + modulePath.trim()
-                       + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
+                             + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
         }
         // Create module block (will validate path exists via assertExistingPath) :
         
