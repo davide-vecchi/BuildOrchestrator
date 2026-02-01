@@ -340,7 +340,8 @@ class BuildList {
    *
    * @return
    */
-  private static TwoObjects<Boolean, Boolean> readOptionsSection(@NotNull  File                      buildListFile
+  private static TwoObjects<@NotNull Boolean, @NotNull Boolean> readOptionsSection(
+                                                                 @NotNull  File                      buildListFile
                                                                 ,@NotEmpty Map<String
                                                                              , List<LineWithNumber>> sectionLines
                                                                , @NotBlank String                    optionsSectionKey) {
