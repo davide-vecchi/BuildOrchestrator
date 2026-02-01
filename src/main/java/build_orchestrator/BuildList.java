@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -273,7 +272,7 @@ class BuildList {
     
     // Parse Initialization section :
     
-    final List<String> initCommands = new ArrayList<>();
+    result.initCommands = new ArrayList<>();
     
     final List<LineWithNumber> rawInitLines = sectionLines.get(initSectionKey);
     
@@ -281,11 +280,9 @@ class BuildList {
       
       if (! lineWithNumber.line.trim().isEmpty()) {
         
-        initCommands.add(lineWithNumber.line.stripTrailing());
+        result.initCommands.add(lineWithNumber.line.stripTrailing());
       }
     }
-    result.initCommands = Collections.unmodifiableList(initCommands);
-    
     // Parse Options section :
     
     boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
@@ -321,7 +318,7 @@ class BuildList {
     
     // Parse Modules section :
     
-    final List<ModuleBlock> moduleBlocks = new ArrayList<>();
+    result.moduleBlocks = new ArrayList<>();
     
     final List<LineWithNumber> rawModuleLines = sectionLines.get(modulesSectionKey);
     
@@ -421,21 +418,19 @@ class BuildList {
         }
         // Create module block (will validate path exists via assertExistingPath) :
         
-        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
+        result.moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
         
         // Note: Next iteration will handle any blank lines between blocks.
       }
     }
     // Validate at least one module exists :
     
-    if (moduleBlocks.isEmpty()) {
+    if (result.moduleBlocks.isEmpty()) {
       
       throw new InvalidExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
                                               + getCanonicalPathAsDescr(buildListFile)
                                               + ". At least one module must be specified.");
     }
-    result.moduleBlocks = Collections.unmodifiableList(moduleBlocks);
-    
     // : Phase 2 complete - all sections parsed and validated.
     
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
