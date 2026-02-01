@@ -183,7 +183,39 @@ class BuildList {
     
     // Parse Modules section :
     
-    result.moduleBlocks = new ArrayList<>();
+    result.moduleBlocks = readModulesSection(buildListFile, sectionLines, modulesSectionKey, ac);
+    
+    // Validate at least one module exists :
+    
+    if (result.moduleBlocks.isEmpty()) {
+      
+      throw new MissingExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
+                                              + getCanonicalPathAsDescr(buildListFile) + ". At least one module must be specified.");
+    }
+    // : Phase 2 complete - all sections parsed and validated.
+    
+    ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
+    
+    return result;
+  }
+  
+  
+  /**
+   * Parse Modules section.
+   *
+   * @param buildListFile
+   * @param sectionLines
+   * @param modulesSectionKey
+   * @param ac
+   *
+   * @return TODO @@@@ COMMENT
+   */
+  private static List<ModuleBlock> readModulesSection(@NotNull  File                             buildListFile
+                                                    , @NotEmpty Map<String,List<LineWithNumber>> sectionLines
+                                                    , @NotBlank String                           modulesSectionKey
+                                                    , @NotNull  AppContext                       ac) {
+    
+    final List<ModuleBlock> moduleBlocks = new ArrayList<>();
     
     final List<LineWithNumber> rawModuleLines = sectionLines.get(modulesSectionKey);
     
@@ -234,8 +266,8 @@ class BuildList {
         if (seenModulePaths.contains(normalizedPath)) {
           
           throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath + "' at line " + pathLineNumber
-                                                  + " in [" + MODULES_SECTION_NAME + "] section of file "
-                                                  + getCanonicalPathAsDescr(buildListFile) + ". Each module must have a unique path.");
+                                                    + " in [" + MODULES_SECTION_NAME + "] section of file "
+                                                    + getCanonicalPathAsDescr(buildListFile) + ". Each module must have a unique path.");
         }
         seenModulePaths.add(normalizedPath);
         
@@ -246,7 +278,7 @@ class BuildList {
         if (listIndex >= rawModuleLines.size()) {
           
           throw new MissingExternalValueException("Incomplete module block in file " + getCanonicalPathAsDescr(buildListFile)
-                                                + ". Module path at line " + pathLineNumber + " has no corresponding Maven command.");
+                                                  + ". Module path at line " + pathLineNumber + " has no corresponding Maven command.");
         }
         final LineWithNumber commandLineWithNumber = rawModuleLines.get(listIndex);
         
@@ -274,27 +306,16 @@ class BuildList {
         if (! mavenCommandUpper.startsWith("MVN ")) {
           
           ac.outDevLog("Warning: Maven command at line " + commandLineNumber + " for module '" + modulePath.trim()
-                             + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
+                       + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
         }
         // Create module block (will validate path exists via assertExistingPath) :
         
-        result.moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
+        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
         
         // Note: Next iteration will handle any blank lines between blocks.
       }
     }
-    // Validate at least one module exists :
-    
-    if (result.moduleBlocks.isEmpty()) {
-      
-      throw new MissingExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
-                                              + getCanonicalPathAsDescr(buildListFile) + ". At least one module must be specified.");
-    }
-    // : Phase 2 complete - all sections parsed and validated.
-    
-    ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
-    
-    return result;
+    return moduleBlocks;
   }
   
   /**
