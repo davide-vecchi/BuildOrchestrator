@@ -7,7 +7,8 @@ package build_orchestrator;
 
 
 import dutil.exception.exceptions.InvalidExternalValueException;
-import dutil.exception.exceptions.InvalidValueException;
+import dutil.exception.exceptions.MissingExternalValueException;
+import dutil.exception.exceptions.NonUniqueExternalValueException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -150,7 +151,7 @@ class BuildList {
     }
     catch (IOException e) {
       
-      throw new InvalidValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " : " + e.getMessage());
+      throw new InvalidExternalValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " :" + NL + e.getMessage());
     }
     // Phase 1: Split file into sections with line number tracking
     
@@ -238,17 +239,17 @@ class BuildList {
     
     if (! sectionLines.containsKey(initSectionKey)) {
       
-      throw new InvalidExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
+      throw new MissingExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
                                               + getCanonicalPathAsDescr(buildListFile));
     }
     if (! sectionLines.containsKey(optionsSectionKey)) {
       
-      throw new InvalidExternalValueException("Missing required section '[" + OPTIONS_SECTION_NAME + "]' in file "
+      throw new MissingExternalValueException("Missing required section '[" + OPTIONS_SECTION_NAME + "]' in file "
                                               + getCanonicalPathAsDescr(buildListFile));
     }
     if (! sectionLines.containsKey(modulesSectionKey)) {
       
-      throw new InvalidExternalValueException("Missing required section '[" + MODULES_SECTION_NAME + "]' in file "
+      throw new MissingExternalValueException("Missing required section '[" + MODULES_SECTION_NAME + "]' in file "
                                               + getCanonicalPathAsDescr(buildListFile));
     }
     // Validate no content outside sections (except comments which were already filtered) :
@@ -356,7 +357,7 @@ class BuildList {
         
         if (modulePath.trim().isEmpty()) {
           
-          throw new InvalidExternalValueException("Empty module path at line " + pathLineNumber
+          throw new MissingExternalValueException("Empty module path at line " + pathLineNumber
                                                   + " in [" + MODULES_SECTION_NAME + "] section of file "
                                                   + getCanonicalPathAsDescr(buildListFile));
         }
@@ -368,7 +369,7 @@ class BuildList {
         
         if (seenModulePaths.contains(normalizedPath)) {
           
-          throw new InvalidExternalValueException("Duplicate module path '" + modulePath
+          throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath
                                                   + "' at line " + pathLineNumber
                                                   + " in [" + MODULES_SECTION_NAME + "] section of file "
                                                   + getCanonicalPathAsDescr(buildListFile)
@@ -382,7 +383,7 @@ class BuildList {
         
         if (listIndex >= rawModuleLines.size()) {
           
-          throw new InvalidExternalValueException("Incomplete module block in file "
+          throw new MissingExternalValueException("Incomplete module block in file "
                                                   + getCanonicalPathAsDescr(buildListFile)
                                                   + ". Module path at line " + pathLineNumber
                                                   + " has no corresponding Maven command.");
@@ -401,7 +402,7 @@ class BuildList {
         
         if (mavenCommand.isEmpty()) {
           
-          throw new InvalidExternalValueException("Empty Maven command at line " + commandLineNumber
+          throw new MissingExternalValueException("Empty Maven command at line " + commandLineNumber
                                                   + " for module path at line " + pathLineNumber
                                                   + " in file " + getCanonicalPathAsDescr(buildListFile)
                                                   + ". Module blocks must be exactly 2 consecutive non‑empty lines.");
@@ -427,7 +428,7 @@ class BuildList {
     
     if (result.moduleBlocks.isEmpty()) {
       
-      throw new InvalidExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
+      throw new MissingExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
                                               + getCanonicalPathAsDescr(buildListFile)
                                               + ". At least one module must be specified.");
     }
