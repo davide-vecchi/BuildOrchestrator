@@ -196,7 +196,7 @@ class BuildList {
           
           final String sectionName = trimmedLine.substring(1, trimmedLine.length() - 1).trim();
           
-          // Validate section name using equalsIgnoreCase :
+          // Validate section name :
           
           if (sectionName.equalsIgnoreCase(INIT_SECTION_NAME)
            || sectionName.equalsIgnoreCase(OPTIONS_SECTION_NAME)

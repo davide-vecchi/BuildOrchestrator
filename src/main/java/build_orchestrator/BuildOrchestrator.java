@@ -11,9 +11,16 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
 import static dfile.file.FileUtilities.assertNonEmpty;
+import static dutil.number.NumberUtilities.TEN_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 
 
@@ -86,6 +93,39 @@ public final class BuildOrchestrator {
 		
 		// @@@ q @@@@@@@@@@@@@@@
 		
+	}
+	
+	/**
+	 *
+	 * @param projectDir
+	 * @param mvnArgs
+	 *
+	 * @return {@link Process#exitValue() exitValue}.
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws TimeoutException
+	 */
+	private int runMavenCommand(File projectDir, String... mvnArgs) throws IOException, InterruptedException, TimeoutException {
+		
+		List<String> command = new ArrayList<>();
+		command.add("mvn");
+		command.addAll(Arrays.asList(mvnArgs));
+		
+		ProcessBuilder pb = new ProcessBuilder(command);
+		pb.directory(projectDir);
+		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+		pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+		
+		Process p = pb.start();
+		
+		// Wait with timeout
+		if (! p.waitFor(TEN_i, TimeUnit.MINUTES)) {
+			p.destroyForcibly();
+			throw new TimeoutException("Maven build timed out");
+		}
+		
+		return p.exitValue();
 	}
 	
 }
