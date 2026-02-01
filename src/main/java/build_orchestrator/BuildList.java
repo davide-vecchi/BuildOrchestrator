@@ -386,7 +386,7 @@ class BuildList {
    * @return TODO @@@@ COMMENT
    */
   private static @NotNull List<String> readInitCommandsSection(@NotEmpty Map<String,List<LineWithNumber>> sectionLines
-                                                      , @NotEmpty String                           initSectionKey) {
+                                                             , @NotEmpty String                           initSectionKey) {
     final List<String> result = new ArrayList<>();
     
     final List<LineWithNumber> rawInitLines = sectionLines.get(initSectionKey);
