@@ -33,6 +33,7 @@ import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.B;
+import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
@@ -177,9 +178,9 @@ class BuildList {
     
     final TwoObjects<Boolean, Boolean> options = readOptionsSection(buildListFile, sectionLines, optionsSectionKey);
     
-    result.doPause = options.o1;
+    result.doPause = assertNonNull(options.o1);
     
-    result.doTests = options.o2;
+    result.doTests = assertNonNull(options.o2);
     
     // Parse Modules section :
     
