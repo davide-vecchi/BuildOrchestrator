@@ -154,7 +154,7 @@ class BuildList {
     }
     // Phase 1: Split file into sections with line number tracking
     
-    final Map<String, List<LineWithNumber>> sectionLines = new HashMap<>();
+    final Map<String, List<LineWithNumber>> sectionLines = HashMap.newHashMap(3);
     
     String currentSection = null;
     
