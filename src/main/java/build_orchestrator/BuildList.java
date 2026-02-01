@@ -167,7 +167,7 @@ class BuildList {
     
     validateOutsideSections(buildListFile, noSectionLines);
     
-    // Phase 2: Parse each section using Strategy Pattern :
+    // Phase 2: Parse each section :
     
     // Parse Initialization section :
     
@@ -187,11 +187,8 @@ class BuildList {
     
     // Validate at least one module exists :
     
-    if (result.moduleBlocks.isEmpty()) {
-      
-      throw new MissingExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
-                                              + getCanonicalPathAsDescr(buildListFile) + ". At least one module must be specified.");
-    }
+    validateModulesPresent(buildListFile, result.moduleBlocks);
+    
     // : Phase 2 complete - all sections parsed and validated.
     
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
@@ -199,6 +196,21 @@ class BuildList {
     return result;
   }
   
+  
+  /**
+   * Validate at least one module exists.
+   *
+   * @param buildListFile
+   * @param moduleBlocks
+   */
+  private static void validateModulesPresent(@NotNull File buildListFile, @NotNull List<ModuleBlock> moduleBlocks) {
+    
+    if (moduleBlocks.isEmpty()) {
+      
+      throw new MissingExternalValueException("No modules defined in [" + MODULES_SECTION_NAME + "] section of file "
+                                              + getCanonicalPathAsDescr(buildListFile) + ". At least one module must be specified.");
+    }
+  }
   
   /**
    * Parse Modules section.
