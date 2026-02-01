@@ -33,8 +33,11 @@ import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
+import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.TAB;
+import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 /**
  * Represents a Build List, described in {@code DOC/Build List syntax.TXT}.
@@ -500,16 +503,19 @@ class BuildList {
   @Override
   public String toString() {
   
-    final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2);
+    final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2T);
     
-    sb.append("initCommands=").append(listToString(this.initCommands)).append(NL2);
+    sb.append(TAB).append("initCommands=").append(listToString(new ArrayList<>(this.initCommands)
+                                                          , null, TAB2
+                                                     , EMPTY,   NL)).append(NL2);
     
-    sb.append("doPause=").append(this.doPause).append(NL2);
+    sb.append(TAB).append("doPause=").append(this.doPause).append(NL2);
     
-    sb.append("doTests=").append(this.doTests).append(NL2);
+    sb.append(TAB).append("doTests=").append(this.doTests).append(NL2);
     
-    sb.append("moduleBlocks=").append(listToString(this.moduleBlocks)).append(NL2).append('}');
-    
+    sb.append(TAB).append("moduleBlocks=").append(listToString(new ArrayList<>(this.moduleBlocks)
+                                                          , null, TAB2
+                                                     , EMPTY,   NL)).append(NL2).append('}');
     return sb.toString();
   }
 
