@@ -9,7 +9,9 @@ package build_orchestrator;
 import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.exception.exceptions.NonUniqueExternalValueException;
+import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
@@ -140,82 +142,15 @@ class BuildList {
     
     final List<LineWithNumber> allLinesWithNumbers = readAllLinesWithNumbers(buildListFile);
     
-    // Phase 1: Split file into sections with line number tracking
+    // Phase 1: Split file into sections with line number tracking :
     
-    final Map<String, List<LineWithNumber>> sectionLines = HashMap.newHashMap(3);
+    final TwoObjects<Map<String, List<LineWithNumber>>
+                   , List<LineWithNumber>> lines = calcSectionLines(buildListFile, allLinesWithNumbers);
     
-    String currentSection = null;
+    final Map<String, List<LineWithNumber>> sectionLines =   lines.o1;
     
-    final List<LineWithNumber> noSectionLines = new ArrayList<>();
+    final             List<LineWithNumber>  noSectionLines = lines.o2;
     
-    for (final LineWithNumber lineWithNumber : allLinesWithNumbers) {
-      
-      final String rawLine = lineWithNumber.line;
-      
-      final String trimmedLine = rawLine.trim();
-      
-      final int lineNumber = lineWithNumber.number;
-      
-      // Skip comments :
-      
-      if (! trimmedLine.startsWith(COMMENT_STARTER)) {
-        
-        // : Not a comment line.
-        
-        // Check for empty line :
-        
-        if (trimmedLine.isEmpty()) {
-          
-          // : Empty line - keep if we're in a section (for module block separation) :
-          
-          if (currentSection != null) {
-            
-            sectionLines.get(currentSection).add(lineWithNumber);
-          }
-          else {
-            
-            noSectionLines.add(lineWithNumber);
-          }
-        }
-        // Check for section header :
-        
-        else if (trimmedLine.startsWith(SECTION_NAME_START) && trimmedLine.endsWith(SECTION_NAME_END)) {
-          
-          final String sectionName = trimmedLine.substring(1, trimmedLine.length() - 1).trim();
-          
-          // Validate section name :
-          
-          if (sectionName.equalsIgnoreCase(INIT_SECTION_NAME)
-           || sectionName.equalsIgnoreCase(OPTIONS_SECTION_NAME)
-           || sectionName.equalsIgnoreCase(MODULES_SECTION_NAME)) {
-            
-            currentSection = sectionName.toUpperCase();
-            
-            sectionLines.putIfAbsent(currentSection, new ArrayList<>());
-          }
-          else {
-            
-            throw new InvalidExternalValueException("Invalid section name '" + sectionName + "' at line " + lineNumber
-                                                    + " in file " + getCanonicalPathAsDescr(buildListFile)
-                                                    + ". Valid sections are: [" + INIT_SECTION_NAME + "], ["
-                                                    + OPTIONS_SECTION_NAME + "], [" + MODULES_SECTION_NAME + "].");
-          }
-        }
-        else {
-          
-          // : Regular content line :
-          
-          if (currentSection != null) {
-            
-            sectionLines.get(currentSection).add(lineWithNumber);
-          }
-          else {
-            
-            noSectionLines.add(lineWithNumber);
-          }
-        }
-      }
-    }
     // : Phase 1 complete - file split into sections.
     
     // Validate we have all required sections :
@@ -418,6 +353,96 @@ class BuildList {
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
     return result;
+  }
+  
+  
+  /**
+   * Splits file into sections with line number tracking.
+   *
+   * @param buildListFile
+   * @param allLinesWithNumbers
+   *
+   * @return TODO @@@@@ COMMENT
+   */
+  private static TwoObjects<Map<String, List<LineWithNumber>>
+                          , List<LineWithNumber>> calcSectionLines(@NotNull  File                 buildListFile
+                                                                 , @NotEmpty List<LineWithNumber> allLinesWithNumbers) {
+    
+    final Map<String, List<LineWithNumber>> sectionLines = HashMap.newHashMap(3);
+    
+    String currentSection = null;
+    
+    final List<LineWithNumber> noSectionLines = new ArrayList<>();
+    
+    for (final LineWithNumber lineWithNumber : allLinesWithNumbers) {
+      
+      final String rawLine = lineWithNumber.line;
+      
+      final String trimmedLine = rawLine.trim();
+      
+      final int lineNumber = lineWithNumber.number;
+      
+      // Skip comments :
+      
+      if (! trimmedLine.startsWith(COMMENT_STARTER)) {
+        
+        // : Not a comment line.
+        
+        // Check for empty line :
+        
+        if (trimmedLine.isEmpty()) {
+          
+          // : Empty line - keep if we're in a section (for module block separation) :
+          
+          if (currentSection != null) {
+            
+            sectionLines.get(currentSection).add(lineWithNumber);
+          }
+          else {
+            
+            noSectionLines.add(lineWithNumber);
+          }
+        }
+        // Check for section header :
+        
+        else if (trimmedLine.startsWith(SECTION_NAME_START) && trimmedLine.endsWith(SECTION_NAME_END)) {
+          
+          final String sectionName = trimmedLine.substring(1, trimmedLine.length() - 1).trim();
+          
+          // Validate section name :
+          
+          if (sectionName.equalsIgnoreCase(INIT_SECTION_NAME)
+              || sectionName.equalsIgnoreCase(OPTIONS_SECTION_NAME)
+              || sectionName.equalsIgnoreCase(MODULES_SECTION_NAME)) {
+            
+            currentSection = sectionName.toUpperCase();
+            
+            sectionLines.putIfAbsent(currentSection, new ArrayList<>());
+          }
+          else {
+            
+            throw new InvalidExternalValueException("Invalid section name '" + sectionName + "' at line " + lineNumber
+                                                    + " in file " + getCanonicalPathAsDescr(buildListFile)
+                                                    + ". Valid sections are: [" + INIT_SECTION_NAME + "], ["
+                                                    + OPTIONS_SECTION_NAME + "], [" + MODULES_SECTION_NAME + "].");
+          }
+        }
+        else {
+          
+          // : Regular content line :
+          
+          if (currentSection != null) {
+            
+            sectionLines.get(currentSection).add(lineWithNumber);
+          }
+          else {
+            
+            noSectionLines.add(lineWithNumber);
+          }
+        }
+      }
+    }
+    return new TwoObjects<>(sectionLines, noSectionLines);
   }
   
   
