@@ -101,7 +101,7 @@ public final class BuildOrchestrator {
 	 * @param mvnArgs
 	 *
 	 * @return {@link Process#exitValue() exitValue}.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws InterruptedException
 	 * @throws TimeoutException

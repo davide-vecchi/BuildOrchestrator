@@ -138,21 +138,8 @@ class BuildList {
     
     // Read the file content with line number tracking :
     
-    final List<LineWithNumber> allLinesWithNumbers = new ArrayList<>();
+    final List<LineWithNumber> allLinesWithNumbers = readAllLinesWithNumbers(buildListFile);
     
-    try {
-      
-      final List<String> rawLines = FileUtils.readLines(buildListFile, Charset.defaultCharset());
-      
-      for (int i = ZERO_i; i < rawLines.size(); i++) {
-        
-        allLinesWithNumbers.add(new LineWithNumber(rawLines.get(i), i + 1));
-      }
-    }
-    catch (IOException e) {
-      
-      throw new InvalidExternalValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " :" + NL + e.getMessage());
-    }
     // Phase 1: Split file into sections with line number tracking
     
     final Map<String, List<LineWithNumber>> sectionLines = HashMap.newHashMap(3);
@@ -430,6 +417,36 @@ class BuildList {
     
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
+    return result;
+  }
+  
+  
+  /**
+   * Reads the file content with line number tracking.
+   *
+   * @param buildListFile The file containing the Build List.
+   *
+   * @return List of the lines read, with their position.
+   */
+  private static List<LineWithNumber> readAllLinesWithNumbers(@NotNull File buildListFile) {
+    
+    final List<LineWithNumber> result = new ArrayList<>();
+    
+    assertExistingPath(buildListFile.getAbsolutePath(), false);
+    
+    try {
+      
+      final List<String> rawLines = FileUtils.readLines(buildListFile, Charset.defaultCharset());
+      
+      for (int i = ZERO_i; i < rawLines.size(); i++) {
+        
+        result.add(new LineWithNumber(rawLines.get(i), i + 1));
+      }
+    }
+    catch (IOException e) {
+      
+      throw new InvalidExternalValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " :" + NL + e.getMessage());
+    }
     return result;
   }
   
