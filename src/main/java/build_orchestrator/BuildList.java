@@ -320,6 +320,7 @@ class BuildList {
         if (! mavenCommandUpper.startsWith("MVN ")) {
           
           ac.outDevLog("Warning: Maven command at line " + commandLineNumber + " for module '" + modulePath.trim()
+                             + " in file " + getCanonicalPathAsDescr(buildListFile)
                              + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
         }
         // Create module block (will validate path exists via assertExistingPath) :
