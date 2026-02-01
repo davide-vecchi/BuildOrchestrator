@@ -505,15 +505,14 @@ class BuildList {
   
     final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2T);
     
-    sb.append(TAB).append("initCommands=").append(listToString(new ArrayList<>(this.initCommands)
-                                                          , null, TAB2
-                                                     , EMPTY,   NL)).append(NL2);
+    sb.append("initCommands=").append(listToString(this.initCommands, null, TAB2
+                                        , EMPTY,            NL)).append(NL2);
     
     sb.append(TAB).append("doPause=").append(this.doPause).append(NL2);
     
     sb.append(TAB).append("doTests=").append(this.doTests).append(NL2);
     
-    sb.append(TAB).append("moduleBlocks=").append(listToString(new ArrayList<>(this.moduleBlocks)
+    sb.append(TAB).append("moduleBlocks=").append(listToString(this.moduleBlocks
                                                           , null, TAB2
                                                      , EMPTY,   NL)).append(NL2).append('}');
     return sb.toString();
