@@ -16,9 +16,9 @@
 # Required : Path of the text file containing the list of modules to build
 #            and the build settings of each of them :
 
-BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\JavaLibrariesToBuild.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\IPSG-CommonToBuild.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\IPSG-DataReaderToBuild.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\IPSGToBuild.TXT
+BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\Build List JavaLibraries.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\Build List IPSG-Common.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\Build List IPSG-DataReader.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildWithMaven\src\main\resources\Build List IPSG.TXT
 
 ################################################################################
