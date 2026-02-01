@@ -151,46 +151,22 @@ class BuildList {
     
     final             List<LineWithNumber>  noSectionLines = lines.o2;
     
-    // : Phase 1 complete - file split into sections.
+    // : Phase 1 complete - file split into sections :
+    
+    final String initSectionKey =    INIT_SECTION_NAME   .toUpperCase();
+    
+    final String optionsSectionKey = OPTIONS_SECTION_NAME.toUpperCase();
+    
+    final String modulesSectionKey = MODULES_SECTION_NAME.toUpperCase();
     
     // Validate we have all required sections :
     
-    final String initSectionKey =    INIT_SECTION_NAME.toUpperCase();
-    final String optionsSectionKey = OPTIONS_SECTION_NAME.toUpperCase();
-    final String modulesSectionKey = MODULES_SECTION_NAME.toUpperCase();
+    validateSections(buildListFile, sectionLines, initSectionKey, optionsSectionKey, modulesSectionKey);
     
-    if (! sectionLines.containsKey(initSectionKey)) {
-      
-      throw new MissingExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
-    }
-    if (! sectionLines.containsKey(optionsSectionKey)) {
-      
-      throw new MissingExternalValueException("Missing required section '[" + OPTIONS_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
-    }
-    if (! sectionLines.containsKey(modulesSectionKey)) {
-      
-      throw new MissingExternalValueException("Missing required section '[" + MODULES_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
-    }
     // Validate no content outside sections (except comments which were already filtered) :
     
-    if (! noSectionLines.isEmpty()) {
-      
-      // Filter out empty lines that might be before first section :
-      
-      final boolean hasNonEmptyContent = noSectionLines
-                                                    .stream()
-                                                    .anyMatch(lwn -> ! lwn.line.trim().isEmpty());
-      if (hasNonEmptyContent) {
-        
-        throw new InvalidExternalValueException("Content found outside of sections in file "
-                                                + getCanonicalPathAsDescr(buildListFile)
-                                                + ". All content must be inside [" + INIT_SECTION_NAME + "], ["
-                                                + OPTIONS_SECTION_NAME + "], or [" + MODULES_SECTION_NAME + "] sections.");
-      }
-    }
+    validateOutsideSections(buildListFile, noSectionLines);
+    
     // Phase 2: Parse each section using Strategy Pattern :
     
     // Parse Initialization section :
@@ -353,6 +329,62 @@ class BuildList {
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
     return result;
+  }
+  
+  /**
+   * Validate no content outside sections (except comments which were already filtered).
+   *
+   * @param buildListFile
+   * @param noSectionLines
+   */
+  private static void validateOutsideSections(@NotNull  File                 buildListFile
+                                            , @NotEmpty List<LineWithNumber> noSectionLines) {
+    if (! noSectionLines.isEmpty()) {
+      
+      // Filter out empty lines that might be before first section :
+      
+      final boolean hasNonEmptyContent = noSectionLines
+                                           .stream()
+                                           .anyMatch(lwn -> ! lwn.line.trim().isEmpty());
+      if (hasNonEmptyContent) {
+        
+        throw new InvalidExternalValueException("Content found outside of sections in file "
+                                                + getCanonicalPathAsDescr(buildListFile)
+                                                + ". All content must be inside [" + INIT_SECTION_NAME + "], ["
+                                                + OPTIONS_SECTION_NAME + "], or [" + MODULES_SECTION_NAME + "] sections.");
+      }
+    }
+  }
+  
+  /**
+   *
+   * @param buildListFile
+   * @param sectionLines
+   * @param initSectionKey
+   * @param optionsSectionKey
+   * @param modulesSectionKey
+   */
+  private static void validateSections(@NotNull  File                              buildListFile
+                                     , @NotEmpty Map<String, List<LineWithNumber>> sectionLines
+                                     , @NotEmpty String                            initSectionKey
+                                     , @NotBlank String                            optionsSectionKey
+                                     , @NotBlank String                            modulesSectionKey) {
+    
+    if (! sectionLines.containsKey(initSectionKey)) {
+      
+      throw new MissingExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
+                                              + getCanonicalPathAsDescr(buildListFile));
+    }
+    if (! sectionLines.containsKey(optionsSectionKey)) {
+      
+      throw new MissingExternalValueException("Missing required section '[" + OPTIONS_SECTION_NAME + "]' in file "
+                                              + getCanonicalPathAsDescr(buildListFile));
+    }
+    if (! sectionLines.containsKey(modulesSectionKey)) {
+      
+      throw new MissingExternalValueException("Missing required section '[" + MODULES_SECTION_NAME + "]' in file "
+                                              + getCanonicalPathAsDescr(buildListFile));
+    }
   }
   
   
