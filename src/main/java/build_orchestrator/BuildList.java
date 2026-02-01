@@ -405,7 +405,7 @@ class BuildList {
         }
         // Basic Maven command validation :
         
-        final String mavenCommandUpper = mavenCommand.trim().toUpperCase();
+        final String mavenCommandUpper = mavenCommand.toUpperCase();
         
         if (! mavenCommandUpper.startsWith("MVN ")) {
           
