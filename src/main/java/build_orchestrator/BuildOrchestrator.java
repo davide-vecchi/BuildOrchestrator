@@ -40,6 +40,7 @@ public final class BuildOrchestrator {
 	 * The {@link BuildList} resulting from parsing the {@link #buildListFile}. Will be {@code null} before it's
 	 * calculated.
 	 */
+	@Getter
 	private BuildList buildList;
 	
 	/**

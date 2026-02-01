@@ -16,15 +16,24 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static build_orchestrator.AppContext.newAppContext;
 import static build_orchestrator.BuildOrchestratorMain.newBuildOrchestrator;
 import static dfile.file.FileUtilities.assertExistingPath;
+import static dfile.file.FileUtilities.calcPath;
+import static dfile.file.FileUtilities.newValidatedFile;
+import static dfile.file.FileUtilities.write;
 import static dlog.log.Log.writeLogsHeaders;
+import static dtest.TestUtilities.assertFilesEqual;
 import static dtest.TestUtilities.newUserIOForTests;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.list.text.TextListUtilities.assertNoneBlank;
+import static dutil.number.NumberUtilities.L;
+import static dutil.number.NumberUtilities.MINUS1_i;
+import static dutil.number.NumberUtilities.TEN_i;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
@@ -34,6 +43,7 @@ import static dutil.string.TextUtilities.FMT_DT2;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
+import static dutil.string.TextUtilities.dq;
 
 
 public class BuildOrchestratorTest {
@@ -75,9 +85,36 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "01".
    */
   @Test
-  public void test01() throws Exception {
+  public void test01() throws IOException {
     
     testBuildOrchestrator("01", this.appContext);
+  }
+  
+  /**
+   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "02".
+   */
+  @Test
+  public void test02() throws IOException {
+    
+    testBuildOrchestrator("02", this.appContext);
+  }
+  
+  /**
+   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "03".
+   */
+  @Test
+  public void test03()throws IOException {
+    
+    testBuildOrchestrator("03", this.appContext);
+  }
+  
+  /**
+   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "04".
+   */
+  @Test
+  public void test04()throws IOException {
+    
+    testBuildOrchestrator("04", this.appContext);
   }
   
   /**
@@ -89,41 +126,40 @@ public class BuildOrchestratorTest {
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testBuildOrchestrator(@NotBlank String testID, @NotNull AppContext ac) {
+  private static void testBuildOrchestrator(@NotBlank String testID, @NotNull AppContext ac) throws IOException {
     
-    ac.outUser(NL2 + DASH80 + NL + "Method testBuildOrchestrator" + assertNonBlankNorTrimmable(testID) + "() :" + NL);
+    ac.outUser(NL2 + DASH80 + NL + "Method testBuildOrchestrator with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
     try {
       
       writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
       
-      final String testDataPath = "src\\test\\resources\\";
+      final String testDataPath = calcPath("src", "test", "resources");
       
       final BuildOrchestrator orchestrator = newBuildOrchestrator(
                                 new String[] {
                                                       assertExistingPath(
-                                                  testDataPath + "BuildOrchestrator-Config_Test" + testID + ".TXT"
+                                                        calcPath(
+                                              testDataPath, "BuildOrchestrator-Config_Test" + testID + ".TXT")
                                           , false)
                                                     }
                                 , ac);
       orchestrator.run();
-      /*
-      // Compare the files where the Detection Storer stored the read Detections :
       
-      File fileTest = assertNonEmpty(new File(orchestrator.getParams().getDetectionsOutputFile().value));
+      // Get the created Build List, save it to file and compare the file with the expected one :
       
-      File fileOK   = assertNonEmpty(new File(testDataPath + fileTest.getName() + "-{OK}"));
+      final BuildList buildList = orchestrator.getBuildList();
       
-      assertFilesEqual(fileTest, fileOK, L(10));
+      final File fileTest = newValidatedFile(calcPath(testDataPath, "TMP-BuildList" + testID + ".TMP"), false, MINUS1_i);
       
-      // Compare the files where the Recommendation Storer stored the produced Recommendations :
+      write(fileTest, buildList.toString(), null);
       
-      fileTest = assertNonEmpty(new File(orchestrator.getParams().getRecomsOutputFile().value));
-      
-      fileOK   = assertNonEmpty(new File(testDataPath + fileTest.getName() + "-{OK}"));
+      final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}"), true, TEN_i);
       
       assertFilesEqual(fileTest, fileOK, L(10));
-      */
+      
+      ac.outUser("Build List successfully compared with expected (" + fileOK.length() + " bytes).");
+      
       ac.outUser(NL + LocalDateTime.now().format(FMT_DT2));
     }
     catch (UserRequestedTermination e) {
