@@ -94,7 +94,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										build_with_maven.BuildWithMavenMain
+										build_orchestrator.BuildOrchestratorMain
 									</mainClass>
 								</manifest>
 							</archive>
