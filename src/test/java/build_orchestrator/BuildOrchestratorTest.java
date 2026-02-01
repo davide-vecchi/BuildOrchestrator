@@ -150,7 +150,7 @@ public class BuildOrchestratorTest {
       
       final BuildList buildList = orchestrator.getBuildList();
       
-      final File fileTest = newValidatedFile(calcPath(testDataPath, "TMP-BuildList" + testID + ".TMP"), false, MINUS1_i);
+      final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP"), false, MINUS1_i);
       
       write(fileTest, buildList.toString(), null);
       

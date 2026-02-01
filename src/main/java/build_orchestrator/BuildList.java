@@ -11,7 +11,6 @@ import dutil.exception.exceptions.InvalidValueException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.ToString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -29,16 +28,17 @@ import java.util.Set;
 
 import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
+import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
+import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.assertNonBlank;
 
 /**
  * Represents a Build List, described in {@code DOC/Build List syntax.TXT}.
  */
-@ToString
 class BuildList {
   
   
@@ -129,7 +129,7 @@ class BuildList {
    */
   static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AppContext ac) {
     
-    ac.outUser(NL2 + Instant.now().toString() + "Starting   creation of Build List from file " + getCanonicalPathAsDescr(buildListFile) + " ..." + NL);
+    ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ..." + NL);
     
     final BuildList result = new BuildList();
     
@@ -435,7 +435,7 @@ class BuildList {
     
     // : Phase 2 complete - all sections parsed and validated.
     
-    ac.outDevLog(NL2 + Instant.now().toString() + NL2 + "Terminated creation of Build List from file " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
+    ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
     return result;
   }
@@ -494,6 +494,23 @@ class BuildList {
       
       this.mvnCommand = mvnCommand;
     }
+  }
+
+
+  @Override
+  public String toString() {
+  
+    final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2);
+    
+    sb.append("initCommands=").append(listToString(this.initCommands)).append(NL2);
+    
+    sb.append("doPause=").append(this.doPause).append(NL2);
+    
+    sb.append("doTests=").append(this.doTests).append(NL2);
+    
+    sb.append("moduleBlocks=").append(listToString(this.moduleBlocks)).append(NL2).append('}');
+    
+    return sb.toString();
   }
 
 }
