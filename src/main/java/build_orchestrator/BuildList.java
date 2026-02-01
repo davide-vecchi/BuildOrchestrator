@@ -171,17 +171,8 @@ class BuildList {
     
     // Parse Initialization section :
     
-    result.initCommands = new ArrayList<>();
+    result.initCommands = readInitCommandsSection(sectionLines, initSectionKey);
     
-    final List<LineWithNumber> rawInitLines = sectionLines.get(initSectionKey);
-    
-    for (final LineWithNumber lineWithNumber : rawInitLines) {
-      
-      if (! lineWithNumber.line.trim().isEmpty()) {
-        
-        result.initCommands.add(lineWithNumber.line.stripTrailing());
-      }
-    }
     // Parse Options section :
     
     boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
@@ -328,6 +319,30 @@ class BuildList {
     
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
+    return result;
+  }
+  
+  /**
+   * Parse Initialization section.
+   *
+   * @param sectionLines
+   * @param initSectionKey
+   *
+   * @return TODO @@@@ COMMENT
+   */
+  private static @NotNull List<String> readInitCommandsSection(@NotEmpty Map<String,List<LineWithNumber>> sectionLines
+                                                      , @NotEmpty String                           initSectionKey) {
+    final List<String> result = new ArrayList<>();
+    
+    final List<LineWithNumber> rawInitLines = sectionLines.get(initSectionKey);
+    
+    for (final LineWithNumber lineWithNumber : rawInitLines) {
+      
+      if (! lineWithNumber.line.trim().isEmpty()) {
+        
+        result.add(lineWithNumber.line.stripTrailing());
+      }
+    }
     return result;
   }
   
