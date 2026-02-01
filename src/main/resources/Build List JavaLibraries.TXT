@@ -39,7 +39,7 @@ NOTESTS
 #   there must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\TestNG
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat
