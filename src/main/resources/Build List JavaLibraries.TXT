@@ -22,7 +22,6 @@ CHCP 65001 >NUL
 #
 # NoTests
 
-NoPause
 NOTESTS
 
 

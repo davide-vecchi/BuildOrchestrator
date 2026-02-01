@@ -5,7 +5,7 @@ BuildList {
 		@ECHO OFF
 		CHCP 65001 >NUL
 
-	doPause=false
+	doPause=true
 
 	doTests=false
 
