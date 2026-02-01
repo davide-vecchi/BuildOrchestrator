@@ -31,6 +31,7 @@ import java.util.Set;
 import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dutil.list.text.TextListUtilities.listToString;
+import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.object.ObjectUtilities.assertNonNull;
@@ -566,7 +567,7 @@ class BuildList {
       
       for (int i = ZERO_i; i < rawLines.size(); i++) {
         
-        result.add(new LineWithNumber(rawLines.get(i), i + 1));
+        result.add(new LineWithNumber(rawLines.get(i), i + ONE_i));
       }
     }
     catch (IOException e) {
