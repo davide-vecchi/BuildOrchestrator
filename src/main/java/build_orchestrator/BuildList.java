@@ -175,36 +175,11 @@ class BuildList {
     
     // Parse Options section :
     
-    boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
+    final TwoObjects<Boolean, Boolean> options = readOptionsSection(buildListFile, sectionLines, optionsSectionKey);
     
-    final List<LineWithNumber> rawOptionsLines = sectionLines.get(optionsSectionKey);
+    result.doPause = options.o1;
     
-    for (final LineWithNumber lineWithNumber : rawOptionsLines) {
-      
-      final String trimmed = lineWithNumber.line.trim();
-      
-      if (! trimmed.isEmpty()) {
-        
-        if (trimmed.equalsIgnoreCase(NO_PAUSE)) {
-          
-          doPause = false;
-        }
-        else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
-          
-          doTests = false;
-        }
-        else {
-          
-          throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
-                                                  + " in section [" + OPTIONS_SECTION_NAME + "] of file "
-                                                  + getCanonicalPathAsDescr(buildListFile)
-                                                  + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
-        }
-      }
-    }
-    result.doPause = B(doPause);
-    
-    result.doTests = B(doTests);
+    result.doTests = options.o2;
     
     // Parse Modules section :
     
@@ -320,6 +295,50 @@ class BuildList {
     ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
     
     return result;
+  }
+  
+  /**
+   * Parse Options section.
+   *
+   * @param buildListFile
+   * @param sectionLines
+   * @param optionsSectionKey
+   *
+   * @return
+   */
+  private static TwoObjects<Boolean, Boolean> readOptionsSection(@NotNull  File                      buildListFile
+                                                                ,@NotEmpty Map<String
+                                                                             , List<LineWithNumber>> sectionLines
+                                                               , @NotBlank String                    optionsSectionKey) {
+    
+    boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
+    
+    final List<LineWithNumber> rawOptionsLines = sectionLines.get(optionsSectionKey);
+    
+    for (final LineWithNumber lineWithNumber : rawOptionsLines) {
+      
+      final String trimmed = lineWithNumber.line.trim();
+      
+      if (! trimmed.isEmpty()) {
+        
+        if (trimmed.equalsIgnoreCase(NO_PAUSE)) {
+          
+          doPause = false;
+        }
+        else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
+          
+          doTests = false;
+        }
+        else {
+          
+          throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
+                                                  + " in section [" + OPTIONS_SECTION_NAME + "] of file "
+                                                  + getCanonicalPathAsDescr(buildListFile)
+                                                  + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
+        }
+      }
+    }
+    return new TwoObjects<>(B(doPause), B(doTests));
   }
   
   /**
