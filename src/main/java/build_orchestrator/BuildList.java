@@ -44,6 +44,7 @@ import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.surround;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Represents a Build List, described in {@code DOC/Build List syntax.TXT}.
@@ -357,25 +358,22 @@ class BuildList {
     
     for (final LineWithNumber lineWithNumber : rawOptionsLines) {
       
-      final String trimmed = lineWithNumber.line.trim();
+      final String trimmed = assertNonBlank(lineWithNumber.line).trim();
       
-      if (! trimmed.isEmpty()) {
+      if (trimmed.equalsIgnoreCase(NO_PAUSE)) {
         
-        if (trimmed.equalsIgnoreCase(NO_PAUSE)) {
-          
-          doPause = false;
-        }
-        else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
-          
-          doTests = false;
-        }
-        else {
-          
-          throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
-                                                  + " in section [" + OPTIONS_SECTION_NAME + "] of file "
-                                                  + getCanonicalPathAsDescr(buildListFile)
-                                                  + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
-        }
+        doPause = false;
+      }
+      else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
+        
+        doTests = false;
+      }
+      else {
+        
+        throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
+                                              + " in section [" + OPTIONS_SECTION_NAME + "] of file "
+                                              + getCanonicalPathAsDescr(buildListFile)
+                                              + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
       }
     }
     return new TwoObjects<>(B(doPause), B(doTests));
@@ -398,10 +396,7 @@ class BuildList {
     
     for (final LineWithNumber lineWithNumber : rawInitLines) {
       
-      if (! lineWithNumber.line.trim().isEmpty()) {
-        
-        result.add(lineWithNumber.line.stripTrailing());
-      }
+      result.add(assertNonBlank(lineWithNumber.line).stripTrailing());
     }
     return result;
   }
@@ -554,7 +549,7 @@ class BuildList {
   
   
   /**
-   * Reads the file content with line number tracking.
+   * Reads the file content with line number tracking. Skips {@link StringUtils#isBlank blank} lines.
    *
    * @param buildListFile The file containing the Build List.
    *
@@ -566,18 +561,26 @@ class BuildList {
     
     assertExistingPath(buildListFile.getAbsolutePath(), false);
     
+    final List<String> rawLines;
+    
     try {
       
-      final List<String> rawLines = FileUtils.readLines(buildListFile, Charset.defaultCharset());
-      
-      for (int i = ZERO_i; i < rawLines.size(); i++) {
-        
-        result.add(new LineWithNumber(rawLines.get(i), i + ONE_i));
-      }
+      rawLines = FileUtils.readLines(buildListFile, Charset.defaultCharset());
     }
     catch (IOException e) {
       
-      throw new InvalidExternalValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " :" + NL + e.getMessage());
+      throw new InvalidExternalValueException("Cannot read Build List file " + getCanonicalPathAsDescr(buildListFile) + " :" + NL + e.getMessage() + " .");
+    }
+    String rawLine;
+    
+    for (int i = ZERO_i; i < rawLines.size(); i++) {
+      
+      rawLine = rawLines.get(i);
+      
+      if (isNotBlank(rawLine)) {
+      
+        result.add(new LineWithNumber(rawLine, i + ONE_i));
+      }
     }
     return result;
   }
