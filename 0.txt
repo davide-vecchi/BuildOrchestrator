@@ -1,3 +1,11 @@
+if (SystemUtils.IS_OS_WINDOWS) {
+    runCommand("cmd", "/c", "CHCP 65001 >NUL && your-command");
+} else {
+    runCommand("sh", "-c", "export LANG=en_US.UTF-8 && your-command");
+}
+
+
+
 https://www.baeldung.com/java-split-string-commas#implementing-a-simple-parser
 
 

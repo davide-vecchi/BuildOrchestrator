@@ -19,7 +19,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static build_orchestrator.AppContext.newAppContext;
@@ -87,7 +86,7 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "01".
    */
   @Test
-  public void test01() throws IOException {
+  public void test01() throws Exception {
     
     testBuildOrchestrator("01", this.appContext);
   }
@@ -96,7 +95,7 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "02".
    */
   @Test
-  public void test02() throws IOException {
+  public void test02() throws Exception {
     
     testBuildOrchestrator("02", this.appContext);
   }
@@ -123,7 +122,7 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05a".
    */
   @Test()
-  public void test05a() throws IOException {
+  public void test05a() throws Exception {
     
     try {
 
@@ -145,7 +144,7 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05b".
    */
   @Test()
-  public void test05b() throws IOException {
+  public void test05b() throws Exception {
     
     try {
       
@@ -172,7 +171,7 @@ public class BuildOrchestratorTest {
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testBuildOrchestrator(@NotBlank String testID, @NotNull AppContext ac) throws IOException {
+  private static void testBuildOrchestrator(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
     
     ac.outUser(NL2 + DASH80 + NL + "Method testBuildOrchestrator with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
