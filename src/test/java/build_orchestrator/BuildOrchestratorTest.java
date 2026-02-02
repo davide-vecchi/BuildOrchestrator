@@ -113,9 +113,9 @@ public class BuildOrchestratorTest {
    * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "04".
    */
   @Test
-  public void buildListTest04() {
+  public void buildListTest04() throws Exception {
     
-    // throw new UnsupportedOperationException("Not supported yet.");
+    testBuildList("04", this.appContext);
   }
   
   /**

@@ -1,0 +1,16 @@
+BuildList {
+
+	initCommands=ArrayList:
+
+
+
+	doPause=false
+
+	doTests=false
+
+	moduleBlocks=ArrayList:
+
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common, mvnCommand=mvn clean install]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core, mvnCommand=mvn clean install]
+
+}
