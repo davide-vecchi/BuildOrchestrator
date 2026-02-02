@@ -520,7 +520,7 @@ class BuildList {
           
           // Validate section name :
           
-          if (sectionName.equalsIgnoreCase(INIT_SECTION_NAME)
+          if (   sectionName.equalsIgnoreCase(INIT_SECTION_NAME)
               || sectionName.equalsIgnoreCase(OPTIONS_SECTION_NAME)
               || sectionName.equalsIgnoreCase(MODULES_SECTION_NAME)) {
             
