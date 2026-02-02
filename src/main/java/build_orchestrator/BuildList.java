@@ -179,7 +179,7 @@ class BuildList {
     
     // Parse Options section :
     
-    final TwoObjects<Boolean, Boolean> options = readOptionsSection(buildListFile, sectionLines, optionsSectionKey);
+    final TwoObjects<Boolean, Boolean> options = extractOptionsSection(buildListFile, sectionLines, optionsSectionKey);
     
     result.doPause = assertNonNull(options.o1);
     
@@ -345,11 +345,11 @@ class BuildList {
    *
    * @return
    */
-  private static TwoObjects<@NotNull Boolean, @NotNull Boolean> readOptionsSection(
-                                                                 @NotNull  File                      buildListFile
-                                                                ,@NotEmpty Map<String
-                                                                             , List<LineWithNumber>> sectionLines
-                                                               , @NotBlank String                    optionsSectionKey) {
+  private static TwoObjects<@NotNull Boolean, @NotNull Boolean> extractOptionsSection(
+                                                                   @NotNull  File                      buildListFile
+                                                                  ,@NotEmpty Map<String
+                                                                               , List<LineWithNumber>> sectionLines
+                                                                 , @NotBlank String                    optionsSectionKey) {
     
     boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
     
