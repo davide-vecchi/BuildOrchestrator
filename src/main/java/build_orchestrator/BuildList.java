@@ -37,6 +37,7 @@ import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.object.ObjectUtilities.assertNonNull;
+import static dutil.object.ObjectUtilities.assertTrue;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
@@ -177,7 +178,7 @@ class BuildList {
     
     // Parse Initialization section :
     
-    result.initCommands = extractInitializationSection(sectionLines, initSectionKey);
+    result.initCommands = extractInitializationSection(buildListFile, sectionLines, initSectionKey);
     
     // Parse Options section :
     
@@ -349,7 +350,7 @@ class BuildList {
    */
   private static TwoObjects<@NotNull Boolean, @NotNull Boolean> extractOptionsSection(
                                                                    @NotNull  File                      buildListFile
-                                                                  ,@NotEmpty Map<String
+                                                                 , @NotEmpty Map<String
                                                                                , List<LineWithNumber>> sectionLines
                                                                  , @NotBlank String                    optionsSectionKey) {
     
@@ -389,6 +390,7 @@ class BuildList {
    * @return TODO @@@@ COMMENT
    */
   private static @NotNull List<String> extractInitializationSection(
+                                                              @NotNull  File                              buildListFile,
                                                               @NotEmpty Map<String, List<LineWithNumber>> sectionLines
                                                             , @NotEmpty String                            initSectionKey) {
     final List<String> result = new ArrayList<>();
@@ -399,6 +401,8 @@ class BuildList {
       
       result.add(assertNonBlank(lineWithNumber.line).stripTrailing());
     }
+    assertTrue(result.isEmpty(), "The", surround(initSectionKey, SECTION_NAME_START, SECTION_NAME_END), "section in file", getCanonicalPathAsDescr(buildListFile), "has content, but it must not.", NL, "The section must be present but empty (only comments allowed), because issuing initialization commands is not implemented yet.");
+    
     return result;
   }
   
