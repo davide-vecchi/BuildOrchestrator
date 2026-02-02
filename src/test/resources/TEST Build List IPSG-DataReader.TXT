@@ -1,0 +1,45 @@
+
+# DJavaLibraries artifact group's Build List.
+# (REPOS subfolder : "IPSG\IPSG-DataReader\").
+#
+# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
+
+
+[Initialization]
+
+# This Initialization section must be present but empty (only comments allowed),
+# because issuing initialization commands is not implemented yet.
+
+
+[Options]
+
+# This section may contain or not one or both of the following lines (both are
+# case-insensitive) :
+#
+# NoPause
+#
+# NoTests
+
+
+[Modules]
+
+#
+# Beginning of the module list.
+#
+# Each module is represented by a block made of 2 lines :
+#
+#   The 1st line is the filesystem path to the module's folder,
+#   that is the folder where the pom.xml is.
+#
+#   The 2nd line is the build command to issue for that module;
+#   it can have any arguments.
+#
+#   There can not be any empty line inside a block;
+#   there must be at least one empty line between blocks.
+#
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader
+mvn clean install
