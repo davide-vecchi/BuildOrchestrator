@@ -177,7 +177,7 @@ class BuildList {
     
     // Parse Initialization section :
     
-    result.initCommands = extractInitCommandsSection(sectionLines, initSectionKey);
+    result.initCommands = extractInitializationSection(sectionLines, initSectionKey);
     
     // Parse Options section :
     
@@ -388,7 +388,7 @@ class BuildList {
    *
    * @return TODO @@@@ COMMENT
    */
-  private static @NotNull List<String> extractInitCommandsSection(
+  private static @NotNull List<String> extractInitializationSection(
                                                               @NotEmpty Map<String, List<LineWithNumber>> sectionLines
                                                             , @NotEmpty String                            initSectionKey) {
     final List<String> result = new ArrayList<>();
