@@ -7,6 +7,7 @@ package build_orchestrator;
 
 
 import dutil.exception.exceptions.InvalidExternalValueException;
+import dutil.exception.exceptions.InvalidValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.exception.exceptions.NonUniqueExternalValueException;
 import dutil.value_holder.TwoObjects;
@@ -440,6 +441,12 @@ class BuildList {
                                      , @NotBlank String                            optionsSectionKey
                                      , @NotBlank String                            modulesSectionKey) {
     
+    final int numExpectedSections = 3;
+    
+    if (sectionLines.size() != numExpectedSections) {
+      
+      throw new InvalidValueException(numExpectedSections + " sections were expected in " + getCanonicalPathAsDescr(buildListFile) + "," + NL + "but " + sectionLines.size() + " sections were found.");
+    }
     if (! sectionLines.containsKey(initSectionKey)) {
       
       throw new MissingExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
