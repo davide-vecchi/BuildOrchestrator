@@ -10,8 +10,10 @@ import duser_input_output.AUserInputOutput;
 import duser_input_output.impl.consoleUserIO.ConsoleUserIO;
 import dutil.exception.UserRequestedTermination;
 import dutil.exception.exceptions.InternalErrorException;
+import dutil.exception.exceptions.InvalidExternalValueException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -115,6 +117,28 @@ public class BuildOrchestratorTest {
   public void test04() {
     
     throw new UnsupportedOperationException("Not supported yet.");
+  }
+  
+  /**
+   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05a".
+   */
+  @Test()
+  public void test05a() throws IOException {
+    
+    try {
+
+      testBuildOrchestrator("05a", this.appContext);
+      
+      Assert.fail("An " + InvalidExternalValueException.class.getSimpleName() + " was expected, instead nothing was thrown.");
+    }
+    catch (InvalidExternalValueException expected) {
+      
+      final String expectedStart = "Invalid section name 'InvalidSectionName_MustBeDetectedAsSuch'";
+      
+      Assert.assertTrue(expected.getMessage().startsWith(expectedStart)
+                        , "Exception " + expected.getClass().getSimpleName() + " was thrown as expected, but its message is:"
+                                 + NL2 + expected.getMessage() + NL2 + "while it was expected to start with:" + NL2 + expectedStart + NL);
+    }
   }
   
   /**
