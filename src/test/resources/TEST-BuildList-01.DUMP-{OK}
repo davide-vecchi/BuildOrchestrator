@@ -2,12 +2,7 @@ BuildList {
 
 	initCommands=ArrayList:
 
-		@ECHO OFF
-		CHCP 65001 >NUL
-		ECHO.
-		ECHO Builds all the modules of DJavaLibraries and JavaLibraries3rdParty groups,
-		ECHO in the right order based on their dependencies.
-		ECHO.
+
 
 	doPause=true
 

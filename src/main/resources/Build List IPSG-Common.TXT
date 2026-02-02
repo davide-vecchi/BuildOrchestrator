@@ -6,12 +6,8 @@
 
 [Initialization]
 
-@ECHO OFF
-
-CHCP 65001 >NUL
-
-ECHO Builds the IPSG-Common module of IPSG group.
-ECHO.
+# This Initialization section must be present but empty (only comments allowed),
+# because issuing initialization commands is not implemented yet.
 
 
 [Options]

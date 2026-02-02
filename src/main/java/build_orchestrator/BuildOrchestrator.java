@@ -17,7 +17,6 @@ import java.util.concurrent.TimeoutException;
 import static build_orchestrator.BuildList.newBuildList;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dutil.object.ObjectUtilities.assertNonNull;
-import static dutil.system.OSUtilities.runCommand;
 
 
 /**
@@ -89,10 +88,10 @@ public final class BuildOrchestrator {
 		
 		// Issue the initialization commands (one by one, so they won't share shell state) :
 		
-		for (final String initCommand : this.buildList.getInitCommands()) {
-			
-			runCommand(null, initCommand, 10000);
-		}
+//		for (final String initCommand : this.buildList.getInitCommands()) {
+//
+//			runCommand(null, initCommand, 10000);
+//		}
 		
 		
 		

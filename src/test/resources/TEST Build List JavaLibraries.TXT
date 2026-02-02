@@ -7,14 +7,8 @@
 
 [Initialization]
 
-@ECHO OFF
-
-CHCP 65001 >NUL
-
-ECHO.
-ECHO Builds all the modules of DJavaLibraries and JavaLibraries3rdParty groups,
-ECHO in the right order based on their dependencies.
-ECHO.
+# This Initialization section must be present but empty (only comments allowed),
+# because issuing initialization commands is not implemented yet.
 
 
 [Options]
