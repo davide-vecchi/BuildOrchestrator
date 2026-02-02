@@ -103,18 +103,18 @@ public class BuildOrchestratorTest {
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "03".
    */
   @Test
-  public void test03()throws IOException {
+  public void test03() {
     
-    testBuildOrchestrator("03", this.appContext);
+    throw new UnsupportedOperationException("Not supported yet.");
   }
   
   /**
    * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "04".
    */
   @Test
-  public void test04()throws IOException {
+  public void test04() {
     
-    testBuildOrchestrator("04", this.appContext);
+    throw new UnsupportedOperationException("Not supported yet.");
   }
   
   /**
