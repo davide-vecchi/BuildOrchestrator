@@ -83,50 +83,50 @@ public class BuildOrchestratorTest {
   
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "01".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "01".
    */
   @Test
-  public void test01() throws Exception {
+  public void buildListTest01() throws Exception {
     
-    testBuildOrchestrator("01", this.appContext);
+    testBuildList("01", this.appContext);
   }
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "02".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "02".
    */
   @Test
-  public void test02() throws Exception {
+  public void buildListTest02() throws Exception {
     
-    testBuildOrchestrator("02", this.appContext);
+    testBuildList("02", this.appContext);
   }
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "03".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "03".
    */
   @Test
-  public void test03() {
+  public void buildListTest03() {
     
-    throw new UnsupportedOperationException("Not supported yet.");
+    // throw new UnsupportedOperationException("Not supported yet.");
   }
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "04".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "04".
    */
   @Test
-  public void test04() {
+  public void buildListTest04() {
     
-    throw new UnsupportedOperationException("Not supported yet.");
+    // throw new UnsupportedOperationException("Not supported yet.");
   }
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05a".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "05a".
    */
   @Test()
-  public void test05a() throws Exception {
+  public void buildListTest05a() throws Exception {
     
     try {
 
-      testBuildOrchestrator("05a", this.appContext);
+      testBuildList("05a", this.appContext);
       
       Assert.fail("An " + InvalidExternalValueException.class.getSimpleName() + " was expected, instead nothing was thrown.");
     }
@@ -141,14 +141,14 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05b".
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "05b".
    */
   @Test()
-  public void test05b() throws Exception {
+  public void buildListTest05b() throws Exception {
     
     try {
       
-      testBuildOrchestrator("05b", this.appContext);
+      testBuildList("05b", this.appContext);
       
       Assert.fail("An " + InvalidExternalValueException.class.getSimpleName() + " was expected, instead nothing was thrown.");
     }
@@ -171,9 +171,9 @@ public class BuildOrchestratorTest {
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testBuildOrchestrator(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
+  private static void testBuildList(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
     
-    ac.outUser(NL2 + DASH80 + NL + "Method testBuildOrchestrator with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
+    ac.outUser(NL2 + DASH80 + NL + "Method testBuildList with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
     try {
       
