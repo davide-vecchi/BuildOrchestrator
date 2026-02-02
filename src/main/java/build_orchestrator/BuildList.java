@@ -449,18 +449,18 @@ class BuildList {
     }
     if (! sectionLines.containsKey(initSectionKey)) {
       
-      throw new MissingExternalValueException("Missing required section '[" + INIT_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
+      throw new MissingExternalValueException("Missing required section " + surround(INIT_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END)
+                                            + " in " + getCanonicalPathAsDescr(buildListFile));
     }
     if (! sectionLines.containsKey(optionsSectionKey)) {
       
-      throw new MissingExternalValueException("Missing required section '[" + OPTIONS_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
+      throw new MissingExternalValueException("Missing required section " + surround(OPTIONS_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END)
+                                            + " in " + getCanonicalPathAsDescr(buildListFile));
     }
     if (! sectionLines.containsKey(modulesSectionKey)) {
       
-      throw new MissingExternalValueException("Missing required section '[" + MODULES_SECTION_NAME + "]' in file "
-                                              + getCanonicalPathAsDescr(buildListFile));
+      throw new MissingExternalValueException("Missing required section " + surround(MODULES_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END)
+                                            + " in " + getCanonicalPathAsDescr(buildListFile));
     }
   }
   
