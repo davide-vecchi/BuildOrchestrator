@@ -1,0 +1,18 @@
+BuildList {
+
+	initCommands=ArrayList:
+
+		@ECHO OFF
+		CHCP 65001 >NUL
+		ECHO Builds the IPSG-Common module of IPSG group.
+		ECHO.
+
+	doPause=true
+
+	doTests=true
+
+	moduleBlocks=ArrayList:
+
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common, mvnCommand=mvn clean install]
+
+}

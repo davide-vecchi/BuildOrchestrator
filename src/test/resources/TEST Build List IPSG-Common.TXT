@@ -1,0 +1,45 @@
+
+# Build List of IPSG-Common artifact of IPSG group.
+# (REPOS subfolder : "IPSG\IPSG-Common\").
+#
+
+
+[Initialization]
+
+@ECHO OFF
+
+CHCP 65001 >NUL
+
+ECHO Builds the IPSG-Common module of IPSG group.
+ECHO.
+
+
+[Options]
+
+# This section may contain or not one or both of the following lines (both are
+# case-insensitive) :
+#
+# NoPause
+#
+# NoTests
+
+
+[Modules]
+
+#
+# Beginning of the module list.
+#
+# Each module is represented by a block made of 2 lines :
+#
+#   The 1st line is the filesystem path to the module's folder,
+#   that is the folder where the pom.xml is.
+#
+#   The 2nd line is the build command to issue for that module;
+#   it can have any arguments.
+#
+#   There can not be any empty line inside a block;
+#   there must be at least one empty line between blocks.
+#
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common
+mvn clean install
