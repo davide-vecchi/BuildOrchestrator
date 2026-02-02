@@ -37,6 +37,7 @@ import static dutil.properties.PropertiesUtilities.toMap;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
+import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.dq;
 import static org.fusesource.jansi.Ansi.Color.BLACK;
@@ -93,15 +94,23 @@ public class BuildOrchestratorMain {
 				
 				orchestrator.run();
 			}
+			catch (InterruptedException ie) { // Compliant; the interrupted state is restored
+				
+				ac.outDevLog( NLT + "Interrupted !!!!!" + NL + getFullDescriptionWithRootCause(ie));
+				
+				// Clean up whatever needs to be handled before interrupting :
+				
+				Thread.currentThread().interrupt();
+			}
+			catch (UserRequestedTermination t) {
+				
+				ac.outUser(NL + (t.getMessage() != null ? t.getMessage() : "Esecuzione terminata su richiesta dell'utente."));
+			}
 			catch (Exception e) {
 				
 				ac.errUser(NL2 + "Esecuzione interrotta per un errore : " + e.getClass().getSimpleName() + " :" + NL2T + e.getLocalizedMessage().trim() + NL2);
 				
 				ac.outUserLog(getFullDescriptionWithRootCause(e));
-			}
-			catch (UserRequestedTermination t) {
-				
-				ac.outUser(NL + (t.getMessage() != null ? t.getMessage() : "Esecuzione terminata su richiesta dell'utente."));
 			}
 			finally {
 				
