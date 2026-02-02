@@ -5,11 +5,8 @@
 TEST Line before the first section. Must be caught as an error.
 [Initialization]
 
-@ECHO OFF
-
-CHCP 65001 >NUL
-
-ECHO Testing finding one outside line before the first section, and "masked" as a section name.
+# This Initialization section must be present but empty (only comments allowed),
+# because issuing initialization commands is not implemented yet.
 
 
 [Options]

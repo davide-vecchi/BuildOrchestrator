@@ -2,10 +2,7 @@ BuildList {
 
 	initCommands=ArrayList:
 
-		@ECHO OFF
-		CHCP 65001 >NUL
-		ECHO Builds the IPSG-Common module of IPSG group.
-		ECHO.
+
 
 	doPause=true
 
