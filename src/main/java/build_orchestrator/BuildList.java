@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -41,6 +42,7 @@ import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.surround;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 /**
@@ -193,7 +195,8 @@ class BuildList {
     
     // : Phase 2 complete - all sections parsed and validated.
     
-    ac.outDevLog(NL2 + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + "." + NL2 + "The Build List is:" + NL2 + result);
+    ac.outUser(NL + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + ".");
+    ac.outUser(NL + "The Build List is:" + NL2 + result);
     
     return result;
   }
@@ -420,10 +423,10 @@ class BuildList {
                                            .anyMatch(lwn -> ! lwn.line.trim().isEmpty());
       if (hasNonEmptyContent) {
         
-        throw new InvalidExternalValueException("Content found outside of sections in file "
-                                                + getCanonicalPathAsDescr(buildListFile)
-                                                + ". All content must be inside [" + INIT_SECTION_NAME + "], ["
-                                                + OPTIONS_SECTION_NAME + "], or [" + MODULES_SECTION_NAME + "] sections.");
+        throw new InvalidExternalValueException("Content found outside of sections in file " + getCanonicalPathAsDescr(buildListFile) + ". All content must be inside "
+                                              + surround(INIT_SECTION_NAME,    SECTION_NAME_START, SECTION_NAME_END) + ", "
+                                              + surround(OPTIONS_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END) + ", or "
+                                              + surround(MODULES_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END) + " sections.");
       }
     }
   }
