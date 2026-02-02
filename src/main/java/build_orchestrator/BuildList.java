@@ -414,8 +414,8 @@ class BuildList {
       // Filter out empty lines that might be before first section :
       
       final boolean hasNonEmptyContent = noSectionLines
-                                           .stream()
-                                           .anyMatch(lwn -> ! lwn.line.trim().isEmpty());
+                                                    .stream()
+                                                    .anyMatch(lwn -> ! lwn.line.trim().isEmpty());
       if (hasNonEmptyContent) {
         
         throw new InvalidExternalValueException("Content found outside of sections in file " + getCanonicalPathAsDescr(buildListFile) + ". All content must be inside "
