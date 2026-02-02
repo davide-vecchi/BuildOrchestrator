@@ -106,9 +106,10 @@ public final class BuildOrchestrator {
 	 * @throws InterruptedException
 	 * @throws TimeoutException
 	 */
-	private int runMavenCommand(File projectDir, String... mvnArgs) throws IOException, InterruptedException, TimeoutException {
+	private int runMavenCommand(File projectDir, String ... mvnArgs) throws IOException, InterruptedException, TimeoutException {
 		
-		List<String> command = new ArrayList<>();
+		final List<String> command = new ArrayList<>();
+		
 		command.add("mvn");
 		command.addAll(Arrays.asList(mvnArgs));
 		

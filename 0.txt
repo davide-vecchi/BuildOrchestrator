@@ -1,3 +1,9 @@
+https://www.baeldung.com/java-split-string-commas#implementing-a-simple-parser
+
+
+TEST Build List {Lines outside}.TXT
+
+
 11:54 2026-01-29
 
  final List<String> oldLines = FileUtils.readLines(source, Charset.defaultCharset());
