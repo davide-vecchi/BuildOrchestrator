@@ -142,6 +142,28 @@ public class BuildOrchestratorTest {
   }
   
   /**
+   * Calls {@link #test(String, AppContext) test(*)} passing to it the test ID "05b".
+   */
+  @Test()
+  public void test05b() throws IOException {
+    
+    try {
+      
+      testBuildOrchestrator("05b", this.appContext);
+      
+      Assert.fail("An " + InvalidExternalValueException.class.getSimpleName() + " was expected, instead nothing was thrown.");
+    }
+    catch (InvalidExternalValueException expected) {
+      
+      final String expectedStart = "Content found outside of sections";
+      
+      Assert.assertTrue(expected.getMessage().startsWith(expectedStart)
+                        , "Exception " + expected.getClass().getSimpleName() + " was thrown as expected, but its message is:"
+                                 + NL2 + expected.getMessage() + NL2 + "while it was expected to start with:" + NL2 + expectedStart + NL);
+    }
+  }
+  
+  /**
    * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance according to the BuildOrchestrator
    * configuration file identified by the given {@code testID}, and if the generated output files are different from
    * their "OK" file fails the test.
