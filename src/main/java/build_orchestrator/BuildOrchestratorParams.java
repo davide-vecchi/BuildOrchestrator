@@ -11,6 +11,7 @@ import dparam.ParamMono;
 import dparam.pvdc.AValueChangeInfo;
 import dparam.pvdc.change_loader.AValueChangeTextReader;
 import dparam.pvdc.change_loader.EmptyValueChangeTextReader;
+import dutil.string.value_parser.LongStringParser;
 import dutil.string.value_parser.NeutralStringParser;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,10 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.util.Map;
+
+import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
+import static dutil.number.NumberUtilities.L;
+import static dutil.number.NumberUtilities.ZERO_l;
 
 /**
  * Class containing the fields that represent the user-controlled parameters (AKA "inputs") of a {@link
@@ -34,6 +39,11 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	private static final long serialVersionUID = -4628955895467891834L;
 	
 	/**
+	 * Default for optional param {@link #commandTimeoutMs}, 1 h (3,600,000 ms).
+	 */
+	public static final long DEFAULT_COMMAND_TIMEOUT_MS = MS_IN_HOUR;
+	
+	/**
 	 * The {@link AppContext application context}. This is not a param.
 	 */
   @EqualsAndHashCode.Exclude
@@ -47,7 +57,19 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	@Getter
 	@NotNull ParamMono<Object, String> buildListFilePath;
 	
-
+	/**
+	 * Mandatory: The filesystem path to the Maven installation folder.
+	 */
+	@Getter
+	@NotNull ParamMono<Object, String> mavenFolder;
+	
+	/**
+	 * Optional: The timeout of issuing a build command.
+	 */
+	@Getter
+	ParamMono<Object, Long> commandTimeoutMs;
+	
+	
 	/**
 	 * Non-public constructor.
 	 *
@@ -70,6 +92,14 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		// Param buildListFilePath :
 		
 		this.buildListFilePath = new ParamMono<>(this, "BuildListFile");
+		
+		// Param mavenFolder :
+		
+		this.mavenFolder = new ParamMono<>(this, "MavenFolder");
+		
+		// Param commandTimeoutMs :
+		
+		this.commandTimeoutMs  = new ParamMono<>(this, "CommandTimeoutMs");
 	}
 	
 	@Override
@@ -78,6 +108,15 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		// Param buildListFilePath :
 		
 		this.buildListFilePath.setValueParser(new NeutralStringParser()).loadMandatoryValue();
+		
+		// Param mavenFolder :
+		
+		this.mavenFolder.setValueParser(new NeutralStringParser()).loadMandatoryValue();
+		
+		// Param commandTimeoutMs :
+		
+		this.commandTimeoutMs.setValueParser( new LongStringParser()   ).loadOptionalValue(
+																																 L(DEFAULT_COMMAND_TIMEOUT_MS));
 	}
 	
 	@Override
@@ -86,11 +125,23 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		// Param buildListFilePath :
 		
 		validateExistingFilePathParam(this.buildListFilePath);
-  }
+		
+		// Param mavenFolder :
+		
+		validateExistingFolderPathParam(this.mavenFolder);
+		
+		// Param commandTimeoutMs :
+		
+		final Long timeout = this.commandTimeoutMs.value;
+		
+		handleParamValidationResult(this.commandTimeoutMs.name, timeout
+										 , timeout == null || timeout.longValue() >= ZERO_l
+									, "A non-negative number of milliseconds", this.sourceDescr);
+	}
 	
 	/**
-	 * Returns an {@link EmptyValueChangeTextReader} because {@link BuildOrchestrator} doesn't use the PVDC functionality
-	 * (<b>PVDC</b> = <i>Parameter Value Dynamic Change</i>).
+	 * Returns a new {@link EmptyValueChangeTextReader} because {@link BuildOrchestrator} doesn't use the PVDC
+	 * functionality (<b>PVDC</b> = <i>Parameter Value Dynamic Change</i>).
 	 * 
 	 * @see AParams#getDefaultValueChangeReader()
 	 */
