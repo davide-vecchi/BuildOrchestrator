@@ -382,7 +382,8 @@ class BuildList {
   }
   
   /**
-   * Parse Initialization section.
+   * Parse Initialization section.<br>Currently throws if actual lines (not comments) are found in this section, because
+   * issuing initialization commands is not implemented yet.
    *
    * @param sectionLines
    * @param initSectionKey
@@ -401,7 +402,8 @@ class BuildList {
       
       result.add(assertNonBlank(lineWithNumber.line).stripTrailing());
     }
-    assertTrue(result.isEmpty(), "The", surround(initSectionKey, SECTION_NAME_START, SECTION_NAME_END), "section in file", getCanonicalPathAsDescr(buildListFile), "has content, but it must not.", NL, "The section must be present but empty (only comments allowed), because issuing initialization commands is not implemented yet.");
+    assertTrue(result.isEmpty(), "The", surround(initSectionKey, SECTION_NAME_START, SECTION_NAME_END), "section in file", getCanonicalPathAsDescr(buildListFile)
+                                                 , "has content, but it must not.", NL, "The section must be present but empty (only comments allowed), because issuing initialization commands is not implemented yet.");
     
     return result;
   }

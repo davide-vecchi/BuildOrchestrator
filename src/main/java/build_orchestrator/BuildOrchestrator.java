@@ -86,7 +86,12 @@ public final class BuildOrchestrator {
 		
 		this.buildList = newBuildList(this.buildListFile, this.appContext);
 		
-		// Issue the initialization commands (one by one, so they won't share shell state) :
+		// Issue the initialization commands (one by one, so they won't share shell state with each other;
+		// this is the meaning of the note, found around in the code and in text files of this module,
+		// warning that issuing initialization commands is not implemented yet; it actually kind of is,
+		// but with this limitation) :
+		
+		issueInitCommands();
 		
 //		for (final String initCommand : this.buildList.getInitCommands()) {
 //
