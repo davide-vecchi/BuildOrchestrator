@@ -22,3 +22,22 @@ BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrato
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List IPSG.TXT
 
 ################################################################################
+
+################################################################################
+# Required : Maven installation folder.
+
+MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
+
+################################################################################
+
+################################################################################
+# Optional : Max number of milliseconds that the orchestrator can wait after
+#            issuing a build command: if the command doesn't terminate within
+#            this amount of time, a timeout error will occurr.
+#
+# Default :  3,600,000 (1 h).
+
+# 600000 = 10'
+CommandTimeoutMs = 600000
+
+################################################################################

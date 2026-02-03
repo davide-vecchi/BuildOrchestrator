@@ -5,6 +5,9 @@
  */
 package build_orchestrator;
 
+import dutil.system.OSUtilities;
+import dutil.value_holder.TwoObjects;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,11 +15,29 @@ import lombok.ToString;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
+import static build_orchestrator.BuildList.validateMavenCommand;
 import static dfile.file.FileUtilities.assertNonEmpty;
+import static dfile.file.FileUtilities.calcPath;
+import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
+import static dutil.exception.ExceptionUtilities.getUnchecked;
+import static dutil.number.NumberUtilities.I;
+import static dutil.number.NumberUtilities.ONE_i;
+import static dutil.number.NumberUtilities.ZERO_I;
+import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
+import static dutil.object.ObjectUtilities.assertNull;
+import static dutil.string.TextUtilities.DQChar;
+import static dutil.string.TextUtilities.NL;
+import static dutil.string.TextUtilities.NLT;
+import static dutil.string.TextUtilities.SPACEChar;
+import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.dq;
+import static dutil.string.TextUtilities.parseNotWithinDelimiters;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 
 /**
@@ -44,6 +65,13 @@ public final class BuildOrchestrator {
 	 */
 	@Getter
 	private BuildList buildList;
+	
+	/**
+	 * Whether to terminate after an {@link #issueInitCommands() Initialization Command} returned an error result.
+	 * TODO @@@ MAKE THIS A {@link BuildOrchestratorParams param}.
+	 */
+	private final boolean breakOnInitCommandFailure = true;
+	
 	
 	/**
 	 * The {@link AppContext application context}.
@@ -93,15 +121,130 @@ public final class BuildOrchestrator {
 		
 		issueInitCommands();
 		
-//		for (final String initCommand : this.buildList.getInitCommands()) {
-//
-//			runCommand(null, initCommand, 10000);
-//		}
+		// Loop over the entries in the Modules section of the Build List, and for each one execute its Maven command :
+		
+		execModulesBuild();
 		
 		
 		
 		// @@@ q @@@@@@@@@@@@@@@
 		
+	}
+	
+	/**
+	 * Loops over the entries in the {@link BuildList#getModuleBlocks() Modules section} of the {@link #buildList Build
+	 * List}, and for each one executes its {@link BuildList.ModuleBlock#mvnCommand Maven command}.
+	 */
+	private void execModulesBuild() throws InterruptedException {
+		
+		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
+			
+			final File folder = new File(moduleBlock.modulePath());
+			
+			this.appContext.outUser(NL + "Building module in folder " + dq(folder.getName()) + " ...");
+			
+			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
+																											, DQChar);
+			final String mvnCmd = args.getFirst();
+			
+			validateMavenCommand(mvnCmd, null);
+			
+			final String mvnCmdWithPath = calcPath(this.params.mavenFolder.value, assertNonBlank(mvnCmd));
+			
+			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
+																															 folder, mvnCmdWithPath
+																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
+			if (cmdResult.o1.intValue() != ZERO_i) {
+				
+				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
+				
+				this.appContext.errUser(errMsg);
+				
+				throw getUnchecked(cmdResult.o2);
+			}
+			else {
+				
+				assertNull(cmdResult.o2);
+			}
+		}
+	}
+	
+	/**
+	 * {@link #runOrchestratorCommand Issues} the {@link BuildList#getInitCommands() Initialization Commands}.
+	 */
+	private void issueInitCommands() throws InterruptedException {
+		
+		this.appContext.outUser();
+		
+		TwoObjects<@NotNull Integer, Exception> cmdResult;
+		
+		for (final String initCommand : this.buildList.getInitCommands()) {
+			
+			cmdResult = runOrchestratorCommand(null, initCommand);
+			
+			if (cmdResult.o1.intValue() != ZERO_i) {
+				
+				final String errMsg = "Build command " + dq(initCommand) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
+				
+				this.appContext.errUser(errMsg);
+				
+				if (this.breakOnInitCommandFailure) {
+					
+					break;
+				}
+			}
+			else {
+				
+				assertNull(cmdResult.o2);
+			}
+		}
+	}
+	
+	/**
+	 * {@link OSUtilities#runCommand( File, String, long, String...) Runs} the given shell command as per the given params.<br>
+	 * When the command returns, {@link AppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
+	 * a <i>KO</i> {@link AppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
+	 *
+	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand( File, String, long, String...)}.
+	 *
+	 * @return The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
+	 *         values can be returned by this method:<ul><li>-101 {@link IOException}</li><li>-102 {@link TimeoutException}</li></ul>
+	 */
+	@NotNull TwoObjects<@NotNull Integer, Exception> runOrchestratorCommand(File folder, @NotBlank String command
+																																				, String ... args) throws InterruptedException {
+		
+		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
+		
+		this.appContext.outUser_Chars("Command: " + command + " ... ");
+		
+		try {
+
+			result.o1 = I(OSUtilities.runCommand(folder, command, this.params.commandTimeoutMs.value.longValue()
+															, args));
+		}
+		catch (IOException e) {
+			
+			result.o1 = I(-101);
+			
+			result.o2 = e;
+		}
+		catch (TimeoutException e) {
+  
+			result.o1 = I(-102);
+			
+			result.o2 = e;
+		}
+		if (result.o1.equals(ZERO_I)) {
+			
+			this.appContext.outUser("OK.");
+		}
+		else {
+			
+			this.appContext.errUser(NLT + "KO !! Process' exit value: " + result.o1 + " ."
+			                                    + (result.o2 != null ? " " + getShortDescriptionWithRootCause(result.o2)
+			                                                         : EMPTY));
+		}
+		return result;
 	}
 	
 }

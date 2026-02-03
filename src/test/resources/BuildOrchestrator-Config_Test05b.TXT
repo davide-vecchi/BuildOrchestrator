@@ -19,3 +19,10 @@
 BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TEST Build List {Lines outside before}.TXT
 
 ################################################################################
+
+################################################################################
+# Required : Maven installation folder.
+
+MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
+
+################################################################################

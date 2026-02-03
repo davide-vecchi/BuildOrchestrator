@@ -17,6 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -44,8 +45,10 @@ import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.surround;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -321,14 +324,8 @@ class BuildList {
         }
         // Basic Maven command validation :
         
-        final String mavenCommandUpper = mavenCommand.toUpperCase();
+        validateMavenCommand(mavenCommand, "Line " + commandLineNumber + " of " + getCanonicalPathAsDescr(buildListFile) + " :" + NL);
         
-        if (! mavenCommandUpper.startsWith("MVN ")) {
-          
-          ac.outDevLog("Warning: Maven command at line " + commandLineNumber + " for module '" + modulePath.trim()
-                             + " in file " + getCanonicalPathAsDescr(buildListFile)
-                             + "' doesn't start with 'mvn ' (case‑insensitive). Command: " + mavenCommand);
-        }
         // Create module block (will validate path exists via assertExistingPath) :
         
         moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
@@ -337,6 +334,29 @@ class BuildList {
       }
     }
     return moduleBlocks;
+  }
+  
+  /**
+   * @param mavenCommand
+   *
+   * @param errorMsgPrefix If {@link StringUtils#isNotBlank not blank}, will be prepended to the message of the
+   *                       exception thrown if the validation fails.
+   *
+   * @return The given {@code mavenCommand}.
+   *
+   * @throws InvalidExternalValueException If the given {@code mavenCommand} is not a valid command to invoke Maven.
+   */
+  static String validateMavenCommand(@NotBlank String mavenCommand, String errorMsgPrefix) {
+    
+    final String expectedStartNoCase = "mvn";
+    
+    if (! (    mavenCommand.equalsIgnoreCase(expectedStartNoCase)
+      || Strings.CI.startsWith( mavenCommand, expectedStartNoCase + " "))) {
+      
+      throw new InvalidExternalValueException(defaultString(errorMsgPrefix) + "ERROR: Maven command" + NL + mavenCommand + NL
+                                            + " doesn't start with " + dq(expectedStartNoCase) + " (case‑insensitive).");
+    }
+    return mavenCommand;
   }
   
   /**
@@ -633,20 +653,19 @@ class BuildList {
    * Represents one Build List's block of lines, which describe one module to build.
    *
    * @param modulePath Path of main folder of the source of the module to build (where the pom.xml of that module is).
-   *                   With or without the ending [back]slash.
+   *                   With or without the ending [back]slash.<br>
    *
    * @param mvnCommand Whole Maven-invoking command. May include any args; they will be passed to this Maven command as
    *                   they are.
    */
-  private record ModuleBlock(String modulePath, String mvnCommand) {
-    
+  record ModuleBlock(String modulePath, String mvnCommand) {
     
     /**
      * @param modulePath {@link #modulePath}. Must match an existing folder.<br>
      *
      * @param mvnCommand {@link #mvnCommand}.
      */
-    private ModuleBlock(String modulePath, String mvnCommand) {
+    ModuleBlock(String modulePath, String mvnCommand) {
       
       this.modulePath = assertExistingPath(modulePath, true);
       
