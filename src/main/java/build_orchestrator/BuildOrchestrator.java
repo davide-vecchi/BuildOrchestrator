@@ -77,6 +77,7 @@ public final class BuildOrchestrator {
 	 * Whether to terminate after an {@link #issueInitCommands() Initialization Command} returned an error result.
 	 * TODO @@@ MAKE THIS A {@link BuildOrchestratorParams param}.
 	 */
+	@SuppressWarnings("FieldMayBeStatic")
 	private final boolean breakOnInitCommandFailure = true;
 	
 	/**
