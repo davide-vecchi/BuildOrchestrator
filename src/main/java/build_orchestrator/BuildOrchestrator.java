@@ -34,6 +34,7 @@ import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
 import static dutil.string.TextUtilities.DQChar;
+import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.SPACEChar;
@@ -78,6 +79,11 @@ public final class BuildOrchestrator {
 	 */
 	private final boolean breakOnInitCommandFailure = true;
 	
+	/**
+	 * If {@code true}, it does everything normally except it does not actually invoke the build commands, to make sure no
+	 * jar is built, which is used by some tests that need to avoid creating the jars (e.g. not to overwrite existing ones).
+	 */
+	boolean dontBuild = false;
 	
 	/**
 	 * The {@link AppContext application context}.
@@ -245,40 +251,56 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser("Command: " + command + " ... ");
 		
-		long timeMs = System.currentTimeMillis();
-		
-		try {
-
-			result.o1 = I(OSUtilities.runCommand(folder,                                                  command
-																				, this.params.commandTimeoutMs.value.longValue(), args));
-		}
-		catch (IOException e) {
+		if (this.dontBuild) {
 			
-			result.o1 = I(-101);
+			// : Don't run the build commands. This was set to true for example by a test.
 			
-			result.o2 = e;
-		}
-		catch (TimeoutException e) {
-  
-			result.o1 = I(-102);
+			//noinspection ConstantValue
+			this.appContext.warnUser(NL + "Not executing build command" + NL2T + command + NL2 + "because the 'dontBuild' flag is " + this.dontBuild + " .");
 			
-			result.o2 = e;
-		}
-		finally {
-			
-			timeMs = System.currentTimeMillis() - timeMs;
-		}
-		this.appContext.outUser(NL2);
-		
-		if (result.o1.equals(ZERO_I)) {
-			
-			this.appContext.outUser("The command" + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms.");
+			result.o1 = ZERO_I;
 		}
 		else {
 			
-			this.appContext.errUser("The command" + NL2T + command + NL2 + "resulted in an error "       + result.o1 + " in " + timeMs + " ms"
-			                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")."
-			                                                         : "."));
+			// : Run the build commands :
+			
+			long timeMs = System.currentTimeMillis();
+			
+			try {
+	
+				result.o1 = I(OSUtilities.runCommand(folder,                                                  command
+																					, this.params.commandTimeoutMs.value.longValue(), args));
+			}
+			catch (IOException e) {
+				
+				result.o1 = I(-101);
+				
+				result.o2 = e;
+			}
+			catch (TimeoutException e) {
+	  
+				result.o1 = I(-102);
+				
+				result.o2 = e;
+			}
+			finally {
+				
+				timeMs = System.currentTimeMillis() - timeMs;
+			}
+			this.appContext.outUser(NL2);
+			
+			if (result.o1.equals(ZERO_I)) {
+				
+				this.appContext.outUser("The command" + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
+				                        + NL + "from folder " + dq(getCanonicalPath(folder)));
+			}
+			else {
+				
+				this.appContext.errUser("The command" + NL2T + command + NL2 + "executed from folder " + dq(getCanonicalPath(folder)) + NL
+				                              + "resulted in an error " + result.o1 + " in " + timeMs + " ms"
+	                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")."
+	                                                         : "."));
+			}
 		}
 		return result;
 	}
