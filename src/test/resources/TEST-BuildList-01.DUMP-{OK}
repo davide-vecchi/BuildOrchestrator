@@ -2,8 +2,6 @@ BuildList {
 
 	initCommands=ArrayList:
 
-
-
 	doPause=true
 
 	doTests=false
