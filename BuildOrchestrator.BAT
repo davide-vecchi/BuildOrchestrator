@@ -8,17 +8,17 @@ CHCP 65001 >NUL
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
 
-SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\
+SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator
 
-java -jar BuildOrchestrator.jar "%BasePath%src\main\resources\BuildOrchestrator-Config.TXT"
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test01.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test01.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test02.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test03.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test04.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test05a.TXT
-														 REM %BasePath%src\test\resources\BuildOrchestrator-Config_Test05b.TXT
-														 REM %BasePath%src\main\resources\BuildOrchestrator-Config.TXT
+java -jar BuildOrchestrator.jar "%BasePath%\src\main\resources\BuildOrchestrator-Config.TXT"
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test01.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test01.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test02.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test03.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test04.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test05a.TXT
+														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_Test05b.TXT
+														 REM %BasePath%\src\main\resources\BuildOrchestrator-Config.TXT
 														 REM C:\BuildOrchestrator\BuildOrchestrator-Config.TXT
 PAUSE
 
