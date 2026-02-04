@@ -4,13 +4,15 @@ ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 
 SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\
 
-java -jar BuildOrchestrator.jar "%BasePath%BuildOrchestrator-Config_Test01.TXT"
+java -jar BuildOrchestrator.jar "%BasePath%..\..\main\resources\BuildOrchestrator-Config.TXT"
+														 REM %BasePath%BuildOrchestrator-Config_Test01.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test01.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test02.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test03.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test04.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test05a.TXT
 														 REM %BasePath%BuildOrchestrator-Config_Test05b.TXT
+														 REM %BasePath%..\..\main\resources\BuildOrchestrator-Config.TXT
 PAUSE
 
 GOTO SkipComment
