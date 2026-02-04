@@ -1,4 +1,9 @@
+
 @ECHO OFF
+
+REM Set codepage to UTF-8 (CHCP 65001) :
+
+CHCP 65001 >NUL
 
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
