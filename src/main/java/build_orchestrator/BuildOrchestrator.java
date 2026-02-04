@@ -235,11 +235,14 @@ public final class BuildOrchestrator {
 	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand( File, String, long, String...)}.
 	 *
 	 * @return The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
-	 *         values can be returned by this method:<ul><li>-101 {@link IOException}</li><li>-102 {@link TimeoutException}</li></ul>
+	 *         values can be returned by this method:<ul>
+	 *           <li>-101 ({@link IOException})</li>
+	 *           <li>-102 ({@link TimeoutException})</li>
+	 *         </ul>
 	 */
-	@NotNull private TwoObjects<@NotNull Integer, Exception> runOrchestratorCommand(File folder, @NotBlank String command
-																																								, String ... args) throws InterruptedException {
-		
+	@NotNull private TwoObjects<@NotNull Integer, Exception> runOrchestratorCommand(          File       folder
+																																								, @NotBlank String     command
+																																													, String ... args) throws InterruptedException {
 		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
 		
 		this.appContext.outUser("Command: " + command + " ... ");
