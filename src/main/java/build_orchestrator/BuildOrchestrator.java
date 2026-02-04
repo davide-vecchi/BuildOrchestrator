@@ -262,7 +262,7 @@ public final class BuildOrchestrator {
 		}
 		else {
 			
-			// : Run the build commands :
+			// : Run the build command :
 			
 			long timeMs = System.currentTimeMillis();
 			
