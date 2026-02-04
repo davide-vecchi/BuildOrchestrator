@@ -287,19 +287,16 @@ public final class BuildOrchestrator {
 				
 				timeMs = System.currentTimeMillis() - timeMs;
 			}
-			this.appContext.outUser(NL2);
-			
 			if (result.o1.equals(ZERO_I)) {
 				
-				this.appContext.outUser("The command" + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
-				                        + NL + "from folder " + dq(getCanonicalPath(folder)));
+				this.appContext.outUser(NL2 + "The command"  + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
+				                              + NL  + "from folder " + dq(getCanonicalPath(folder)) + ".");
 			}
 			else {
 				
-				this.appContext.errUser("The command" + NL2T + command + NL2 + "executed from folder " + dq(getCanonicalPath(folder)) + NL
-				                              + "resulted in an error " + result.o1 + " in " + timeMs + " ms"
-	                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")."
-	                                                         : "."));
+				this.appContext.errUser(NL2 + "The command" + NL2T + command + NL2 + "executed from folder "   + dq(getCanonicalPath(folder))
+				                              + NL  + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
+				                                                                                               : " .") + " in " + timeMs + " ms.");
 			}
 		}
 		assertNonNull(result.o1);
