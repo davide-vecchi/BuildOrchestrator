@@ -242,7 +242,7 @@ public final class BuildOrchestrator {
 		
 		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
 		
-		this.appContext.outUser_Chars("Command: " + command + " ... ");
+		this.appContext.outUser("Command: " + command + " ... ");
 		
 		long timeMs = System.currentTimeMillis();
 		
