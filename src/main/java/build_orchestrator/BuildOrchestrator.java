@@ -303,6 +303,8 @@ public final class BuildOrchestrator {
 	                                                         : "."));
 			}
 		}
+		assertNonNull(result.o1);
+		
 		return result;
 	}
 	
