@@ -128,14 +128,14 @@ public class BuildOrchestratorMain {
 	 *
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
    */
-	static @NotNull BuildOrchestrator newBuildOrchestrator(@NotNull String[] args, AppContext ac) throws UserRequestedTermination {
-		
-		assertNonNull(ac);
+	static @NotNull BuildOrchestrator newBuildOrchestrator(@NotNull String[] args, @NotNull AppContext ac) throws UserRequestedTermination {
 		
 		if (args.length != ONE_i) {
 			
 			throw new IllegalArgumentException("The program must be started with exactly 1 arguments (the path to the configuration file). Instead, the program has been started with the following " + args.length + " arguments:" + NL + Arrays.toString(args));
 		}
+		assertNonNull(ac);
+		
 		// Process first and only arg (the configuration file) :
 		
 		final File configurationFile = processArg_ConfigurationFile(args[ZERO_i].trim());
