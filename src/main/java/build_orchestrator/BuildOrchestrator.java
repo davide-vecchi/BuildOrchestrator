@@ -45,7 +45,6 @@ import static dutil.string.TextUtilities.parseNotWithinDelimiters;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
 import static org.apache.commons.io.FilenameUtils.getExtension;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 
@@ -238,8 +237,8 @@ public final class BuildOrchestrator {
 	 * @return The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
 	 *         values can be returned by this method:<ul><li>-101 {@link IOException}</li><li>-102 {@link TimeoutException}</li></ul>
 	 */
-	@NotNull TwoObjects<@NotNull Integer, Exception> runOrchestratorCommand(File folder, @NotBlank String command
-																																				, String ... args) throws InterruptedException {
+	@NotNull private TwoObjects<@NotNull Integer, Exception> runOrchestratorCommand(File folder, @NotBlank String command
+																																								, String ... args) throws InterruptedException {
 		
 		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
 		
@@ -249,8 +248,8 @@ public final class BuildOrchestrator {
 		
 		try {
 
-			result.o1 = I(OSUtilities.runCommand(folder, command, this.params.commandTimeoutMs.value.longValue()
-															, args));
+			result.o1 = I(OSUtilities.runCommand(folder,                                                  command
+																				, this.params.commandTimeoutMs.value.longValue(), args));
 		}
 		catch (IOException e) {
 			
@@ -264,11 +263,11 @@ public final class BuildOrchestrator {
 			
 			result.o2 = e;
 		}
-		finally{
+		finally {
 			
 			timeMs = System.currentTimeMillis() - timeMs;
 		}
-		this.appContext.outUser(NL2 + "The command:" + NL2T + command + NL);
+		this.appContext.outUser(NL2 + "The command" + NL2T + command + NL);
 		
 		if (result.o1.equals(ZERO_I)) {
 			
@@ -276,11 +275,10 @@ public final class BuildOrchestrator {
 		}
 		else {
 			
-			this.appContext.errUser(NLT + "resulted in an error " + result.o1 + " in " + timeMs + " ms ."
-			                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")"
-			                                                         : EMPTY));
+			this.appContext.errUser(NLT + "resulted in an error " + result.o1 + " in " + timeMs + " ms"
+			                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")."
+			                                                         : "."));
 		}
-		
 		return result;
 	}
 	
