@@ -20,8 +20,6 @@
 #
 # NoTests
 
-NOTESTS
-
 
 
 [Modules]
