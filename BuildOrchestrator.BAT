@@ -52,7 +52,7 @@ In order to start the BuildOrchestrator program:
 
 How to adjust the arguments of the command "java -jar BuildOrchestrator.jar ..." :
 
-The program must be started with exactly 7 arguments, in this order:
+The program must be started with exactly 1 arguments, in this order:
 
 1) The configuration file.
 
