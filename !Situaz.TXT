@@ -1,6 +1,34 @@
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+---------------------------------------------------------------------
 17:14 2026-02-04
+
+* Check, these don't seem to be honored :
+
+  * DoPause.
+
+  * DoTests.
 
 * Empty destination folder in local Maven repo before
   building its module.
 
 * Add same functionality of Deploy_*.BAT scripts.
+
+  * One deployment per each module.
+
+    * So the deployment folder must be an entry of
+      the ModuleBlock.
+
+      * Need a way to make the deployment optional, so
+        the deployment folder, if present, must be the
+        *last* entry of the ModuleBlock (even if in future
+        more entries will be implemented).
+
+* Test the Orchestrator when some module fails to build.
+
+  * Because of code errors.
+
+  * Because of failing tests.
+
+---------------------------------------------------------------------
