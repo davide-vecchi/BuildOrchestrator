@@ -1,0 +1,6 @@
+17:14 2026-02-04
+
+* Empty destination folder in local Maven repo before
+  building its module.
+
+* Add same functionality of Deploy_*.BAT scripts.
