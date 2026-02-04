@@ -2,6 +2,7 @@
 @ECHO OFF
 
 REM Set codepage to UTF-8 (CHCP 65001) :
+
 CHCP 65001 >NUL
 
 REM Enable Delayed Expansion :
@@ -12,8 +13,8 @@ REM Ensure the execution starts on a clean ERRORLEVEL :
 
 IF !ERRORLEVEL! NEQ 0 (
 	ECHO.
-	ECHO CRITICAL ERROR; not executing the script because ERRORLEVEL was
-  ECHO already !ERRORLEVEL! instead of 0 when the script started.
+	ECHO CRITICAL ERROR; not executing the script because ERRORLEVEL
+  ECHO was already !ERRORLEVEL! instead of 0 when the script started.
 	ECHO.
 	PAUSE
 	EXIT !ERRORLEVEL!
@@ -43,8 +44,8 @@ CALL mvn clean install
 IF !ERRORLEVEL! NEQ 0 (
 
 	ECHO.
-	ECHO CRITICAL ERROR; not executing the deployment script because ERRORLEVEL was
-  ECHO !ERRORLEVEL! when the Maven build command returned.
+	ECHO CRITICAL ERROR; not executing the deployment script because ERRORLEVEL
+  ECHO was !ERRORLEVEL! when the Maven build command returned.
 	ECHO.
 	PAUSE
 	EXIT !ERRORLEVEL!
