@@ -34,10 +34,8 @@ import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
 import static dutil.string.TextUtilities.DQChar;
-import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
-import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.dq;
@@ -149,7 +147,7 @@ public final class BuildOrchestrator {
 			
 			final File folder = new File(moduleBlock.modulePath());
 			
-			this.appContext.outUser(NL + "Building module in folder " + dq(getCanonicalPath(folder) + " ..."));
+			this.appContext.outUser(NL2 + "Building module in folder " + dq(getCanonicalPath(folder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											, DQChar);
@@ -270,15 +268,15 @@ public final class BuildOrchestrator {
 			
 			timeMs = System.currentTimeMillis() - timeMs;
 		}
-		this.appContext.outUser(NL2 + "The command" + NL2T + command + NL);
+		this.appContext.outUser(NL2);
 		
 		if (result.o1.equals(ZERO_I)) {
 			
-			this.appContext.outUser("executed successfully in " + timeMs + " ms.");
+			this.appContext.outUser("The command" + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms.");
 		}
 		else {
 			
-			this.appContext.errUser(NLT + "resulted in an error " + result.o1 + " in " + timeMs + " ms"
+			this.appContext.errUser("The command" + NL2T + command + NL2 + "resulted in an error "       + result.o1 + " in " + timeMs + " ms"
 			                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")."
 			                                                         : "."));
 		}
