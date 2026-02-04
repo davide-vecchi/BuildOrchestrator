@@ -50,9 +50,9 @@ import static dutil.string.TextUtilities.dq;
 public class BuildOrchestratorTest {
   
   
-  static final String APP_NAME =  BuildOrchestratorTest.class.getSimpleName();
+  private static final String APP_NAME =  BuildOrchestratorTest.class.getSimpleName();
   
-  static final String APP_DESCR = BuildOrchestratorTest.class.getName();
+  private static final String APP_DESCR = BuildOrchestratorTest.class.getName();
   
   private AppContext appContext;
   
