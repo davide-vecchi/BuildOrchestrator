@@ -144,7 +144,7 @@ class BuildList {
    */
   static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AppContext ac) {
     
-    ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ..." + NL);
+    ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ...");
     
     final BuildList result = new BuildList();
     

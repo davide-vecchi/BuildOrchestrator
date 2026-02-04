@@ -19,11 +19,16 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.io.Serial;
+import java.util.List;
 import java.util.Map;
 
+import static dfile.file.FileUtilities.SEPARATOR_CHAR;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ZERO_l;
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Class containing the fields that represent the user-controlled parameters (AKA "inputs") of a {@link
@@ -41,7 +46,12 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	/**
 	 * Default for optional param {@link #commandTimeoutMs}, 1 h (3,600,000 ms).
 	 */
-	public static final long DEFAULT_COMMAND_TIMEOUT_MS = MS_IN_HOUR;
+	private static final long DEFAULT_COMMAND_TIMEOUT_MS = MS_IN_HOUR;
+	
+	/**
+	 * The possible names of the environment variable representing the Maven installation folder.
+	 */
+	private static final List<String> MAVEN_HOME_ENV_VAR_NAMES = asList("MAVEN_HOME", "M2_HOME");
 	
 	/**
 	 * The {@link AppContext application context}. This is not a param.
@@ -52,13 +62,14 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	protected final @NotNull AppContext appContext;
 	
 	/**
-	 * Mandatory: The filesystem path to the <i>Build List file</i>.
+	 * Mandatory : The filesystem path to the <i>Build List file</i>.
 	 */
 	@Getter
 	@NotNull ParamMono<Object, String> buildListFilePath;
 	
 	/**
-	 * Mandatory: The filesystem path to the Maven installation folder.
+	 * Optional : The filesystem path to the Maven installation folder.
+	 * Default  : The value of environment variable MAVEN_HOME .
 	 */
 	@Getter
 	@NotNull ParamMono<Object, String> mavenFolder;
@@ -89,15 +100,15 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 */
 	public void addAllParams() {
 		
-		// Param buildListFilePath :
+		// Param BuildListFilePath :
 		
 		this.buildListFilePath = new ParamMono<>(this, "BuildListFile");
 		
-		// Param mavenFolder :
+		// Param MavenFolder :
 		
 		this.mavenFolder = new ParamMono<>(this, "MavenFolder");
 		
-		// Param commandTimeoutMs :
+		// Param CommandTimeoutMs :
 		
 		this.commandTimeoutMs  = new ParamMono<>(this, "CommandTimeoutMs");
 	}
@@ -105,32 +116,37 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	@Override
 	public void populate() {
 		
-		// Param buildListFilePath :
+		// Param BuildListFilePath :
 		
 		this.buildListFilePath.setValueParser(new NeutralStringParser()).loadMandatoryValue();
 		
-		// Param mavenFolder :
+		// Param MavenFolder :
 		
-		this.mavenFolder.setValueParser(new NeutralStringParser()).loadMandatoryValue();
+		final String mvnHomeEnvVarName = MAVEN_HOME_ENV_VAR_NAMES.stream()
+	                                                  .filter(n -> isNotBlank(System.getenv(n)))
+		                                                .findFirst().orElse("Maven");
 		
-		// Param commandTimeoutMs :
+		this.mavenFolder.setValueParser(new NeutralStringParser()).loadOptionalValue(
+														defaultIfBlank(System.getenv(mvnHomeEnvVarName)
+																										, SEPARATOR_CHAR + "Maven"));
+		// Param CommandTimeoutMs :
 		
-		this.commandTimeoutMs.setValueParser( new LongStringParser()   ).loadOptionalValue(
+		this.commandTimeoutMs.setValueParser(new LongStringParser()).loadOptionalValue(
 																																 L(DEFAULT_COMMAND_TIMEOUT_MS));
 	}
 	
 	@Override
 	public void validate() {
 		
-		// Param buildListFilePath :
+		// Param BuildListFilePath :
 		
 		validateExistingFilePathParam(this.buildListFilePath);
 		
-		// Param mavenFolder :
+		// Param MavenFolder :
 		
 		validateExistingFolderPathParam(this.mavenFolder);
 		
-		// Param commandTimeoutMs :
+		// Param CommandTimeoutMs :
 		
 		final Long timeout = this.commandTimeoutMs.value;
 		

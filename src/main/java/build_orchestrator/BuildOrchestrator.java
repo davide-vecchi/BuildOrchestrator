@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import static build_orchestrator.BuildList.newBuildList;
 import static build_orchestrator.BuildList.validateMavenCommand;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dfile.file.FileUtilities.calcPath;
+import static dfile.file.FileUtilities.checkIsExistingFile;
+import static dfile.file.FileUtilities.getCanonicalPath;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.number.NumberUtilities.I;
@@ -32,12 +35,18 @@ import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
 import static dutil.string.TextUtilities.DQChar;
 import static dutil.string.TextUtilities.NL;
+import static dutil.string.TextUtilities.NL2;
+import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.parseNotWithinDelimiters;
+import static java.util.Arrays.asList;
+import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
+import static org.apache.commons.io.FilenameUtils.getExtension;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 
 /**
@@ -141,15 +150,34 @@ public final class BuildOrchestrator {
 			
 			final File folder = new File(moduleBlock.modulePath());
 			
-			this.appContext.outUser(NL + "Building module in folder " + dq(folder.getName()) + " ...");
+			this.appContext.outUser(NL + "Building module in folder " + dq(getCanonicalPath(folder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											, DQChar);
-			final String mvnCmd = args.getFirst();
+			String mvnCmd = args.getFirst();
 			
 			validateMavenCommand(mvnCmd, null);
 			
-			final String mvnCmdWithPath = calcPath(this.params.mavenFolder.value, assertNonBlank(mvnCmd));
+			final String mvnExecPath = calcPath(this.params.mavenFolder.value, "bin");
+			
+			if (SystemUtils.IS_OS_WINDOWS && isEmpty(getExtension(mvnCmd))) {
+				
+				// We are on Windows and in the Module declaration 'mvn' appears without extension, so try to add one :
+				
+				for (final String ext : asList("cmd", "exe")) {
+					
+					if (checkIsExistingFile(calcPath(mvnExecPath, mvnCmd + EXTENSION_SEPARATOR + ext)) ==
+					                                                                                                          null) {
+						// : The Maven executable exists with this extension.
+						
+						mvnCmd += EXTENSION_SEPARATOR + ext;
+						
+						break;
+					}
+				}
+			}
+			final String mvnCmdWithPath = calcPath(mvnExecPath, assertNonBlank(mvnCmd));
+			// @@@@@@ q @
 			
 			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
 																															 folder, mvnCmdWithPath
@@ -217,6 +245,8 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser_Chars("Command: " + command + " ... ");
 		
+		long timeMs = System.currentTimeMillis();
+		
 		try {
 
 			result.o1 = I(OSUtilities.runCommand(folder, command, this.params.commandTimeoutMs.value.longValue()
@@ -234,16 +264,23 @@ public final class BuildOrchestrator {
 			
 			result.o2 = e;
 		}
+		finally{
+			
+			timeMs = System.currentTimeMillis() - timeMs;
+		}
+		this.appContext.outUser(NL2 + "The command:" + NL2T + command + NL);
+		
 		if (result.o1.equals(ZERO_I)) {
 			
-			this.appContext.outUser("OK.");
+			this.appContext.outUser("executed successfully in " + timeMs + " ms.");
 		}
 		else {
 			
-			this.appContext.errUser(NLT + "KO !! Process' exit value: " + result.o1 + " ."
-			                                    + (result.o2 != null ? " " + getShortDescriptionWithRootCause(result.o2)
+			this.appContext.errUser(NLT + "resulted in an error " + result.o1 + " in " + timeMs + " ms ."
+			                                    + (result.o2 != null ? " (" + getShortDescriptionWithRootCause(result.o2) + ")"
 			                                                         : EMPTY));
 		}
+		
 		return result;
 	}
 	

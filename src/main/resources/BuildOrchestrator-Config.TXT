@@ -24,7 +24,9 @@ BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrato
 ################################################################################
 
 ################################################################################
-# Required : Maven installation folder.
+# Optional : Maven installation folder.
+#
+# Default : The value of environment variable MAVEN_HOME.
 
 MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 
