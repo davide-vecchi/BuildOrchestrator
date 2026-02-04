@@ -181,7 +181,6 @@ public final class BuildOrchestrator {
 				}
 			}
 			final String mvnCmdWithPath = calcPath(mvnExecPath, assertNonBlank(mvnCmd));
-			// @@@@@@ q @
 			
 			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
 																															 folder, mvnCmdWithPath
