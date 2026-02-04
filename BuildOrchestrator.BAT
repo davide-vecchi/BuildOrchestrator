@@ -1,6 +1,7 @@
 @ECHO OFF
 
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
+PAUSE
 
 SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\
 

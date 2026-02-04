@@ -289,13 +289,13 @@ public final class BuildOrchestrator {
 			}
 			if (result.o1.equals(ZERO_I)) {
 				
-				this.appContext.outUser(NL2 + "The command"  + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
-				                              + NL  + "from folder " + dq(getCanonicalPath(folder)) + ".");
+				this.appContext.outUser(NL + "The command"  + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
+				                              + NL + "from folder " + dq(getCanonicalPath(folder)) + ".");
 			}
 			else {
 				
-				this.appContext.errUser(NL2 + "The command" + NL2T + command + NL2 + "executed from folder "   + dq(getCanonicalPath(folder))
-				                              + NL  + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
+				this.appContext.errUser(NL + "The command" + NL2T + command + NL2 + "executed from folder "   + dq(getCanonicalPath(folder))
+				                              + NL + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
 				                                                                                               : " .") + " in " + timeMs + " ms.");
 			}
 		}
