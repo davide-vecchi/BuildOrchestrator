@@ -319,7 +319,7 @@ class BuildList {
         if (mavenCommand.isEmpty()) {
           
           throw new MissingExternalValueException("Empty Maven command at line " + commandLineNumber
-                                                + " for module path at line " + pathLineNumber
+                                                + " for module path at line "    + pathLineNumber
                                                 + " in file " + getCanonicalPathAsDescr(buildListFile)
                                                 + ". Module blocks must be exactly 2 consecutive non‑empty lines.");
         }
