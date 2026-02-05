@@ -48,6 +48,7 @@ import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.surround;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -351,7 +352,7 @@ class BuildList {
     final String expectedStartNoCase = "mvn";
     
     if (! (    mavenCommand.equalsIgnoreCase(expectedStartNoCase)
-      || Strings.CI.startsWith( mavenCommand, expectedStartNoCase + " "))) {
+      || Strings.CI.startsWith( mavenCommand, expectedStartNoCase + SPACE))) {
       
       throw new InvalidExternalValueException(defaultString(errorMsgPrefix) + "ERROR: Maven command" + NL + mavenCommand + NL
                                             + " doesn't start with " + dq(expectedStartNoCase) + " (case‑insensitive).");
