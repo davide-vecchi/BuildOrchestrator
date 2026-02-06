@@ -310,7 +310,19 @@ class BuildList {
         
         final int commandLineNumber = commandLineWithNumber.number;
         
+        
+        
+        
+        // Look for 3rd line (artifact installation path, optional) :
+        /// @@ q @@
+        
+        
+        
         listIndex++;
+        
+        
+        
+        
         
         final String mavenCommand = commandLine.trim();
         
