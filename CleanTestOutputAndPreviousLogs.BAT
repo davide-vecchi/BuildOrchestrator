@@ -12,6 +12,9 @@ DEL /S /Q "Build*-log*.LOG.2*"
 
 DEL /S /Q "*.DUMP"
 
+DEL /S /Q "*.bak"
+
+
 RMDIR /S /Q "test-output\"
 
 PAUSE
@@ -21,5 +24,8 @@ CD /D "C:\BuildOrchestrator\"
 DEL /S /Q "Build*-log*.LOG.2*"
 
 DEL /S /Q "*.DUMP"
+
+DEL /S /Q "*.bak"
+
 
 PAUSE

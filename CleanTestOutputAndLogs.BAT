@@ -13,6 +13,9 @@ DEL /S /Q "Build*-log*.LOG.2*"
 
 DEL /S /Q "*.DUMP"
 
+DEL /S /Q "*.bak"
+
+
 RMDIR /S /Q "test-output\"
 
 PAUSE
@@ -23,5 +26,8 @@ DEL /S /Q "Build*-log*.LOG"
 DEL /S /Q "Build*-log*.LOG.2*"
 
 DEL /S /Q "*.DUMP"
+
+DEL /S /Q "*.bak"
+
 
 PAUSE
