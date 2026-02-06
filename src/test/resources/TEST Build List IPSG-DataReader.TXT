@@ -38,7 +38,7 @@
 #   for that module must be moved. If the line is not present, the artifact will
 #   not be moved.
 #
-#   There can not be any empty line inside a block.
+#   There can not be any comment or empty line inside a block.
 #   There must be at least one empty line between blocks.
 #
 
@@ -47,4 +47,3 @@ mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader
 mvn clean install
-C:\IPSG-DataReader

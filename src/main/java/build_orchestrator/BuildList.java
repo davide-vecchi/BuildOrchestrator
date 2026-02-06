@@ -10,6 +10,7 @@ import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.InvalidValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.exception.exceptions.NonUniqueExternalValueException;
+import dutil.string.TextUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -32,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static dfile.file.FileUtilities.assertExistingPath;
+import static dfile.file.FileUtilities.assertNonEmpty;
+import static dfile.file.FileUtilities.checkIsExistingFolder;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.ONE_i;
@@ -46,11 +49,13 @@ import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static dutil.string.TextUtilities.isBlankOrTrimmable;
 import static dutil.string.TextUtilities.surround;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
@@ -240,11 +245,20 @@ class BuildList {
                                                        , @NotBlank String                           modulesSectionKey
                                                        , @NotNull  AppContext                       ac) {
     
+    
+    
+    final String buildListFileDescr = getCanonicalPathAsDescr(assertNonEmpty(buildListFile));
+    
+    
+    
+    
+    
+    
     final List<ModuleBlock> moduleBlocks = new ArrayList<>();
     
     final List<LineWithNumber> rawModuleLines = sectionLines.get(modulesSectionKey);
     
-    // Track seen module paths for duplicate detection with case normalization :
+    // @@@@@@@@@ improve this comment @@@@@@@@@@ Track seen module paths for duplicate detection with case normalization :
     
     final Set<String> seenModulePaths = new HashSet<>();
     
@@ -254,15 +268,9 @@ class BuildList {
       
       final LineWithNumber pathLineWithNumber = rawModuleLines.get(listIndex);
       
-      final String pathLine = pathLineWithNumber.line;
+      // Skip blank lines between blocks :
       
-      final String trimmedPath = pathLine.trim();
-      
-      final int pathLineNumber = pathLineWithNumber.number;
-      
-      // Skip empty lines between blocks :
-      
-      if (trimmedPath.isEmpty()) {
+      if (isBlank(pathLineWithNumber.line)) {
         
         listIndex++;
       }
@@ -272,24 +280,10 @@ class BuildList {
         
         // First line of block is module path :
         
-        final String modulePath = pathLine.stripTrailing();
+        final String modulePath = pathLineWithNumber.line.stripTrailing();
         
-        // Validate module path is not empty :
-        
-        if (modulePath.trim().isEmpty()) {
-          
-          throw new MissingExternalValueException("Empty module path at line " + pathLineNumber
-                                                + " in [" + MODULES_SECTION_NAME + "] section of file "
-                                                + getCanonicalPathAsDescr(buildListFile));
-        }
-        // Normalize path for case‑insensitive duplicate check on Windows :
-        
-        // Check for duplicates :
-        
-        final String normalizedPath = validateNotDuplicated(seenModulePaths, modulePath, pathLineNumber
-                                        , getCanonicalPathAsDescr(buildListFile));
-        
-        seenModulePaths.add(normalizedPath);
+        seenModulePaths.add(validateModulePath(seenModulePaths, modulePath, pathLineWithNumber.number
+                                             , buildListFileDescr));
         
         // Look for second line (Maven command) :
         
@@ -297,56 +291,79 @@ class BuildList {
         
         if (listIndex >= rawModuleLines.size()) {
           
-          throw new MissingExternalValueException("Incomplete module block in file " + getCanonicalPathAsDescr(buildListFile)
-                                                + ". Module path at line " + pathLineNumber + " has no corresponding Maven command.");
+          // : The current line is the last one.
+          
+          throw new MissingExternalValueException("Incomplete module block in file " + buildListFileDescr + ". Module path at line " + pathLineWithNumber.number + " has no corresponding Maven command.");
         }
         final LineWithNumber commandLineWithNumber = rawModuleLines.get(listIndex);
         
-        final String commandLine = commandLineWithNumber.line;
-        
-        final int commandLineNumber = commandLineWithNumber.number;
+        final String mavenCommand = validateMavenCommand(commandLineWithNumber, pathLineWithNumber, buildListFileDescr);
         
         
         
         
         // Look for 3rd line (artifact installation path, optional) :
-        /// @@ q @@
         
-        
+        String artifactPath = null;
         
         listIndex++;
         
-        
-        
-        
-        
-        final String mavenCommand = commandLine.trim();
-        
-        // Validate it's not empty :
-        
-        if (mavenCommand.isEmpty()) {
+        if (listIndex < rawModuleLines.size()) {
           
-          throw new MissingExternalValueException("Empty Maven command at line " + commandLineNumber
-                                                + " for module path at line "    + pathLineNumber
-                                                + " in file " + getCanonicalPathAsDescr(buildListFile)
-                                                + ". Module blocks must be exactly 2 consecutive non‑empty lines.");
+          // : The current line is not the last one.
+          
+          final LineWithNumber possibleArtifactPathLineWithNumber = rawModuleLines.get(listIndex);
+          
+          assertNonBlank(possibleArtifactPathLineWithNumber.line);
+          
+          assertTrue(possibleArtifactPathLineWithNumber.number >= commandLineWithNumber.number);
+          
+          if (possibleArtifactPathLineWithNumber.number == commandLineWithNumber.number + ONE_i) {
+          
+            // : The current block does contain the artifact path, which is the current line :
+            
+            artifactPath = validateArtifactPath(possibleArtifactPathLineWithNumber, buildListFileDescr);
+            
+            listIndex++;
+          }
         }
-        // Basic Maven command validation :
+        // Create module block :
         
-        validateMavenCommand(mavenCommand, "Line " + commandLineNumber + " of " + getCanonicalPathAsDescr(buildListFile) + " :" + NL);
-        
-        // Create module block (will validate path exists via assertExistingPath) :
-        
-        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand));
-        
-        // Note: Next iteration will handle any blank lines between blocks.
+        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand, artifactPath));
       }
     }
     return moduleBlocks;
   }
   
   /**
-   * Throws if the given {@code modulePath} exists in the given {@link Set}.
+   * Throws if the given {@link LineWithNumber#line artifact path} is not an existing folder.
+   *
+   * @param artifactPathLineWithNumber The {@link LineWithNumber} containing the {@link LineWithNumber#line line} that
+   *                                   represents the artifact destination path.<br>
+   *
+   * @param buildListFileDescr Description of the path of the {@link BuildList} file. Only for the error message.
+   *
+   * @return The given {@link LineWithNumber#line artifact path}.
+   *
+   * @throws MissingExternalValueException If the given artifact path is not an existing folder.
+   */
+  private static String validateArtifactPath(@NotNull LineWithNumber artifactPathLineWithNumber
+                                                    , String         buildListFileDescr) {
+    
+    final String artifactPath = artifactPathLineWithNumber.line;
+    
+    final String ko = checkIsExistingFolder(artifactPath);
+    
+    if (ko != null) {
+      
+      throw new MissingExternalValueException("Non-existent artifact destination path specified in line " + artifactPathLineWithNumber.line + " of file " + buildListFileDescr + ":" + NL + ko);
+    }
+    return artifactPath;
+  }
+  
+  /**
+   * Throws if the given {@code modulePath} is {@link TextUtilities#isBlankOrTrimmable blank or trimmable} or if it
+   * exists in the given {@link Set}.
    *
    * @param modulePaths    The {@link Set} that must be checked to see if the given {@code modulePath} exists in it.<br>
    *
@@ -359,23 +376,38 @@ class BuildList {
    *
    * @return The given {@code modulePath}, {@link #normalizePathForComparison(String) normalized} so that it can be
    *         compared with the content of the given {@link Set}.
+   *
+   * @throws MissingExternalValueException If the given {@code modulePath} is {@link TextUtilities#isBlankOrTrimmable
+   *                                       blank or trimmable}.
+   *
+   * @throws NonUniqueExternalValueException If the given {@code modulePath}, {@link #normalizePathForComparison(String)
+   *                                         normalized}, exists in the given {@link Set}.
    */
-  private static String validateNotDuplicated(@NotNull Set<String> modulePaths, @NotBlank String modulePath
-                                                     , int pathLineNumber,                String buildListFileDescr) {
+  private static String validateModulePath(@NotNull Set<String> modulePaths,    @NotBlank String modulePath
+                                                  , int         pathLineNumber,           String buildListFileDescr) {
+    
+    if (isBlankOrTrimmable(modulePath)) {
+      
+      throw new MissingExternalValueException("Empty module path at line " + pathLineNumber
+                                            + " in section " + surround(MODULES_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END
+                                            + " of file " + buildListFileDescr) + " !!!");
+    }
     assertPositive(pathLineNumber);
     
     final String normalizedPath = normalizePathForComparison(modulePath);
     
     if (modulePaths.contains(normalizedPath)) {
       
-      throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath + "' at line " + pathLineNumber
-                                              + " in [" + MODULES_SECTION_NAME + "] section of file " + buildListFileDescr
-                                              + ". Each module must have a unique path.");
+      throw new NonUniqueExternalValueException("Duplicate module path " + dq(modulePath) + " at line " + pathLineNumber
+                                              + " in section " + surround(MODULES_SECTION_NAME, SECTION_NAME_START, SECTION_NAME_END
+                                              + " of file " + buildListFileDescr) + ". Each module must have a unique path.");
     }
     return normalizedPath;
   }
   
   /**
+   * Throws if the given {@code mavenCommand} is not a valid command to invoke Maven.
+   *
    * @param mavenCommand
    *
    * @param errorMsgPrefix If {@link StringUtils#isNotBlank not blank}, will be prepended to the message of the
@@ -383,16 +415,31 @@ class BuildList {
    *
    * @return The given {@code mavenCommand}.
    *
-   * @throws InvalidExternalValueException If the given {@code mavenCommand} is not a valid command to invoke Maven.
+   * @throws MissingExternalValueException If the given {@code mavenCommand} is {@link TextUtilities#isBlankOrTrimmable
+   *                                       blank or trimmable}.<br>
+   *
+   * @throws InvalidExternalValueException If the given {@code mavenCommand} is not {@link TextUtilities#isBlankOrTrimmable
+   *                                       blank or trimmable} but it's not a valid command to invoke Maven.
    */
-  static String validateMavenCommand(@NotBlank String mavenCommand, String errorMsgPrefix) {
+  private static String validateMavenCommand(@NotNull  LineWithNumber commandLineWithNumber
+                                           , @NotNull  LineWithNumber pathLineWithNumber,   String buildListFileDescr) {
     
+    final String mavenCommand = commandLineWithNumber.line;
+    
+    if (isBlankOrTrimmable(mavenCommand)) {
+      
+      throw new MissingExternalValueException("Invalid Maven command at line " + commandLineWithNumber.number
+                                            + " for module path at line "      + pathLineWithNumber.number
+                                            + " in file "                      + buildListFileDescr
+                                            + ". Module blocks must be exactly 2 or 3 consecutive non‑empty lines.");
+    }
     final String expectedStartNoCase = "mvn";
     
     if (! (    mavenCommand.equalsIgnoreCase(expectedStartNoCase)
       || Strings.CI.startsWith( mavenCommand, expectedStartNoCase + SPACE))) {
       
-      throw new InvalidExternalValueException(defaultString(errorMsgPrefix) + "ERROR: Maven command" + NL + mavenCommand + NL
+      throw new InvalidExternalValueException("Line " + commandLineWithNumber.number + " of " + buildListFileDescr + " :" + NL
+                                            + "ERROR: Maven command" + NL + mavenCommand + NL
                                             + " doesn't start with " + dq(expectedStartNoCase) + " (case‑insensitive).");
     }
     return mavenCommand;
@@ -691,25 +738,42 @@ class BuildList {
   /**
    * Represents one Build List's block of lines, which describe one module to build.
    *
-   * @param modulePath Path of main folder of the source of the module to build (where the pom.xml of that module is).
+   * @param modulePath Path of main folder of the source of the module to build (where the pom.xml of that module is).<br>
    *                   With or without the ending [back]slash.<br>
    *
    * @param mvnCommand Whole Maven-invoking command. May include any args; they will be passed to this Maven command as
-   *                   they are.
+   *                   they are.<br>
+   *
+   * @param artifactPath Path of the folder where the built artifact must be moved, or {@code null} if the artifact must
+   *                     not be moved after being built.<br>With or without the ending [back]slash.
    */
-  record ModuleBlock(String modulePath, String mvnCommand) {
+  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, @NotBlank String artifactPath) {
+    
     
     /**
+     * Constructor.
+     *
      * @param modulePath {@link #modulePath}. Must match an existing folder.<br>
      *
-     * @param mvnCommand {@link #mvnCommand}.
+     * @param mvnCommand {@link #mvnCommand}.<br>
+     *
+     * @param artifactPath {@link #artifactPath}. Must be {@code null} or match an existing folder.<br>
+     *
+     * @throws MissingExternalValueException – If any of the given paths don't exist on the filesystem.<br>
+     *
+     * @throws InvalidExternalValueException – If any of the given paths represents an existing file instead of a folder.<br>
+     *
+     * @throws InvalidValueException If the given {@code mvnCommand} is not valid.
      */
-    ModuleBlock(String modulePath, String mvnCommand) {
+    ModuleBlock(String modulePath, String mvnCommand, String artifactPath) {
       
       this.modulePath = assertExistingPath(modulePath, true);
       
-      this.mvnCommand = mvnCommand;
+      this.mvnCommand = assertNonBlankNorTrimmable(mvnCommand);
+      
+      this.artifactPath = artifactPath != null ? assertExistingPath(artifactPath, true) : null;
     }
+    
   }
 
 

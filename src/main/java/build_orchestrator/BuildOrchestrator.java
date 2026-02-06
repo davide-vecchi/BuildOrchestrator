@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
-import static build_orchestrator.BuildList.validateMavenCommand;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.checkIsExistingFile;
@@ -123,7 +122,7 @@ public final class BuildOrchestrator {
 	/**
 	 * The method that starts the processing.
 	 */
-	public void run() throws IOException, InterruptedException, TimeoutException {
+	public void run() throws InterruptedException {
 		
 		this.buildList = newBuildList(this.buildListFile, this.appContext);
 		
@@ -159,8 +158,6 @@ public final class BuildOrchestrator {
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											, DQChar);
 			String mvnCmd = args.getFirst();
-			
-			validateMavenCommand(mvnCmd, null);
 			
 			final String mvnExecPath = calcPath(this.params.mavenFolder.value, "bin");
 			

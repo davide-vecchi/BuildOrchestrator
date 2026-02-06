@@ -8,7 +8,7 @@ BuildList {
 
 	moduleBlocks=ArrayList:
 
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common, mvnCommand=mvn clean install]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader, mvnCommand=mvn clean install]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common, mvnCommand=mvn clean install, artifactPath=null]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader, mvnCommand=mvn clean install, artifactPath=null]
 
 }
