@@ -182,17 +182,33 @@ public final class BuildOrchestrator {
 			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
 																															 folder, mvnCmdWithPath
 																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
-			if (cmdResult.o1.intValue() != ZERO_i) {
+			if (cmdResult.o1.intValue() == ZERO_i) {
+				
+				// : The build command succeeded.
+				
+				assertNull(cmdResult.o2);
+				
+				// If the module has an artifact destination path specified, move the built artifact there :
+				
+				/ //  @@@ q @@
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+			else {
 				
 				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
 				
 				this.appContext.errUser(errMsg);
 				
 				throw getUnchecked(cmdResult.o2);
-			}
-			else {
-				
-				assertNull(cmdResult.o2);
 			}
 		}
 	}
