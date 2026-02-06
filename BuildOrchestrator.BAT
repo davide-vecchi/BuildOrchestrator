@@ -1,4 +1,6 @@
 
+REM BuildOrchestrator launch script.
+
 @ECHO OFF
 
 REM Set codepage to UTF-8 (CHCP 65001) :
