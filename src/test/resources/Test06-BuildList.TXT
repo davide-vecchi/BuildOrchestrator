@@ -1,0 +1,134 @@
+
+# DJavaLibraries artifact group's Build List.
+# (REPOS subfolder : "JavaLibraries\").
+#
+# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
+
+
+[Initialization]
+
+# This Initialization section must be present but empty (only comments allowed),
+# because issuing initialization commands is not implemented yet.
+
+
+[Options]
+
+# This section may contain or not one or both of the following lines (both are
+# case-insensitive) :
+#
+# NoPause
+#
+# NoTests
+
+NOTESTS
+
+
+
+[Modules]
+
+#
+# Beginning of the module list.
+#
+# Each module is represented by a block made of 2 or 3 lines :
+#
+#   The 1st line is the filesystem path to the module's folder,
+#   that is the folder where the pom.xml is.
+#
+#   The 2nd line is the build command to issue for that module;
+#   it can have any arguments.
+#
+#   The 3nd line, if present, is the path of the folder where the artifact built
+#   for that module must be moved. If the line is not present, the artifact will
+#   not be moved.
+#
+#   There can not be any comment or empty line inside a block.
+#   There must be at least one empty line between blocks.
+#
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMSOffice
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+# H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI
+# mvn clean install
+# H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI_OLD
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+# H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI_Swing
+# mvn clean install
+# H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DDb
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DEmail
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+# H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DApplication
+# mvn clean install
+#H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+# H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DCMS
+# mvn clean install
+# H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX
+mvn clean install
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\

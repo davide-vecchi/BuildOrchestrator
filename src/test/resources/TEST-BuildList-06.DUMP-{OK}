@@ -1,0 +1,30 @@
+BuildList {
+
+	initCommands=ArrayList:
+
+	doPause=true
+
+	doTests=false
+
+	moduleBlocks=ArrayList:
+
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMSOffice, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI_OLD, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DDb, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DEmail, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX, mvnCommand=mvn clean install, artifactPath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder\]
+
+}

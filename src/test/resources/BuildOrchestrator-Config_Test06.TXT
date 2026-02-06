@@ -1,0 +1,28 @@
+
+# Le linee che iniziano col cancelletto ("#") (come questa) sono linee di commento,
+# vengono ignorate, ci si può scrivere quello che si vuole e se ne possono aggiungere
+# e togliere liberamente.
+
+################################################################################
+################################################################################
+#                                                                              #
+#                Configuration file of BuildOrchestrator program.              #
+#                                                                              #
+################################################################################
+################################################################################
+
+################################################################################
+# Required : Maven installation folder.
+
+MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
+
+################################################################################
+
+
+################################################################################
+# Required : Path of the Build List file, which is the text file containing the
+#            list of modules to build and the build settings of each of them :
+
+BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test06-BuildList.TXT
+
+################################################################################

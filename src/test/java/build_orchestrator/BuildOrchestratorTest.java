@@ -163,6 +163,15 @@ public class BuildOrchestratorTest {
   }
   
   /**
+   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "06".
+   */
+  @Test
+  public void buildListTest06() throws Exception {
+    
+    testBuildList("06", this.appContext);
+  }
+  
+  /**
    * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance according to the BuildOrchestrator
    * configuration file identified by the given {@code testID}, and if the generated output files are different from
    * their "OK" file fails the test.

@@ -1,3 +1,6 @@
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder
+TestArtifactDestinationFolder
+
 if (SystemUtils.IS_OS_WINDOWS) {
     runCommand("cmd", "/c", "CHCP 65001 >NUL && your-command");
 } else {
