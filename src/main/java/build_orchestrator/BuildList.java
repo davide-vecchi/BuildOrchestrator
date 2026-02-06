@@ -36,6 +36,7 @@ import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
+import static dutil.number.NumberUtilities.assertPositive;
 import static dutil.object.ObjectUtilities.B;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertTrue;
@@ -283,16 +284,11 @@ class BuildList {
         }
         // Normalize path for case‑insensitive duplicate check on Windows :
         
-        final String normalizedPath = normalizePathForComparison(modulePath);
-        
         // Check for duplicates :
         
-        if (seenModulePaths.contains(normalizedPath)) {
-          
-          throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath + "' at line " + pathLineNumber
-                                                  + " in [" + MODULES_SECTION_NAME + "] section of file "
-                                                  + getCanonicalPathAsDescr(buildListFile) + ". Each module must have a unique path.");
-        }
+        final String normalizedPath = validateNotDuplicated(seenModulePaths, modulePath, pathLineNumber
+                                        , getCanonicalPathAsDescr(buildListFile));
+        
         seenModulePaths.add(normalizedPath);
         
         // Look for second line (Maven command) :
@@ -347,6 +343,36 @@ class BuildList {
       }
     }
     return moduleBlocks;
+  }
+  
+  /**
+   * Throws if the given {@code modulePath} exists in the given {@link Set}.
+   *
+   * @param modulePaths    The {@link Set} that must be checked to see if the given {@code modulePath} exists in it.<br>
+   *
+   * @param modulePath     The {@code modulePath} that must be checked to see if it exists in the given {@link Set}.<br>
+   *
+   * @param pathLineNumber The line number of the given {@code modulePath} in its {@link BuildList} file. Only for the
+   *                       error message.<br>Must be positive.<br>
+   *
+   * @param buildListFileDescr Description of the path of the {@link BuildList} file. Only for the error message.
+   *
+   * @return The given {@code modulePath}, {@link #normalizePathForComparison(String) normalized} so that it can be
+   *         compared with the content of the given {@link Set}.
+   */
+  private static String validateNotDuplicated(@NotNull Set<String> modulePaths, @NotBlank String modulePath
+                                                     , int pathLineNumber,                String buildListFileDescr) {
+    assertPositive(pathLineNumber);
+    
+    final String normalizedPath = normalizePathForComparison(modulePath);
+    
+    if (modulePaths.contains(normalizedPath)) {
+      
+      throw new NonUniqueExternalValueException("Duplicate module path '" + modulePath + "' at line " + pathLineNumber
+                                              + " in [" + MODULES_SECTION_NAME + "] section of file " + buildListFileDescr
+                                              + ". Each module must have a unique path.");
+    }
+    return normalizedPath;
   }
   
   /**
