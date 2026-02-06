@@ -190,7 +190,7 @@ public class BuildOrchestratorTest {
       
       final String testDataPath = calcPath("src", "test", "resources");
       
-      final BuildOrchestrator orchestrator = newBuildOrchestratorForTests_DontBuild(
+      final BuildOrchestrator orchestrator = newBuildOrchestrator_DontBuild(
                                 new String[] {
                                                       assertExistingPath(
                                                         calcPath(
@@ -232,7 +232,7 @@ public class BuildOrchestratorTest {
    * @return A {@link BuildOrchestratorMain#newBuildOrchestrator new BuildOrchestrator} with {@link BuildOrchestrator#dontBuild
    *         dontBuild} {@code true}, to be used by the tests that must avoid to actually build.
    */
-  private static BuildOrchestrator newBuildOrchestratorForTests_DontBuild(String[] args, @NotNull AppContext ac) throws UserRequestedTermination {
+  private static BuildOrchestrator newBuildOrchestrator_DontBuild(String[] args, @NotNull AppContext ac) throws UserRequestedTermination {
     
     final BuildOrchestrator result = newBuildOrchestrator(args, ac);
     
