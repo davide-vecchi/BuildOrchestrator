@@ -16,10 +16,7 @@
 # Required : Path of the Build List file, which is the text file containing the
 #            list of modules to build and the build settings of each of them :
 
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test01-BuildList.TXT
-  BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test02-BuildList.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test03-BuildList.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test04-BuildList.TXT
+BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\Test02-BuildList.TXT
 
 ################################################################################
 
