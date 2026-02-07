@@ -8,7 +8,7 @@
 
   @ One deployment per each module.
 
-    @ So the deployment folder must be an entry of
+    - So the deployment folder must be an entry of
       the ModuleBlock.
 
       - Need a way to make the deployment optional, so
@@ -20,7 +20,29 @@
           (so the deployment folder is not specified) or 3
           (so the 3rd and last line is the deployment folder.
 
-* Check, these don't seem to be honored :
+    @ So must :
+
+      @ Read the pom.xml to extract :
+
+        * Group id (e.g. "IPSG").
+
+        * Artifact id (e.g. "IPSG-Core").
+
+        * Version (e.g. "1.0-SNAPSHOT").
+
+        * Built artifact name (e.g. "jar-with-dependencies.jar").
+
+          = <build>  <plugins>  <plugin>  <executions>  <execution> <configuration> <descriptorRefs>  <descriptorRef>
+
+			* Add a cfg param "MavenRepoFolder".
+
+			* Use these info to compose the "move" command like this
+			  (example from the dismissed BAT build script) :
+
+				=	MOVE %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT-jar-with-dependencies.jar ^
+							 C:\IPSG\IPSG-Core.jar
+
+* Must implement the behavior for the existing Build List params :
 
   * DoPause.
 
