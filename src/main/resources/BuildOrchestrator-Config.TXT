@@ -24,11 +24,20 @@ BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrato
 ################################################################################
 
 ################################################################################
-# Optional : Maven installation folder.
+# Optional : Maven installation folder (not the Maven repository folder).
 #
 # Default : The value of the environment variable MAVEN_HOME or M2_HOME.
 
 MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
+
+################################################################################
+
+################################################################################
+# Optional : Maven repository folder (not the Maven installation folder).
+#
+# Default : <user home>\.m2\repository .
+
+MavenRepoFolder = C:\Users\Davide\.m2\repository
 
 ################################################################################
 
@@ -41,5 +50,17 @@ MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 
 # 600000 = 10'
 CommandTimeoutMs = 600000
+
+################################################################################
+
+################################################################################
+# Optional : The name (without path) of the artifacts that get built. So that means all the modules are assumed to get
+#            built into artifacts all having the same name.
+#            Typically this name is defined in the module's pom.xml under:
+#            <build>  <plugins>  <plugin>  <executions>  <execution>  <configuration>  <descriptorRefs>  <descriptorRef>
+#
+# Default :  jar-with-dependencies.jar
+
+ArtifactName = jar-with-dependencies.jar
 
 ################################################################################
