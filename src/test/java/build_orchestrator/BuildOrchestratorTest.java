@@ -163,18 +163,18 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "06".
+   * Calls {@link #testBuild(String, AppContext) testBuild(*)} passing to it the test ID "01".
    */
-  @Test
-  public void buildListTest06() throws Exception {
+  //@Test
+  public void buildTest01() throws Exception {
     
-    testBuildList("06", this.appContext);
+    testBuild("01", this.appContext);
   }
   
   /**
-   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance according to the BuildOrchestrator
-   * configuration file identified by the given {@code testID}, and if the generated output files are different from
-   * their "OK" file fails the test.
+   * {@link #newBuildOrchestrator_DontBuild Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator}
+   *        instance according to the BuildOrchestrator configuration file identified by the given {@code testID}, and
+   *        if the generated output files are different from their "OK" file fails the test.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
@@ -194,12 +194,71 @@ public class BuildOrchestratorTest {
                                 new String[] {
                                                       assertExistingPath(
                                                         calcPath(
-                                              testDataPath, "BuildOrchestrator-Config_Test" + testID + ".TXT")
+                                              testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
                                           , false)
                                                     }
                                 , ac);
       orchestrator.run();
       
+      // Get the created Build List, save it to file and compare the file with the expected one :
+      
+      final BuildList buildList = orchestrator.getBuildList();
+      
+      final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP"), false, MINUS1_i);
+      
+      write(fileTest, buildList.toString(), null);
+      
+      final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}"), true, TEN_i);
+      
+      assertFilesEqual(fileTest, fileOK, L(10));
+      
+      ac.outUser("Build List successfully compared with expected (" + fileOK.length() + " bytes).");
+      
+      ac.outUser(NL + LocalDateTime.now().format(FMT_DT2));
+    }
+    catch (UserRequestedTermination e) {
+      
+      throw new InternalErrorException(e);
+    }
+    finally {
+      
+      ac.showLogInfo();
+    }
+  }
+  
+  /**
+   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link
+   * BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
+   * testID}, which builds test artifacts, and checks that the files have been generated and moved as expected.
+   *
+   * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
+   *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
+   *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
+   */
+  private static void testBuild(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
+    
+    ac.outUser(NL2 + DASH80 + NL + "Method testBuild with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
+    
+    try {
+      
+      writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
+      
+      final String testDataPath = calcPath("src", "test", "resources");
+      
+      final BuildOrchestrator orchestrator = newBuildOrchestrator(
+                             new String[] {
+                                                 assertExistingPath(
+                                                   calcPath(
+                                         testDataPath, "BuildOrchestrator-Config_TestBuild" + testID + ".TXT")
+                                       , false)
+                                                 }
+                             , ac);
+      orchestrator.run();
+      
+      // @@@ q @@
+      
+      
+      //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       // Get the created Build List, save it to file and compare the file with the expected one :
       
       final BuildList buildList = orchestrator.getBuildList();

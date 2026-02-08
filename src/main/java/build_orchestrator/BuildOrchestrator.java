@@ -5,6 +5,8 @@
  */
 package build_orchestrator;
 
+import dmaven.MavenUtilities;
+import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.maven.model.Model;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +23,13 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
+import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
+import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
+import static dmaven.MavenUtilities.getXMLElementContent;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.number.NumberUtilities.I;
@@ -190,7 +196,47 @@ public final class BuildOrchestrator {
 				
 				// If the module has an artifact destination path specified, move the built artifact there :
 				
-				/ //  @@@ q @@
+				if (moduleBlock.artifactPath() != null) {
+				
+					final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+                                          , false);
+          
+          final TwoObjects<Model, Exception> pom = MavenUtilities.readPom(pomFilePath);
+          
+          if (pom.o1 == null) {
+            
+            throw getUnchecked(assertNonNull( pom.o2));
+          }
+          final String mvnGroupId =    assertNonBlank(pom.o1.getGroupId());
+          
+          final String mvnArtifactId = assertNonBlank(pom.o1.getArtifactId());
+          
+          final String mvnVersion =    assertNonBlank(pom.o1.getVersion());
+          
+          final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
+          
+          final File pomFile = new File(pomFilePath);
+          
+          final String builtArtifactName = "descriptorRef";
+          
+          final String mvnDescriptorRef = getXMLElementContent(pomFile, builtArtifactName
+                                                             , this.appContext.devLog);  // <build>  <plugins>  <plugin>  <executions>  <execution>  <configuration>  <descriptorRefs>  <descriptorRef>
+          if (mvnDescriptorRef == null) {
+            
+            throw new MissingExternalValueException("The file " + getCanonicalPathAsDescr(pomFile) + " does nor contain an element " + dq(builtArtifactName) + " (the name of the built artifact file), but it must, because the module declaration in the Build List " + getCanonicalPathAsDescr(this.buildListFile) + " specifies the folder where the built artifact must be moved, that is " + dq(moduleBlock.artifactPath()) + ".");
+          }
+          
+          /*
+            DEL %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT.jar
+            
+            MOVE %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT-jar-with-dependencies.jar ^
+                 C:\IPSG\IPSG-Core.jar
+           */
+          
+					///  @@@ q @@
+				
+				}
+				
 				
 				
 				
