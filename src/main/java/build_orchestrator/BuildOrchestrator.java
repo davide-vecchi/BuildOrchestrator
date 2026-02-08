@@ -5,8 +5,7 @@
  */
 package build_orchestrator;
 
-import dmaven.MavenUtilities;
-import dutil.exception.exceptions.MissingExternalValueException;
+import dmaven.MavenInfoForBuild;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +14,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.maven.model.Model;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +27,8 @@ import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
-import static dmaven.MavenUtilities.getXMLElementContent;
+import static dmaven.MavenUtilities.calcMavenInfoForDeployment;
+import static dmaven.MavenUtilities.deployBuiltModule;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.number.NumberUtilities.I;
@@ -157,9 +156,9 @@ public final class BuildOrchestrator {
 		
 		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
-			final File folder = new File(moduleBlock.modulePath());
+			final File pomFolder = new File(moduleBlock.modulePath());
 			
-			this.appContext.outUser(NL2 + "Building module in folder " + dq(getCanonicalPath(folder) + " ..."));
+			this.appContext.outUser(NL2 + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											, DQChar);
@@ -183,10 +182,12 @@ public final class BuildOrchestrator {
 					}
 				}
 			}
+   
+   
 			final String mvnCmdWithPath = calcPath(mvnExecPath, assertNonBlank(mvnCmd));
 			
 			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
-																															 folder, mvnCmdWithPath
+																															 pomFolder, mvnCmdWithPath
 																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
 			if (cmdResult.o1.intValue() == ZERO_i) {
 				
@@ -197,56 +198,35 @@ public final class BuildOrchestrator {
 				// If the module has an artifact destination path specified, move the built artifact there :
 				
 				if (moduleBlock.artifactPath() != null) {
-				
-					final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
-                                          , false);
-          
-          final TwoObjects<Model, Exception> pom = MavenUtilities.readPom(pomFilePath);
-          
-          if (pom.o1 == null) {
-            
-            throw getUnchecked(assertNonNull( pom.o2));
-          }
-          final String mvnGroupId =    assertNonBlank(pom.o1.getGroupId());
-          
-          final String mvnArtifactId = assertNonBlank(pom.o1.getArtifactId());
-          
-          final String mvnVersion =    assertNonBlank(pom.o1.getVersion());
           
           final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
           
-          final File pomFile = new File(pomFilePath);
+          final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+                                          , false);
           
-          final String builtArtifactName = "descriptorRef";
+          final MavenInfoForBuild mvnInfoForBuild = calcMavenInfoForDeployment(pomFilePath
+                                                          , getCanonicalPathAsDescr(this.buildListFile)
+                                                            , moduleBlock.artifactPath()
+                                                                            , this.appContext.devLog);
+          //
+          final TwoObjects<String, Exception> deploymentError = deployBuiltModule(mvnInfoForBuild
+                                                                , mvnRepoFolder
+                                                                                , this.appContext.devLog);
+          if (deploymentError == null) {
           
-          final String mvnDescriptorRef = getXMLElementContent(pomFile, builtArtifactName
-                                                             , this.appContext.devLog);  // <build>  <plugins>  <plugin>  <executions>  <execution>  <configuration>  <descriptorRefs>  <descriptorRef>
-          if (mvnDescriptorRef == null) {
+            // : The deployment succeeded.
             
-            throw new MissingExternalValueException("The file " + getCanonicalPathAsDescr(pomFile) + " does nor contain an element " + dq(builtArtifactName) + " (the name of the built artifact file), but it must, because the module declaration in the Build List " + getCanonicalPathAsDescr(this.buildListFile) + " specifies the folder where the built artifact must be moved, that is " + dq(moduleBlock.artifactPath()) + ".");
+            this.appContext.outUser(NL + "Deployment successful. The artifact " + dq());
           }
-          
-          /*
-            DEL %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT.jar
+          else {
             
-            MOVE %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT-jar-with-dependencies.jar ^
-                 C:\IPSG\IPSG-Core.jar
-           */
-          
-					///  @@@ q @@
-				
+            this.appContext.errUser(NL + "Deployment FAILED. The artifact " + dq());
+            
+            this.appContext.errUser(deploymentError.o1);
+            
+            throw getUnchecked(deploymentError.o2);
+          }
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			}
 			else {
 				
@@ -362,5 +342,5 @@ public final class BuildOrchestrator {
 		
 		return result;
 	}
-	
+  
 }

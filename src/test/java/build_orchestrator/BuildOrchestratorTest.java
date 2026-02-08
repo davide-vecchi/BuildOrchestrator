@@ -165,7 +165,7 @@ public class BuildOrchestratorTest {
   /**
    * Calls {@link #testBuild(String, AppContext) testBuild(*)} passing to it the test ID "01".
    */
-  //@Test
+  @Test
   public void buildTest01() throws Exception {
     
     testBuild("01", this.appContext);
