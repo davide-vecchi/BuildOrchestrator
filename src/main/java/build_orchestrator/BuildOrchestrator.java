@@ -5,6 +5,7 @@
  */
 package build_orchestrator;
 
+import dmaven.DeploymentResult;
 import dmaven.MavenInfoForBuild;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
@@ -41,6 +42,7 @@ import static dutil.string.TextUtilities.DQChar;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
+import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.dq;
@@ -162,29 +164,15 @@ public final class BuildOrchestrator {
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											, DQChar);
-			String mvnCmd = args.getFirst();
 			
-			final String mvnExecPath = calcPath(this.params.mavenFolder.value, "bin");
-			
-			if (SystemUtils.IS_OS_WINDOWS && isEmpty(getExtension(mvnCmd))) {
-				
-				// We are on Windows and in the Module declaration 'mvn' appears without extension, so try to add one :
-				
-				for (final String ext : asList("cmd", "exe")) {
-					
-					if (checkIsExistingFile(calcPath(mvnExecPath, mvnCmd + EXTENSION_SEPARATOR + ext)) ==
-					                                                                                                          null) {
-						// : The Maven executable exists with this extension.
-						
-						mvnCmd += EXTENSION_SEPARATOR + ext;
-						
-						break;
-					}
-				}
-			}
-   
-   
-			final String mvnCmdWithPath = calcPath(mvnExecPath, assertNonBlank(mvnCmd));
+      final TwoObjects<String, String> mvnCmds = calcMvnCmd(args);
+      
+      final String mvnExecPath = mvnCmds.o2;
+      
+      final String mvnCmd = mvnCmds.o1;
+      
+			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
+                                                       , assertNonBlank(mvnCmd));
 			
 			final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(
 																															 pomFolder, mvnCmdWithPath
@@ -194,10 +182,16 @@ public final class BuildOrchestrator {
 				// : The build command succeeded.
 				
 				assertNull(cmdResult.o2);
-				
-				// If the module has an artifact destination path specified, move the built artifact there :
+        
+        this.appContext.outUser(  NL + "Build successful.");
+        
+        this.appContext.outDevLog(NL + "The return value of command :" + NL2T + mvnCmd + NL2 + "was " + cmdResult.o1 + " .");
+        
+        // If the module has an artifact destination path specified, move the built artifact there :
 				
 				if (moduleBlock.artifactPath() != null) {
+          
+          this.appContext.outUser(  NL + "Starting deployment to folder " + dq(moduleBlock.artifactPath()) + " ...");
           
           final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
           
@@ -209,28 +203,36 @@ public final class BuildOrchestrator {
                                                             , moduleBlock.artifactPath()
                                                                             , this.appContext.devLog);
           //
-          final TwoObjects<String, Exception> deploymentError = deployBuiltModule(mvnInfoForBuild
-                                                                , mvnRepoFolder
-                                                                                , this.appContext.devLog);
-          if (deploymentError == null) {
+          final DeploymentResult deploymentResult = deployBuiltModule(mvnInfoForBuild, mvnRepoFolder
+                                                                    , this.appContext.devLog);
+          if (deploymentResult.failure() == null) {
           
             // : The deployment succeeded.
             
-            this.appContext.outUser(NL + "Deployment successful. The artifact " + dq());
+            this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForBuild.builtArtifactName())
+                                               + " has been moved from folder " + dq(deploymentResult.jarFilepaths().o1)
+                                                                + " to folder " + dq(deploymentResult.jarFilepaths().o2));
           }
           else {
             
-            this.appContext.errUser(NL + "Deployment FAILED. The artifact " + dq());
+            final String errDescr = deploymentResult.failure().o1;
             
-            this.appContext.errUser(deploymentError.o1);
+            final Exception exception = deploymentResult.failure().o2;
             
-            throw getUnchecked(deploymentError.o2);
+            this.appContext.errUser(NL + "Deployment FAILED. Reason :" + NLT + errDescr);
+            
+            if (exception != null) {
+            
+              throw getUnchecked(exception);
+            }
           }
 				}
 			}
 			else {
 				
-				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
+        // : The build command failed.
+        
+				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1 + ").";
 				
 				this.appContext.errUser(errMsg);
 				
@@ -238,6 +240,37 @@ public final class BuildOrchestrator {
 			}
 		}
 	}
+  
+  /**
+   *  TODO @@@ COMMENT
+   * @param args
+   * @return
+   */
+  private @NotNull TwoObjects<String, String> calcMvnCmd(List<String> args) {
+    
+    String mvnCmd = args.getFirst();
+    
+    final String mvnExecPath = assertExistingPath(calcPath(this.params.mavenFolder.value, "bin")
+                                                         , true);
+    
+    if (SystemUtils.IS_OS_WINDOWS && isEmpty(getExtension(mvnCmd))) {
+      
+      // We are on Windows and in the Module declaration 'mvn' appears without extension, so try to add one :
+      
+      for (final String ext : asList("cmd", "exe")) {
+        
+        if (checkIsExistingFile(calcPath(mvnExecPath, mvnCmd + EXTENSION_SEPARATOR + ext)) == null) {
+          
+          // : The Maven executable exists with this extension.
+          
+          mvnCmd += EXTENSION_SEPARATOR + ext;
+          
+          break;
+        }
+      }
+    }
+    return new TwoObjects<>(mvnCmd, mvnExecPath);
+  }
 	
 	/**
 	 * {@link #runOrchestratorCommand Issues} the {@link BuildList#getInitCommands() Initialization Commands}.
