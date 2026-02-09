@@ -5,6 +5,7 @@
  */
 package build_orchestrator;
 
+import build_orchestrator.BuildList.ModuleBlock;
 import dlog.log.Log;
 import duser_input_output.AUserInputOutput;
 import duser_input_output.impl.consoleUserIO.ConsoleUserIO;
@@ -227,9 +228,9 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link
-   * BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
-   * testID}, which builds test artifacts, and checks that the files have been generated and moved as expected.
+   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} a {@link BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
+   * testID}, does not {@link BuildOrchestrator#run() run} the instance (so no test artifacts get built), calls {@link BuildOrchestrator#deployBuiltModule(ModuleBlock)
+   * deployBuiltModule(*)} and tests that the artifact file(s) have been moved or deleted as expected.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
@@ -253,7 +254,13 @@ public class BuildOrchestratorTest {
                                        , false)
                                                  }
                              , ac);
-      orchestrator.run();
+      
+      
+      final ModuleBlock moduleBlock = new ModuleBlock()
+      
+      
+      
+      //orchestrator.run();
       
       // @@@ q @@
       

@@ -5,7 +5,8 @@
  */
 package build_orchestrator;
 
-import dmaven.DeploymentResult;
+import build_orchestrator.BuildList.ModuleBlock;
+import dmaven.BuiltArtifactMoveResult;
 import dmaven.MavenInfoForBuild;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
@@ -29,7 +30,7 @@ import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dmaven.MavenUtilities.calcMavenInfoForDeployment;
-import static dmaven.MavenUtilities.deployBuiltModule;
+import static dmaven.MavenUtilities.moveBuiltArtifact;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.number.NumberUtilities.I;
@@ -191,41 +192,7 @@ public final class BuildOrchestrator {
 				
 				if (moduleBlock.artifactPath() != null) {
           
-          this.appContext.outUser(  NL + "Starting deployment to folder " + dq(moduleBlock.artifactPath()) + " ...");
-          
-          final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
-          
-          final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
-                                          , false);
-          
-          final MavenInfoForBuild mvnInfoForBuild = calcMavenInfoForDeployment(pomFilePath
-                                                          , getCanonicalPathAsDescr(this.buildListFile)
-                                                            , moduleBlock.artifactPath()
-                                                                            , this.appContext.devLog);
-          //
-          final DeploymentResult deploymentResult = deployBuiltModule(mvnInfoForBuild, mvnRepoFolder
-                                                                    , this.appContext.devLog);
-          if (deploymentResult.failure() == null) {
-          
-            // : The deployment succeeded.
-            
-            this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForBuild.builtArtifactName())
-                                               + " has been moved from folder " + dq(deploymentResult.jarFilepaths().o1)
-                                                                + " to folder " + dq(deploymentResult.jarFilepaths().o2));
-          }
-          else {
-            
-            final String errDescr = deploymentResult.failure().o1;
-            
-            final Exception exception = deploymentResult.failure().o2;
-            
-            this.appContext.errUser(NL + "Deployment FAILED. Reason :" + NLT + errDescr);
-            
-            if (exception != null) {
-            
-              throw getUnchecked(exception);
-            }
-          }
+          deployBuiltModule(moduleBlock);
 				}
 			}
 			else {
@@ -240,6 +207,54 @@ public final class BuildOrchestrator {
 			}
 		}
 	}
+  
+  
+  /**
+   * Moves the artifact that was built for the given {@code moduleBlock} to the artifact destination folder specified in
+   * the {@link #buildList} for that module.
+   *
+   * @param moduleBlock The {@link ModuleBlock} specifying the deployment info for the given {@code moduleBlock}.
+   */
+  void deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
+    
+    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(moduleBlock.artifactPath()) + " ...");
+    
+    final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
+    
+    final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+                                    , false);
+    
+    final MavenInfoForBuild mvnInfoForBuild = calcMavenInfoForDeployment(pomFilePath
+                                                    , getCanonicalPathAsDescr(this.buildListFile)
+                                                      , moduleBlock.artifactPath()
+                                                                      , this.appContext.devLog);
+    //
+    final BuiltArtifactMoveResult moveResult = moveBuiltArtifact(mvnInfoForBuild, mvnRepoFolder
+                                                               , this.appContext.devLog);
+    if (moveResult.failure() == null) {
+      
+      // : The deployment succeeded.
+      
+      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForBuild.builtArtifactName())
+                                         + " has been moved from folder " + dq(moveResult.jarFilepaths().o1)
+                                         + " to folder " + dq(moveResult.jarFilepaths().o2));
+    }
+    else {
+      
+      // : The deployment failed.
+      
+      final String errDescr = moveResult.failure().o1;
+      
+      final Exception exception = moveResult.failure().o2;
+      
+      this.appContext.errUser(NL + "Deployment FAILED. Reason :" + NLT + errDescr);
+      
+      if (exception != null) {
+        
+        throw getUnchecked(exception);
+      }
+    }
+  }
   
   /**
    *  TODO @@@ COMMENT
