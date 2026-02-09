@@ -299,9 +299,6 @@ class BuildList {
         
         final String mavenCommand = validateMavenCommand(commandLineWithNumber, pathLineWithNumber, buildListFileDescr);
         
-        
-        
-        
         // Look for 3rd line (artifact installation path, optional) :
         
         String artifactPath = null;
