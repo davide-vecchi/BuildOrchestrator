@@ -26,3 +26,25 @@ MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuild01-BuildList.TXT
 
 ################################################################################
+
+################################################################################
+# Optional : Maven repository folder (not the Maven installation folder).
+#
+# Default : <user home>\.m2\repository .
+
+# MavenRepoFolder = C:\Users\Davide\.m2\repository
+
+################################################################################
+
+################################################################################
+# Optional : Max number of milliseconds that the orchestrator can wait after
+#            issuing a build command: if the command doesn't terminate within
+#            this amount of time, a timeout error will occurr.
+#
+# Default :  3,600,000 (1 h).
+
+# 600000 = 10'
+# 120000 = 2'
+CommandTimeoutMs = 120000
+
+################################################################################

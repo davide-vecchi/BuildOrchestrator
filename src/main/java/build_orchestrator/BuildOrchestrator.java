@@ -321,7 +321,7 @@ public final class BuildOrchestrator {
 																																													, String ... args) throws InterruptedException {
 		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
 		
-		this.appContext.outUser("Command: " + command + " ... ");
+		this.appContext.outUser(NL + "Command: " + command + " ..." + NL);
 		
 		if (this.dontBuild) {
 			
