@@ -52,15 +52,3 @@ MavenRepoFolder = C:\Users\Davide\.m2\repository
 CommandTimeoutMs = 600000
 
 ################################################################################
-
-################################################################################
-# Optional : The name (without path) of the artifacts that get built. So that means all the modules are assumed to get
-#            built into artifacts all having the same name.
-#            Typically this name is defined in the module's pom.xml under:
-#            <build>  <plugins>  <plugin>  <executions>  <execution>  <configuration>  <descriptorRefs>  <descriptorRef>
-#
-# Default :  jar-with-dependencies.jar
-
-ArtifactName = jar-with-dependencies.jar
-
-################################################################################

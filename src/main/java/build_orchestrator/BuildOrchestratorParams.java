@@ -24,11 +24,9 @@ import java.util.Map;
 
 import static dfile.file.FileUtilities.SEPARATOR_CHAR;
 import static dfile.file.FileUtilities.calcPath;
-import static dfile.file.FileUtilities.checkIsValidFileName;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ZERO_l;
-import static dutil.string.TextUtilities.isBlankOrTrimmable;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
@@ -51,11 +49,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * Default for optional param {@link #commandTimeoutMs}, 1 h (3,600,000 ms).
 	 */
 	private static final long DEFAULT_COMMAND_TIMEOUT_MS = MS_IN_HOUR;
-	
-	/**
-	 * Default for optional param {@link #artifactName}.
-	 */
-	private static final String DEFAULT_ARTIFACT_NAME = "jar-with-dependencies.jar";
 	
 	/**
 	 * The possible names of the environment variable representing the Maven installation folder.
@@ -99,16 +92,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	@Getter
 	ParamMono<Object, Long> commandTimeoutMs;
 	
-	/**
-	 * Optional: The name (without path) of the artifacts that get built. So that means all the modules are assumed to get
-	 *           built into artifacts all having the same name.<br>
-	 *           Typically this name is defined in the module's {@code pom.xml} under {@code <build>  <plugins>  <plugin>  <executions>  <execution> <configuration> <descriptorRefs>  <descriptorRef>}.<br><br>
-	 *
-	 * Default  : {@code jar-with-dependencies.jar}.
-	 */
-	@Getter
-	ParamMono<Object, String> artifactName;
-	
 	
 	/**
 	 * Non-public constructor.
@@ -144,10 +127,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		// Param CommandTimeoutMs :
 		
 		this.commandTimeoutMs  = new ParamMono<>(this, "CommandTimeoutMs");
-		
-		// Param ArtifactName :
-		
-		this.artifactName = new ParamMono<>(this, "ArtifactName");
 	}
 	
 	@Override
@@ -176,9 +155,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		this.commandTimeoutMs.setValueParser(new LongStringParser()).loadOptionalValue(
 																																 L(DEFAULT_COMMAND_TIMEOUT_MS));
-		// Param ArtifactName :
-		
-		this.artifactName.setValueParser(new NeutralStringParser()).loadOptionalValue(DEFAULT_ARTIFACT_NAME);
 	}
 	
 	@Override
@@ -203,15 +179,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		handleParamValidationResult(this.commandTimeoutMs.name, timeout
 										 , timeout == null || timeout.longValue() >= ZERO_l
 									, "A non-negative number of milliseconds", this.sourceDescr);
-		
-		// Param ArtifactName :
-		
-		final String invalid = checkIsValidFileName(this.artifactName.value);
-		
-		handleParamValidationResult(this.artifactName.name,       this.artifactName.value
-										 , (! isBlankOrTrimmable(this.artifactName.value)) && invalid == null
-									, "A non-empty, non-trimmable text that can be a file name", invalid
-								, this.sourceDescr);
 	}
 	
 	/**
