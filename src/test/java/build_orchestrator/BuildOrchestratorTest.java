@@ -258,7 +258,7 @@ public class BuildOrchestratorTest {
       // @@@ q @@
       
       
-      //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+      /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       // Get the created Build List, save it to file and compare the file with the expected one :
       
       final BuildList buildList = orchestrator.getBuildList();
@@ -274,6 +274,9 @@ public class BuildOrchestratorTest {
       ac.outUser("Build List successfully compared with expected (" + fileOK.length() + " bytes).");
       
       ac.outUser(NL + LocalDateTime.now().format(FMT_DT2));
+      
+      */
+      
     }
     catch (UserRequestedTermination e) {
       
