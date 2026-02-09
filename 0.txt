@@ -1,3 +1,10 @@
+Invalid value of parameter "BuildListFile": "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuild01-BuildList.TXT" .
+The value must be: An existing file.
+The value is invalid because: "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuild01-BuildList.TXT" does not exist..
+Check this parameter in "Configuration file "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\BuildOrchestrator-Config_TestBuild01.TXT"".
+
+
+
 <build>  <plugins>  <plugin>  <executions>  <execution> <configuration> <descriptorRefs>  <descriptorRef>
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestArtifactDestinationFolder

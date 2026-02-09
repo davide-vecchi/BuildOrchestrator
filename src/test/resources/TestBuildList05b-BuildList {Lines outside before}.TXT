@@ -47,10 +47,10 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest
