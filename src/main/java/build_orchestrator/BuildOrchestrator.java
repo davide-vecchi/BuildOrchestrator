@@ -190,9 +190,27 @@ public final class BuildOrchestrator {
         
         // If the module has an artifact destination path specified, move the built artifact there :
 				
-				if (moduleBlock.artifactPath() != null) {
+				if (moduleBlock.artifactDestPath() != null) {
           
-          deployBuiltModule(moduleBlock);
+          String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
+          
+          final String deployErr = deployBuiltModule(moduleBlock);
+          
+          if (deployErr == null) {
+            
+            // : The deployment succeeded.
+            
+            msg += "successful.";
+          }
+          else {
+            
+            // : The deployment failed.
+            
+            msg += "failed : " + deployErr;
+            
+            throw new UncheckedIOException(new IOException(msg));
+          }
+          this.appContext.outUser(msg);
 				}
 			}
 			else {
@@ -208,36 +226,41 @@ public final class BuildOrchestrator {
 		}
 	}
   
-  
   /**
    * Moves the artifact that was built for the given {@code moduleBlock} to the artifact destination folder specified in
    * the {@link #buildList} for that module.
    *
    * @param moduleBlock The {@link ModuleBlock} specifying the deployment info for the given {@code moduleBlock}.
+   *
+   * @return {@code null} if the deployment succeeds, otherwise failure description.
    */
-  void deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
+  String deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
     
-    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(moduleBlock.artifactPath()) + " ...");
+    final String error;
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
-    final String pomFilePath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.artifactDestPath())) + " ...");
+    
+    final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                     , false);
     
-    final MavenInfoForBuild mvnInfoForBuild = calcMavenInfoForDeployment(pomFilePath
-                                                    , getCanonicalPathAsDescr(this.buildListFile)
-                                                      , moduleBlock.artifactPath()
-                                                                      , this.appContext.devLog);
-    //
-    final BuiltArtifactMoveResult moveResult = moveBuiltArtifact(mvnInfoForBuild, mvnRepoFolder
+    final MavenInfoForBuild mvnInfoForDeployment = calcMavenInfoForDeployment(pomFilepath
+                                                          , getCanonicalPathAsDescr(this.buildListFile)
+                                                                            , moduleBlock.artifactDestPath()
+                                                                            , this.appContext.devLog);
+    
+    final BuiltArtifactMoveResult moveResult = moveBuiltArtifact(mvnInfoForDeployment, mvnRepoFolder
                                                                , this.appContext.devLog);
     if (moveResult.failure() == null) {
       
       // : The deployment succeeded.
       
-      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForBuild.builtArtifactName())
-                                         + " has been moved from folder " + dq(moveResult.jarFilepaths().o1)
-                                         + " to folder " + dq(moveResult.jarFilepaths().o2));
+      error = null;
+      
+      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForDeployment.builtArtifactNameElement())
+                                         + " has been moved from folder "               + dq(moveResult.jarFilepaths().o1)
+                                         + " to folder "                                + dq(moveResult.jarFilepaths().o2));
     }
     else {
       
@@ -253,7 +276,9 @@ public final class BuildOrchestrator {
         
         throw getUnchecked(exception);
       }
+      error = errDescr;
     }
+    return error;
   }
   
   /**
