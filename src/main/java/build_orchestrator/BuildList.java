@@ -299,9 +299,9 @@ class BuildList {
         
         final String mavenCommand = validateMavenCommand(commandLineWithNumber, pathLineWithNumber, buildListFileDescr);
         
-        // Look for 3rd line (artifact installation path, optional) :
+        // Look for 3rd line (artifact destination path, optional) :
         
-        String artifactPath = null;
+        String artifactDestPath = null;
         
         listIndex++;
         
@@ -319,14 +319,14 @@ class BuildList {
           
             // : The current block does contain the artifact path, which is the current line :
             
-            artifactPath = validateArtifactPath(possibleArtifactPathLineWithNumber, buildListFileDescr);
+            artifactDestPath = validateArtifactPath(possibleArtifactPathLineWithNumber, buildListFileDescr);
             
             listIndex++;
           }
         }
         // Create module block :
         
-        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand, artifactPath));
+        moduleBlocks.add(new ModuleBlock(modulePath, mavenCommand, artifactDestPath));
       }
     }
     return moduleBlocks;
@@ -741,10 +741,10 @@ class BuildList {
    * @param mvnCommand Whole Maven-invoking command. May include any args; they will be passed to this Maven command as
    *                   they are.<br>
    *
-   * @param artifactPath Path of the folder where the built artifact must be moved, or {@code null} if the artifact must
+   * @param artifactDestPath Path of the folder where the built artifact must be moved, or {@code null} if the artifact must
    *                     not be moved after being built.<br>With or without the ending [back]slash.
    */
-  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, @NotBlank String artifactPath) {
+  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, @NotBlank String artifactDestPath) {
     
     
     /**
@@ -754,7 +754,7 @@ class BuildList {
      *
      * @param mvnCommand {@link #mvnCommand}.<br>
      *
-     * @param artifactPath {@link #artifactPath}. Must be {@code null} or match an existing folder.<br>
+     * @param artifactDestPath {@link #artifactDestPath}. Must be {@code null} or match an existing folder.<br>
      *
      * @throws MissingExternalValueException – If any of the given paths don't exist on the filesystem.<br>
      *
@@ -762,13 +762,13 @@ class BuildList {
      *
      * @throws InvalidValueException If the given {@code mvnCommand} is not valid.
      */
-    ModuleBlock(String modulePath, String mvnCommand, String artifactPath) {
+    ModuleBlock(String modulePath, String mvnCommand, String artifactDestPath) {
       
       this.modulePath = assertExistingPath(modulePath, true);
       
       this.mvnCommand = assertNonBlankNorTrimmable(mvnCommand);
       
-      this.artifactPath = artifactPath != null ? assertExistingPath(artifactPath, true) : null;
+      this.artifactDestPath = artifactDestPath != null ? assertExistingPath(artifactDestPath, true) : null;
     }
     
   }
