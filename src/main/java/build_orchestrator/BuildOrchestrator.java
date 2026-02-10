@@ -19,6 +19,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -377,11 +378,15 @@ public final class BuildOrchestrator {
 			// : Run the build command :
 			
 			long timeMs = System.currentTimeMillis();
-			
+      
+      TwoObjects<@NotBlank String, Integer> cmdOutcome = null;
+      
 			try {
-	
-				result.o1 = I(OSUtilities.runCommand(folder,                                                  command
-																					, this.params.commandTimeoutMs.value.longValue(), args));
+        
+        cmdOutcome = OSUtilities.runCommand(
+                                folder, command, this.params.commandTimeoutMs.value.longValue(), args);
+        
+				result.o1 = cmdOutcome.o2;
 			}
 			catch (IOException e) {
 				
@@ -400,14 +405,15 @@ public final class BuildOrchestrator {
 				timeMs = System.currentTimeMillis() - timeMs;
 			}
 			if (result.o1.equals(ZERO_I)) {
-				
-				this.appContext.outUser(NL + "The command"  + NL2T + command + NL2 + "executed successfully in " + timeMs + " ms"
-				                              + NL + "from folder " + dq(getCanonicalPath(folder)) + ".");
+    
+				this.appContext.outUser(NL  + "The command"  + NL2T + assertNonNull(cmdOutcome).o1
+                                      + NL2 + "executed successfully in " + timeMs + " ms from folder " + dq(getCanonicalPath(folder)) + ".");
 			}
 			else {
 				
-				this.appContext.errUser(NL + "The command" + NL2T + command + NL2 + "executed from folder "   + dq(getCanonicalPath(folder))
-				                              + NL + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
+				this.appContext.errUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).o1
+                                      + NL2 + "executed from folder " + dq(getCanonicalPath(folder))
+				                              + NL  + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
 				                                                                                               : " .") + " in " + timeMs + " ms.");
 			}
 		}
