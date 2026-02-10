@@ -1,3 +1,12 @@
+
+Deployment of "src/test/resources/TestModuleSourceFolder/" : failed : The folder where the jar(s) had to be created does not exist :
+	"H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestMvnRepoFolder\TestGroupId\TestArtifactId\6.7-SNAPSHOT".
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestMvnRepoFolder\TestGroupId\TestArtifactId\6.7-SNAPSHOT
+
+
+mvn -version
+
 src/test/resources/TestArtifactDestinationFolder
 
 
@@ -31,4 +40,3 @@ TEST Build List {Lines outside}.TXT
 11:54 2026-01-29
 
  final List<String> oldLines = FileUtils.readLines(source, Charset.defaultCharset());
-

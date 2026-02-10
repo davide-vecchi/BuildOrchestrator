@@ -164,18 +164,18 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuild(String, AppContext) testBuild(*)} passing to it the test ID "01".
+   * Calls {@link #testDeploy(String, AppContext) testDeploy(*)} passing to it the test ID "01".
    */
   @Test
-  public void buildTest01() throws Exception {
+  public void deployTest01() throws Exception {
     
-    testBuild("01", this.appContext);
+    testDeploy("01", this.appContext);
   }
   
   /**
-   * {@link #newBuildOrchestrator_DontBuild Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator}
-   *        instance according to the BuildOrchestrator configuration file identified by the given {@code testID}, and
-   *        if the generated output files are different from their "OK" file fails the test.
+   * {@link #newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance
+   *        according to the BuildOrchestrator configuration file identified by the given {@code testID}, and if the
+   *        generated Build List files are different from their "OK" file fails the test.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
@@ -228,7 +228,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} a {@link BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
+   * {@link #newBuildOrchestrator Creates} a {@link BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
    * testID}, does not {@link BuildOrchestrator#run() run} the instance (so no test artifacts get built), calls {@link BuildOrchestrator#deployBuiltModule(ModuleBlock)
    * deployBuiltModule(*)} and tests that the artifact file(s) have been moved or deleted as expected.
    *
@@ -236,9 +236,9 @@ public class BuildOrchestratorTest {
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testBuild(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
+  private static void testDeploy(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
     
-    ac.outUser(NL2 + DASH80 + NL + "Method testBuild with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
+    ac.outUser(NL2 + DASH80 + NL + "Method testDeploy with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
     try {
       
@@ -250,17 +250,11 @@ public class BuildOrchestratorTest {
                              new String[] {
                                                  assertExistingPath(
                                                    calcPath(
-                                         testDataPath, "BuildOrchestrator-Config_TestBuild" + testID + ".TXT")
+                                         testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT")
                                        , false)
                                                  }
                              , ac);
-      
-      
-      final ModuleBlock moduleBlock = new ModuleBlock()
-      
-      
-      
-      //orchestrator.run();
+      orchestrator.run();
       
       // @@@ q @@
       
