@@ -247,13 +247,13 @@ public class BuildOrchestratorTest {
       final String testDataPath = calcPath("src", "test", "resources");
       
       final BuildOrchestrator orchestrator = newBuildOrchestrator(
-                             new String[] {
-                                                 assertExistingPath(
-                                                   calcPath(
-                                         testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT")
-                                       , false)
-                                                 }
-                             , ac);
+            new String[] {
+                                  assertExistingPath(
+                                    calcPath(testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT")
+                                            , false)
+                               }
+            , ac);
+      
       orchestrator.run();
       
       // @@@ q @@
