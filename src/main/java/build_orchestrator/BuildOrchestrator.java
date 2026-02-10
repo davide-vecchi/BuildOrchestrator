@@ -193,25 +193,17 @@ public final class BuildOrchestrator {
 				
 				if (moduleBlock.artifactDestPath() != null) {
           
-          String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
+          final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
           final String deployErr = deployBuiltModule(moduleBlock);
           
-          if (deployErr == null) {
-            
-            // : The deployment succeeded.
-            
-            msg += "successful.";
-          }
-          else {
+          if (deployErr != null) {
             
             // : The deployment failed.
             
-            msg += "failed : " + deployErr;
-            
-            throw new UncheckedIOException(new IOException(msg));
+            throw new UncheckedIOException(new IOException(msg + "failed : " + deployErr));
           }
-          this.appContext.outUser(msg);
+          this.appContext.outUser(msg + "successful.");
 				}
 			}
 			else {
