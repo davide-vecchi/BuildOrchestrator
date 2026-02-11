@@ -154,19 +154,18 @@ public final class BuildOrchestrator {
 	
 	/**
 	 * Loops over the entries in the {@link BuildList#getModuleBlocks() Modules section} of the {@link #buildList Build
-	 * List}, and for each one executes its {@link BuildList.ModuleBlock#mvnCommand Maven command}.
+	 * List}, and for each one executes its {@link ModuleBlock#mvnCommand Maven command}.
 	 */
 	private void execModulesBuild() throws InterruptedException {
 		
-		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
+		for (final ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
 			final File pomFolder = new File(moduleBlock.modulePath());
 			
 			this.appContext.outUser(NL2 + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
-																											, DQChar);
-			
+																											                                     , DQChar);
       final TwoObjects<String, String> mvnCmds = calcMvnCmd(args);
       
       final String mvnExecPath = mvnCmds.o2;
@@ -195,15 +194,20 @@ public final class BuildOrchestrator {
           
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
-          final String deployErr = deployBuiltModule(moduleBlock);
+          final BuiltArtifactMoveResult deploymentResult = deployBuiltModule(moduleBlock);
           
-          if (deployErr != null) {
+          if (deploymentResult.failure() == null) {
+            
+            // : The deployment succeeded.
+            
+            this.appContext.outUser(msg + "successful. Deployment info :" + NL2T + deploymentResult);
+          }
+          else {
             
             // : The deployment failed.
             
-            throw new UncheckedIOException(new IOException(msg + "failed : " + deployErr));
+            throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
-          this.appContext.outUser(msg + "successful.");
 				}
 			}
 			else {
@@ -225,11 +229,9 @@ public final class BuildOrchestrator {
    *
    * @param moduleBlock The {@link ModuleBlock} specifying the deployment info for the given {@code moduleBlock}.
    *
-   * @return {@code null} if the deployment succeeds, otherwise failure description.
+   * @return A {@link BuiltArtifactMoveResult} describing whether and how the deployment succeeded or failed.
    */
-  String deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
-    
-    final String error;
+  @NotNull BuiltArtifactMoveResult deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
@@ -249,8 +251,6 @@ public final class BuildOrchestrator {
       
       // : The deployment succeeded.
       
-      error = null;
-      
       this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForDeployment.builtArtifactNameElement())
                                          + " has been moved from folder "               + dq(moveResult.jarFilepaths().o1)
                                          + " to folder "                                + dq(moveResult.jarFilepaths().o2));
@@ -269,9 +269,8 @@ public final class BuildOrchestrator {
         
         throw getUnchecked(exception);
       }
-      error = errDescr;
     }
-    return error;
+    return moveResult;
   }
   
   /**
