@@ -7,7 +7,7 @@ package build_orchestrator;
 
 import build_orchestrator.BuildList.ModuleBlock;
 import dmaven.BuiltArtifactMoveResult;
-import dmaven.MavenInfoForBuild;
+import dmaven.MavenInfoForDeployment;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -238,7 +238,8 @@ public final class BuildOrchestrator {
     final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                     , false);
     
-    final MavenInfoForBuild mvnInfoForDeployment = calcMavenInfoForDeployment(pomFilepath
+    final MavenInfoForDeployment mvnInfoForDeployment = calcMavenInfoForDeployment(
+                                                                              pomFilepath
                                                           , getCanonicalPathAsDescr(this.buildListFile)
                                                                             , moduleBlock.artifactDestPath()
                                                                             , this.appContext.devLog);
