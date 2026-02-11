@@ -7,7 +7,7 @@ package build_orchestrator;
 
 import build_orchestrator.BuildList.ModuleBlock;
 import dmaven.BuiltArtifactMoveResult;
-import dmaven.MavenInfoForDeployment;
+import dmaven.DeploymentInfo;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +30,7 @@ import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
-import static dmaven.MavenUtilities.calcMavenInfoForDeployment;
+import static dmaven.MavenUtilities.calcMavenDeploymentInfo;
 import static dmaven.MavenUtilities.moveBuiltArtifact;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
@@ -238,11 +238,10 @@ public final class BuildOrchestrator {
     final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                     , false);
     
-    final MavenInfoForDeployment mvnInfoForDeployment = calcMavenInfoForDeployment(
-                                                                              pomFilepath
-                                                          , getCanonicalPathAsDescr(this.buildListFile)
-                                                                            , moduleBlock.artifactDestPath()
-                                                                            , this.appContext.devLog);
+    final DeploymentInfo mvnInfoForDeployment = calcMavenDeploymentInfo(pomFilepath
+                                                    , getCanonicalPathAsDescr(this.buildListFile)
+                                                                      , moduleBlock.artifactDestPath()
+                                                                      , this.appContext.devLog);
     
     final BuiltArtifactMoveResult moveResult = moveBuiltArtifact(mvnInfoForDeployment, mvnRepoFolder
                                                                , this.appContext.devLog);
