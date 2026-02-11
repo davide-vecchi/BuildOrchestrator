@@ -20,23 +20,23 @@
           (so the deployment folder is not specified) or 3
           (so the 3rd and last line is the deployment folder.
 
-    @ So must :
+    - So must :
 
-      @ Read the pom.xml to extract :
+      - Read the pom.xml to extract :
 
-        * Group id (e.g. "IPSG").
+        - Group id (e.g. "IPSG").
 
-        * Artifact id (e.g. "IPSG-Core").
+        - Artifact id (e.g. "IPSG-Core").
 
-        * Version (e.g. "1.0-SNAPSHOT").
+        - Version (e.g. "1.0-SNAPSHOT").
 
-        * Built artifact name (e.g. "jar-with-dependencies.jar").
+        - Built artifact name (e.g. "jar-with-dependencies.jar").
 
           = <build>  <plugins>  <plugin>  <executions>  <execution> <configuration> <descriptorRefs>  <descriptorRef>
 
-			* Add a cfg param "MavenRepoFolder".
+			- Add a cfg param "MavenRepoFolder".
 
-			* Use these info to compose the "move" command like this
+			- Use these info to compose the "move" command like this
 			  (example from the dismissed BAT build script) :
 
 				=	MOVE %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT-jar-with-dependencies.jar ^
