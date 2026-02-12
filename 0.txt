@@ -1,3 +1,9 @@
+      // Update the journal for the operation just performed :
+      
+      this.journal.addEntry(JournalEntry.newInstance(pomFolder, mvnCmdWithPath, ));
+
+
+
 
 Deployment of "src/test/resources/TestModuleSourceFolder/" : failed : The folder where the jar(s) had to be created does not exist :
 	"H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestMvnRepoFolder\TestGroupId\TestArtifactId\6.7-SNAPSHOT".

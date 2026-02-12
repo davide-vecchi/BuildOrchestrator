@@ -108,8 +108,11 @@ class BuildList {
   private static final String NO_TESTS = "NoTests";
   
   /**
-   * The lines in the <i>Initialization</i> Section. {@code null} means that that Section has not been encountered yet.
-   * If that Section exists and is empty, this list will be empty.
+   * The lines in the <i>Initialization</i> Section of a Build List. Each line represents an <i>Initialization Command</i>.<br><br>{@code
+   * null} means that that Section has not been encountered yet. If that Section exists and is empty, this list will be
+   * empty.<br><br>
+   * Initialization Commands are not commands to build a module, instead they are commands executed only once before
+   * starting building the modules.
    */
   @Getter
   private List<String> initCommands;

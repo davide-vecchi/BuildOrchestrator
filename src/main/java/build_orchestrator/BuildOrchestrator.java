@@ -6,6 +6,7 @@
 package build_orchestrator;
 
 import build_orchestrator.BuildList.ModuleBlock;
+import build_orchestrator.Journal.JournalEntry;
 import dmaven.BuiltArtifactMoveResult;
 import dmaven.DeploymentInfo;
 import dutil.system.OSUtilities;
@@ -35,6 +36,7 @@ import static dmaven.MavenUtilities.moveBuiltArtifact;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.number.NumberUtilities.I;
+import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_I;
 import static dutil.number.NumberUtilities.ZERO_i;
@@ -93,6 +95,12 @@ public final class BuildOrchestrator {
 	 * jar is built, which is used by some tests that need to avoid creating the jars (e.g. not to overwrite existing ones).
 	 */
 	boolean dontBuild = false;
+  
+  /**
+   * The {@link Journal} for this {@link #run() execution}.
+   */
+  @Getter
+  private Journal journal;
 	
 	/**
 	 * The {@link AppContext application context}.
@@ -133,8 +141,12 @@ public final class BuildOrchestrator {
 	 */
 	public void run() throws InterruptedException {
 		
+    this.journal = Journal.newInstance();
+    
 		this.buildList = newBuildList(this.buildListFile, this.appContext);
 		
+    this.journal.setBuildListFile(this.buildListFile);
+    
 		// Issue the initialization commands (one by one, so they won't share shell state with each other;
 		// this is the meaning of the note, found around in the code and in text files of this module,
 		// warning that issuing initialization commands is not implemented yet; it actually kind of is,
@@ -144,7 +156,7 @@ public final class BuildOrchestrator {
 		
 		// Loop over the entries in the Modules section of the Build List, and for each one execute its Maven command :
 		
-		execModulesBuild();
+		buildAndDeployModules();
 		
 		
 		
@@ -156,7 +168,7 @@ public final class BuildOrchestrator {
 	 * Loops over the entries in the {@link BuildList#getModuleBlocks() Modules section} of the {@link #buildList Build
 	 * List}, and for each one executes its {@link ModuleBlock#mvnCommand Maven command}.
 	 */
-	private void execModulesBuild() throws InterruptedException {
+	private void buildAndDeployModules() throws InterruptedException {
 		
 		for (final ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
@@ -194,6 +206,8 @@ public final class BuildOrchestrator {
           
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
+          // Perform the move :
+          
           final BuiltArtifactMoveResult deploymentResult = deployBuiltModule(moduleBlock);
           
           if (deploymentResult.failure() == null) {
@@ -208,7 +222,10 @@ public final class BuildOrchestrator {
             
             throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
-				}
+          // Update the last entry of the journal, which was created when running the Orchestrator Command, adding to it
+          // the outcome of the deployment :
+          
+        }
 			}
 			else {
 				
@@ -311,15 +328,13 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser();
 		
-		TwoObjects<@NotNull Integer, Exception> cmdResult;
-		
 		for (final String initCommand : this.buildList.getInitCommands()) {
-			
-			cmdResult = runOrchestratorCommand(null, initCommand);
+      
+      final TwoObjects<@NotNull Integer, Exception> cmdResult = runOrchestratorCommand(null, initCommand);
 			
 			if (cmdResult.o1.intValue() != ZERO_i) {
 				
-				final String errMsg = "Build command " + dq(initCommand) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
+				final String errMsg = "Initialization command " + dq(initCommand) + " failed: " + cmdResult.o2 + " (exit code " + cmdResult.o1.intValue() + ").";
 				
 				this.appContext.errUser(errMsg);
 				
@@ -332,6 +347,7 @@ public final class BuildOrchestrator {
 				
 				assertNull(cmdResult.o2);
 			}
+      this.journal.addIssuedInitCommand(initCommand, cmdResult);
 		}
 	}
 	
@@ -340,9 +356,12 @@ public final class BuildOrchestrator {
 	 * When the command returns, {@link AppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
 	 * a <i>KO</i> {@link AppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
 	 *
-	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand( File, String, long, String...)}.
+	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand( File, String, long, String...)}.<br><br>
+   *
+   * When this method returns, no matter the command's outcome, a new {@link JournalEntry} has been {@link Journal#addEntry
+   * added} to the {@link #journal} (and it can be further updated if needed).
 	 *
-	 * @return The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
+	 * @return TODO @@@ COMPLETE THIS COMMENT @@@ The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
 	 *         values can be returned by this method:<ul>
 	 *           <li>-101 ({@link IOException})</li>
 	 *           <li>-102 ({@link TimeoutException})</li>
@@ -354,15 +373,21 @@ public final class BuildOrchestrator {
 		final TwoObjects<@NotNull Integer, Exception> result = new TwoObjects<>();
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
-		
-		if (this.dontBuild) {
+    
+    String msg;
+    
+    if (this.dontBuild) {
 			
 			// : Don't run the build commands. This was set to true for example by a test.
-			
-			//noinspection ConstantValue
-			this.appContext.warnUser(NL + "Not executing build command" + NL2T + command + NL2 + "because the 'dontBuild' flag is " + this.dontBuild + " .");
+      
+      //noinspection ConstantValue
+      msg = "Not executing build command" + NL2T + command + NL2 + "because the 'dontBuild' flag is " + this.dontBuild + " .";
+      
+			this.appContext.warnUser(NL + msg);
 			
 			result.o1 = ZERO_I;
+      
+      this.journal.addEntry(JournalEntry.newInstance(command));
 		}
 		else {
 			
@@ -407,6 +432,7 @@ public final class BuildOrchestrator {
 				                              + NL  + "resulted in an error " + result.o1 + (result.o2 != null ? " ("  + getShortDescriptionWithRootCause(result.o2) + ")"
 				                                                                                               : " .") + " in " + timeMs + " ms.");
 			}
+      this.journal.addEntry(JournalEntry.newInstance(command, folder, L(timeMs)));
 		}
 		assertNonNull(result.o1);
 		
