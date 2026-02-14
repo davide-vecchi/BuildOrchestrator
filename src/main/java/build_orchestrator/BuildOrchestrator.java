@@ -224,6 +224,10 @@ public final class BuildOrchestrator {
             
             // : The deployment failed.
             
+            if (deploymentResult.failure().o2 != null) {
+              
+              throw getUnchecked(deploymentResult.failure().o2);
+            }
             throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
           // Update the last entry of the journal, which was created when running the Orchestrator Command, adding to it
@@ -393,8 +397,9 @@ public final class BuildOrchestrator {
                            new TwoObjects<>(getCanonicalPath(runnableJar), targetPath)
                              , null
                          , JournalEntry.newInstance(
-                           "The built artifact " + runnableJar.getName() + " has been moved to folder "
-                                          + dq(targetPath) + "." + NL2 + deploymentInfoDescr
+                           "The built artifact" + NL + dq(runnableJar.getName())
+                                          + " has been moved to folder" + NL + dq(targetPath)
+                                          + "." + NL2 + deploymentInfoDescr
                            , runnableJar.getParentFile(), null));
         }
         else {
@@ -419,7 +424,8 @@ public final class BuildOrchestrator {
                                                , new TwoObjects<>("The folder where the jar(s) had to be created does not exist :" + NLT + dq(targetPath) + "."
                                                                          , null)
                                            , JournalEntry.newInstance(
-                                                            "The destination folder " + dq(targetPath) + " where the built artifact should have been moved does not exist, so no file was moved."
+                                                            "The destination folder " + dq(targetPath)
+                                                                             + " where the built artifact should have been moved does not exist, so no file was moved."
                                                                              + NL2 + deploymentInfoDescr
                                                             , runnableJar.getParentFile(), null));
       }
@@ -428,12 +434,14 @@ public final class BuildOrchestrator {
       
       log.log(ONE_i, e, ONE_i);
       
-      result = new BuiltArtifactDeploymentResult(null
+      result = new BuiltArtifactDeploymentResult(
+                                           null
                                              , new TwoObjects<>(e.getClass().getSimpleName() + " : " + e.getLocalizedMessage(), e)
-                                             , JournalEntry.newInstance(
-                                                              getShortDescriptionWithRootCause(e) + " (see logs for details) occurred during the requested deployment of artifact " + getCanonicalPathAsDescr(runnableJar) + "."
-                                                                               + NL2 + deploymentInfoDescr
-                                                              , runnableJar.getParentFile(), null));
+                                         , JournalEntry.newInstance(
+                                                          getShortDescriptionWithRootCause(e)
+                                                                         + " (see logs for details) occurred during the requested deployment of artifact "
+                                                                         + getCanonicalPathAsDescr(runnableJar) + "." + NL2 + deploymentInfoDescr
+                                                          , runnableJar.getParentFile(), null));
     }
     return result;
   }
