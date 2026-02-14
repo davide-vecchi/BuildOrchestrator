@@ -48,7 +48,7 @@
 
   * DoTests.
 
-* Empty destination folder in local Maven repo before
+@ Empty destination folder in local Maven repo before
   building its module.
 
 * Test the Orchestrator when some module fails to build.
