@@ -744,10 +744,10 @@ class BuildList {
    * @param mvnCommand Whole Maven-invoking command. May include any args; they will be passed to this Maven command as
    *                   they are.<br>
    *
-   * @param artifactDestPath Path of the folder where the built artifact must be moved, or {@code null} if the artifact must
-   *                     not be moved after being built.<br>With or without the ending [back]slash.
+   * @param artifactDestPath Path of the folder where the built artifact must be moved, or {@code null} if the artifact
+   *                         must not be moved after being built.<br>With or without the ending [back]slash.
    */
-  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, @NotBlank String artifactDestPath) {
+  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, String artifactDestPath) {
     
     
     /**
