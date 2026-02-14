@@ -13,11 +13,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static dfile.file.FileUtilities.isExistingFolder;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.string.TextUtilities.assertNonBlank;
 
@@ -115,7 +114,7 @@ public class Journal {
     final @NotBlank String operationDescr;
     
     /**
-     * The folder from which the {@link #operationDescr} was executed.
+     * The folder from which the {@link #operationDescr} was executed. May be {@code null}.
      */
     final File sourceFolder;
     
@@ -128,7 +127,7 @@ public class Journal {
     /**
      * The time at which this {@link JournalEntry} has been created.
      */
-    final @NotNull Instant createdAt;
+    final Date createdAt;
     
     
     /**
@@ -149,7 +148,7 @@ public class Journal {
      *
      * @return A new {@link JournalEntry} created with the given params.
      */
-    public static JournalEntry newInstance(@NotBlank String operationDescr, @NotNull File sourceFolder, Long durationMs) {
+    public static JournalEntry newInstance(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
       return new JournalEntry(operationDescr, sourceFolder, durationMs);
     }
@@ -163,13 +162,13 @@ public class Journal {
      */
     private JournalEntry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
-      this.sourceFolder =   isExistingFolder(sourceFolder.getAbsolutePath()) ? sourceFolder : null;
+      this.operationDescr = assertNonBlank(operationDescr);
       
-      this.operationDescr = assertNonBlank(                            operationDescr);
+      this.sourceFolder =                          sourceFolder;
       
-      this.durationMs =                                                        durationMs;
+      this.durationMs =                            durationMs;
       
-      this.createdAt =                                                         Instant.now();
+      this.createdAt =                             new Date();
     }
 
   }
