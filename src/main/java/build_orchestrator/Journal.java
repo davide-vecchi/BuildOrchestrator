@@ -17,7 +17,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dfile.file.FileUtilities.assertExistingPath;
+import static dfile.file.FileUtilities.isExistingFolder;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.string.TextUtilities.assertNonBlank;
 
@@ -130,6 +130,7 @@ public class Journal {
      */
     final @NotNull Instant createdAt;
     
+    
     /**
      * @param operationDescr {@link #operationDescr}.
      *
@@ -158,21 +159,17 @@ public class Journal {
      *
      * @param operationDescr {@link #operationDescr}.<br>
      * @param sourceFolder   {@link #sourceFolder}.<br>
-     * @param durationMs     {@link #durationMs}.<br>
+     * @param durationMs     {@link #durationMs}.
      */
-    JournalEntry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
+    private JournalEntry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
-      if (sourceFolder != null) {
+      this.sourceFolder =   isExistingFolder(sourceFolder.getAbsolutePath()) ? sourceFolder : null;
       
-        assertExistingPath(sourceFolder.getAbsolutePath(), true);
-      }
-      this.operationDescr = assertNonBlank(operationDescr);
+      this.operationDescr = assertNonBlank(                            operationDescr);
       
-      this.sourceFolder =                          sourceFolder;
+      this.durationMs =                                                        durationMs;
       
-      this.durationMs =                            durationMs;
-      
-      this.createdAt =                             Instant.now();
+      this.createdAt =                                                         Instant.now();
     }
 
   }

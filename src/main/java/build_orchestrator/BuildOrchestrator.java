@@ -194,8 +194,6 @@ public final class BuildOrchestrator {
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
 																															 pomFolder, mvnCmdWithPath
 																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
-      this.journal.addEntry(cmdResult.journalEntry);
-      
       if (cmdResult.exitCode == ZERO_i) {
 				
 				// : The build command succeeded.
@@ -215,8 +213,6 @@ public final class BuildOrchestrator {
           // Perform the move :
           
           final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock);
-          
-          this.journal.addEntry(deploymentResult.journalEntry);
           
           if (deploymentResult.failure() == null) {
             
@@ -270,23 +266,26 @@ public final class BuildOrchestrator {
                                                                       , moduleBlock.artifactDestPath()
                                                                       , this.appContext.devLog);
     
-    final BuiltArtifactDeploymentResult moveResult = moveBuiltArtifact(mvnInfoForDeployment, mvnRepoFolder
-                                                               , this.appContext.devLog);
-    if (moveResult.failure() == null) {
+    final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnInfoForDeployment
+                                                           , mvnRepoFolder, this.appContext.devLog);
+    
+    this.journal.addEntry(deploymentResult.journalEntry);
+    
+    if (deploymentResult.failure() == null) {
       
       // : The deployment succeeded.
       
       this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForDeployment.builtArtifactNameElement())
-                                         + " has been moved from folder "               + dq(moveResult.jarFilepaths().o1)
-                                         + " to folder "                                + dq(moveResult.jarFilepaths().o2));
+                                         + " has been moved from folder "               + dq(deploymentResult.jarFilepaths().o1)
+                                         + " to folder "                                + dq(deploymentResult.jarFilepaths().o2));
     }
     else {
       
       // : The deployment failed.
       
-      final String errDescr = moveResult.failure().o1;
+      final String errDescr = deploymentResult.failure().o1;
       
-      final Exception exception = moveResult.failure().o2;
+      final Exception exception = deploymentResult.failure().o2;
       
       this.appContext.errUser(NL + "Deployment FAILED. Reason :" + NLT + errDescr);
       
@@ -295,7 +294,7 @@ public final class BuildOrchestrator {
         throw getUnchecked(exception);
       }
     }
-    return moveResult;
+    return deploymentResult;
   }
   
   
@@ -325,9 +324,9 @@ public final class BuildOrchestrator {
    *         and, if the failure was due to an exception, in {@link TwoObjects#o2 o2} that exception, otherwise {@code
    *         o2} is {@code null}.
    */
-  public static @NotNull BuildOrchestrator.BuiltArtifactDeploymentResult moveBuiltArtifact(@NotNull  DeploymentInfo mvnInfo
-                                                                 , @NotBlank String         mavenRepoFolder
-                                                                 , @NotNull  Log            log) {
+  private static @NotNull BuiltArtifactDeploymentResult moveBuiltArtifact(@NotNull  DeploymentInfo mvnInfo
+                                                                        , @NotBlank String         mavenRepoFolder
+                                                                        , @NotNull  Log            log) {
     
     assertNoneBlankNorTrimmable(mvnInfo.mvnGroupId(), mvnInfo.mvnArtifactId(), mvnInfo.mvnVersion(), mvnInfo.builtArtifactNameElement(), mvnInfo.builtArtifactName(), mavenRepoFolder);
     
@@ -393,9 +392,10 @@ public final class BuildOrchestrator {
           result = new BuiltArtifactDeploymentResult(
                            new TwoObjects<>(getCanonicalPath(runnableJar), targetPath)
                              , null
-                         , new JournalEntry("The built artifact " + runnableJar.getName() + " has been moved to folder " + dq(targetPath) + "."
-                                                                          + NL2 + deploymentInfoDescr
-                                                         , runnableJar.getParentFile(), null));
+                         , JournalEntry.newInstance(
+                           "The built artifact " + runnableJar.getName() + " has been moved to folder "
+                                          + dq(targetPath) + "." + NL2 + deploymentInfoDescr
+                           , runnableJar.getParentFile(), null));
         }
         else {
           
@@ -404,10 +404,11 @@ public final class BuildOrchestrator {
           result = new BuiltArtifactDeploymentResult(null
                                                  , new TwoObjects<>("Cannot find the built executable artifact file :" + NLT + msg
                                                                            , null)
-                                             , new JournalEntry(
-                                                              "The artifact " + runnableJar.getName() + " that should have been built has not been moved to folder " + dq(targetPath) + " because it was not found."
-                                                                               + NL2 + deploymentInfoDescr
-                                                              , runnableJar.getParentFile(), null));
+                                             , JournalEntry.newInstance(
+                                                "The artifact " + runnableJar.getName()
+                                                               + " that should have been built has not been moved to folder " + dq(targetPath)
+                                                               + " because it was not found." + NL2 + deploymentInfoDescr
+                                                , runnableJar.getParentFile(), null));
         }
       }
       else {
@@ -417,7 +418,7 @@ public final class BuildOrchestrator {
         result = new BuiltArtifactDeploymentResult(null
                                                , new TwoObjects<>("The folder where the jar(s) had to be created does not exist :" + NLT + dq(targetPath) + "."
                                                                          , null)
-                                           , new JournalEntry(
+                                           , JournalEntry.newInstance(
                                                             "The destination folder " + dq(targetPath) + " where the built artifact should have been moved does not exist, so no file was moved."
                                                                              + NL2 + deploymentInfoDescr
                                                             , runnableJar.getParentFile(), null));
@@ -429,14 +430,13 @@ public final class BuildOrchestrator {
       
       result = new BuiltArtifactDeploymentResult(null
                                              , new TwoObjects<>(e.getClass().getSimpleName() + " : " + e.getLocalizedMessage(), e)
-                                             , new JournalEntry(
+                                             , JournalEntry.newInstance(
                                                               getShortDescriptionWithRootCause(e) + " (see logs for details) occurred during the requested deployment of artifact " + getCanonicalPathAsDescr(runnableJar) + "."
                                                                                + NL2 + deploymentInfoDescr
                                                               , runnableJar.getParentFile(), null));
     }
     return result;
   }
-  
   
   /**
    *  TODO @@@ COMMENT
@@ -536,6 +536,8 @@ public final class BuildOrchestrator {
       
       resultExitValue = ZERO_i;
       
+      resultException = null;
+      
       resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(command));
 		}
 		else {
@@ -578,16 +580,17 @@ public final class BuildOrchestrator {
 			}
 			else {
 				
-				this.appContext.errUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).o1
+				this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
                                       + NL2 + "executed from folder " + dq(getCanonicalPath(folder))
-				                              + NL  + "resulted in an error " + resultExitValue + " ("  + getShortDescriptionWithRootCause(resultException)
+				                              + NL  + "resulted in an error " + resultExitValue
+                                            + " ("  + getShortDescriptionWithRootCause(resultException)
                                             + ") in " + timeMs + " ms.");
 			}
       resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(command, folder
                                                                                    , L(timeMs)));
 		}
 		return new OrchestratorCommandOutcome(assertNonNull(resultJournalEntry), resultExitValue
-                                                              , null);
+                                                     , resultException);
 	}
   
   /**

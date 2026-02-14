@@ -1,3 +1,5 @@
+TestArtifactId-6.7-SNAPSHOT-jar-with-dependencies.jar
+
       // Update the journal for the operation just performed :
       
       this.journal.addEntry(JournalEntry.newInstance(pomFolder, mvnCmdWithPath, ));
