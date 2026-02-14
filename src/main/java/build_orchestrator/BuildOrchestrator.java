@@ -45,6 +45,7 @@ import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
 import static dutil.string.TextUtilities.DASH;
+import static dutil.string.TextUtilities.DASH80;
 import static dutil.string.TextUtilities.DQChar;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
@@ -163,7 +164,7 @@ public final class BuildOrchestrator {
 		
 		buildAndDeployModules();
 		
-		this.appContext.outUserLog(NL2 + "Execution journal:" + NL2 + this.journal);
+		this.appContext.outUserLog(NL2 + DASH80 + NL2 + "Execution journal:" + NL2 + this.journal + NL2 + DASH80);
 		
 		// @@@ q @@@@@@@@@@@@@@@
 		
