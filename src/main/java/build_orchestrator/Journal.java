@@ -5,6 +5,7 @@
  */
 package build_orchestrator;
 
+import build_orchestrator.BuildOrchestrator.OrchestratorCommandOutcome;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,8 @@ import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.string.TextUtilities.assertNonBlank;
 
 /**
- * Class to record the performed {@link BuildOrchestrator#execModulesBuild() builds}, each with its possible {@link BuildOrchestrator#deployBuiltModule
- * deployment}.<br>A new Journal instance is created for each {@link BuildOrchestrator#run() execution}.
+ * Class to record the performed operations (e.g. {@link BuildOrchestrator#execModulesBuild() builds}, {@link BuildOrchestrator#deployBuiltModule
+ * deployments}.<br>A new Journal instance is created for each {@link BuildOrchestrator#run() execution}.
  */
 public class Journal {
   
@@ -44,12 +46,12 @@ public class Journal {
    * </ul>
    */
   @Getter
-  private List<@NotNull TwoObjects<@NotBlank String
-             , @NotNull TwoObjects<@NotNull  Integer, Exception>>> issuedInitCommands;
+  private final List<@NotNull TwoObjects<@NotBlank String, @NotNull OrchestratorCommandOutcome>> issuedInitCommands;
   
   /**
    * The {@link JournalEntry entries} of this Journal.
    */
+  @Getter
   private final @NotNull List<JournalEntry> entries;
   
   
@@ -81,10 +83,7 @@ public class Journal {
    * @param initCommand
    * @param cmdResult
    */
-  public void addIssuedInitCommand(@NotBlank String                                  initCommand
-                                 , @NotNull  TwoObjects<@NotNull Integer, Exception> cmdResult) {
-    
-    assertNonNull(cmdResult.o1, "Its o2 was :", cmdResult.o2);
+  void addIssuedInitCommand(@NotBlank String initCommand, @NotNull OrchestratorCommandOutcome cmdResult) {
     
     this.issuedInitCommands.add(new TwoObjects<>(assertNonBlank(initCommand), cmdResult));
   }
@@ -111,70 +110,71 @@ public class Journal {
     
     
     /**
-     * The OS command that was issued to start the build. Typically {@code mvn clean install ...}.
+     * Description of the operation this entry is about. E.g. the OS command that was issued to start a build.
      */
-    final @NotBlank String buildCommand;
+    final @NotBlank String operationDescr;
     
     /**
-     * The folder from which the {@link #buildCommand} was executed.
+     * The folder from which the {@link #operationDescr} was executed.
      */
     final File sourceFolder;
     
     /**
-     * Milliseconds taken by the {@link #buildCommand OS command} to either succeed or fail.<br>If {@code null} it means
-     * that for any reason the {@link #buildCommand command} has not been executed.
+     * Milliseconds taken by the {@link #operationDescr operation} to either succeed or fail.<br>If {@code null} it
+     * means that for any reason the {@link #operationDescr operation} has not been performed.
      */
     final Long durationMs;
     
     /**
-     * @param command {@link #buildCommand}.
-     *
-     * @return A new {@link JournalEntry} created {@link JournalEntry#buildCommand with} the given {@code command}. All its
-     *         other fields will be {@code null}.
+     * The time at which this {@link JournalEntry} has been created.
      */
-    public static JournalEntry newInstance(@NotBlank String command) {
+    final @NotNull Instant createdAt;
     
-      return new JournalEntry(command, null, null);
+    /**
+     * @param operationDescr {@link #operationDescr}.
+     *
+     * @return A new {@link JournalEntry} created {@link JournalEntry#operationDescr with} the given {@code
+     *         operationDescr}. All its other fields will be {@code null}.
+     */
+    public static JournalEntry newInstance(@NotBlank String operationDescr) {
+    
+      return new JournalEntry(operationDescr, null, null);
     }
     
     /**
-     * @param buildCommand {@link #buildCommand}.<br>
+     * @param buildCommand {@link #operationDescr}.<br>
      * @param sourceFolder {@link #sourceFolder}.<br>
-     * @param durationMs   {@link #durationMs}.<br>
+     * @param durationMs   {@link #durationMs}.
      *
      * @return A new {@link JournalEntry} created with the given params.
      */
-    public static JournalEntry newInstance(@NotBlank String command, @NotNull File sourceFolder, Long durationMs) {
+    public static JournalEntry newInstance(@NotBlank String operationDescr, @NotNull File sourceFolder, Long durationMs) {
       
-      return new JournalEntry(command, sourceFolder, durationMs);
+      return new JournalEntry(operationDescr, sourceFolder, durationMs);
     }
     
     /**
      * Constructor.
      *
-     * @param buildCommand {@link #buildCommand}.<br>
-     * @param sourceFolder {@link #sourceFolder}.<br>
-     * @param durationMs   {@link #durationMs}.<br>
+     * @param operationDescr {@link #operationDescr}.<br>
+     * @param sourceFolder   {@link #sourceFolder}.<br>
+     * @param durationMs     {@link #durationMs}.<br>
      */
-    private JournalEntry(@NotBlank String buildCommand, File sourceFolder, Long durationMs) {
+    JournalEntry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
       if (sourceFolder != null) {
       
         assertExistingPath(sourceFolder.getAbsolutePath(), true);
       }
-      this.buildCommand = assertNonBlank(buildCommand);
+      this.operationDescr = assertNonBlank(operationDescr);
       
-      this.sourceFolder =                        sourceFolder;
+      this.sourceFolder =                          sourceFolder;
       
-      this.durationMs =                          durationMs;
+      this.durationMs =                            durationMs;
       
-      
-      
-      
+      this.createdAt =                             Instant.now();
     }
 
-
   }
-
-
+  
 }
