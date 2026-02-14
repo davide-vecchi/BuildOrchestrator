@@ -78,6 +78,7 @@ public final class BuildOrchestrator {
 	/**
 	 * The file containing the Build List.
 	 */
+  @Getter
 	private final @NotNull File buildListFile;
 	
 	/**
@@ -210,7 +211,7 @@ public final class BuildOrchestrator {
           
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
-          // Perform the move :
+          // Perform the deployment :
           
           final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock);
           
@@ -256,7 +257,7 @@ public final class BuildOrchestrator {
    *
    * @return A {@link BuiltArtifactDeploymentResult} describing whether and how the deployment succeeded or failed.
    */
-  @NotNull BuildOrchestrator.BuiltArtifactDeploymentResult deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
+  @NotNull BuiltArtifactDeploymentResult deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
@@ -300,10 +301,6 @@ public final class BuildOrchestrator {
     }
     return deploymentResult;
   }
-  
-  
-  
-  
   
   /**
    * <ul>

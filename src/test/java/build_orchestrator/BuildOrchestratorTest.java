@@ -236,7 +236,7 @@ public class BuildOrchestratorTest {
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testDeploy(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
+  private static void testDeployBuiltModule(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
     
     ac.outUser(NL2 + DASH80 + NL + "Method testDeploy with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
@@ -246,15 +246,22 @@ public class BuildOrchestratorTest {
       
       final String testDataPath = calcPath("src", "test", "resources");
       
-      final BuildOrchestrator orchestrator = newBuildOrchestrator(
-            new String[] {
-                                  assertExistingPath(
-                                    calcPath(testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT")
-                                            , false)
-                               }
-            , ac);
+      final String cfgFilepath = calcPath(testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT");
       
-      orchestrator.run();
+      final BuildOrchestrator orchestrator = newBuildOrchestrator(
+                                                 new String[] {
+                                                                       assertExistingPath(cfgFilepath, false)
+                                                                    }, ac);
+
+      final BuildList buildList = assertNonNull(orchestrator.getBuildList(), "The generated Build List was null.");
+
+      for (final ModuleBlock moduleBlock : buildList.getModuleBlocks()) {
+
+        System.out.println("modulePath=" + moduleBlock.modulePath());
+        System.out.println("artifactDestPath=" + moduleBlock.artifactDestPath());
+
+
+      }
       
       
       // @@@ q @@
