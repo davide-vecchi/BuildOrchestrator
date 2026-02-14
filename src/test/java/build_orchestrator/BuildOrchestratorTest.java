@@ -5,7 +5,6 @@
  */
 package build_orchestrator;
 
-import build_orchestrator.BuildList.ModuleBlock;
 import dlog.log.Log;
 import duser_input_output.AUserInputOutput;
 import duser_input_output.impl.consoleUserIO.ConsoleUserIO;
@@ -164,15 +163,6 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testDeploy(String, AppContext) testDeploy(*)} passing to it the test ID "01".
-   */
-  @Test
-  public void deployTest01() throws Exception {
-    
-    testDeploy("01", this.appContext);
-  }
-  
-  /**
    * {@link #newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance
    *        according to the BuildOrchestrator configuration file identified by the given {@code testID}, and if the
    *        generated Build List files are different from their "OK" file fails the test.
@@ -216,76 +206,6 @@ public class BuildOrchestratorTest {
       ac.outUser("Build List successfully compared with expected (" + fileOK.length() + " bytes).");
       
       ac.outUser(NL + LocalDateTime.now().format(FMT_DT2));
-    }
-    catch (UserRequestedTermination e) {
-      
-      throw new InternalErrorException(e);
-    }
-    finally {
-      
-      ac.showLogInfo();
-    }
-  }
-  
-  /**
-   * {@link #newBuildOrchestrator Creates} a {@link BuildOrchestrator} instance according to the BuildOrchestrator configuration file identified by the given {@code
-   * testID}, does not {@link BuildOrchestrator#run() run} the instance (so no test artifacts get built), calls {@link BuildOrchestrator#deployBuiltModule(ModuleBlock)
-   * deployBuiltModule(*)} and tests that the artifact file(s) have been moved or deleted as expected.
-   *
-   * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
-   *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
-   *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
-   */
-  private static void testDeployBuiltModule(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
-    
-    ac.outUser(NL2 + DASH80 + NL + "Method testDeploy with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
-    
-    try {
-      
-      writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
-      
-      final String testDataPath = calcPath("src", "test", "resources");
-      
-      final String cfgFilepath = calcPath(testDataPath, "BuildOrchestrator-Config_TestDeploy" + testID + ".TXT");
-      
-      final BuildOrchestrator orchestrator = newBuildOrchestrator(
-                                                 new String[] {
-                                                                       assertExistingPath(cfgFilepath, false)
-                                                                    }, ac);
-
-      final BuildList buildList = assertNonNull(orchestrator.getBuildList(), "The generated Build List was null.");
-
-      for (final ModuleBlock moduleBlock : buildList.getModuleBlocks()) {
-
-        System.out.println("modulePath=" + moduleBlock.modulePath());
-        System.out.println("artifactDestPath=" + moduleBlock.artifactDestPath());
-
-
-      }
-      
-      
-      // @@@ q @@
-      
-      
-      /* @@@@ NO - PASTED FROM BUILD LIST TESTS - ADJUST / REMOVE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      // Get the created Build List, save it to file and compare the file with the expected one :
-      
-      final BuildList buildList = orchestrator.getBuildList();
-      
-      final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP"), false, MINUS1_i);
-      
-      write(fileTest, buildList.toString(), null);
-      
-      final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}"), true, TEN_i);
-      
-      assertFilesEqual(fileTest, fileOK, L(10));
-      
-      ac.outUser("Build List successfully compared with expected (" + fileOK.length() + " bytes).");
-      
-      ac.outUser(NL + LocalDateTime.now().format(FMT_DT2));
-      
-      */
-      
     }
     catch (UserRequestedTermination e) {
       
