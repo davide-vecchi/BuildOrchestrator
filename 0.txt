@@ -1,3 +1,44 @@
+moduleBlock.artifactDestPath()
+
+
+Cannot rename existing old log file
+	"H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\LOG\BuildOrchestratorTest_screen-log.LOG"
+into
+	"H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\LOG\BuildOrchestratorTest_screen-log.LOG.2026-02-14_14.24.07.LOG".
+Location of the renaming attempt:
+java.lang.Throwable: null [java.lang.Throwable]
+java.lang.Throwable
+	at dlog.log.Log.<init>(Log.java:192)
+	at dlog.log.Log.<init>(Log.java:287)
+	at build_orchestrator.BuildOrchestratorTest.newAppContextForTests(BuildOrchestratorTest.java:320)
+	at build_orchestrator.BuildOrchestratorTest.newAppContextForTests(BuildOrchestratorTest.java:341)
+	at build_orchestrator.BuildOrchestratorTest.beforeClass(BuildOrchestratorTest.java:66)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:141)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:71)
+	at org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:400)
+	at org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:333)
+	at org.testng.internal.invokers.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:188)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:741)
+	at org.testng.TestRunner.run(TestRunner.java:616)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:421)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:413)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:373)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:312)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1274)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1208)
+	at org.testng.TestNG.runSuites(TestNG.java:1112)
+	at org.testng.TestNG.run(TestNG.java:1079)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+: "null".
+
+
 TestArtifactId-6.7-SNAPSHOT-jar-with-dependencies.jar
 
       // Update the journal for the operation just performed :

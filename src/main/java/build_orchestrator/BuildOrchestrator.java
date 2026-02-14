@@ -53,6 +53,7 @@ import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.parseNotWithinDelimiters;
 import static dutil.string.TextUtilities.removeEnd;
@@ -192,7 +193,17 @@ public final class BuildOrchestrator {
       
 			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
                                                        , assertNonBlank(mvnCmd));
-			
+      
+      // If the module has an artifact destination path specified, empty that folder :
+      
+      if (moduleBlock.artifactDestPath() != null) {
+        
+        // Empty the folder where the built artifact will be moved :
+        
+        emptyFolder(moduleBlock.artifactDestPath(), NL2T + "Emptying artifact destination folder ");
+      }
+      // Run the command to build :
+      
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
 																															 pomFolder, mvnCmdWithPath
 																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
@@ -598,6 +609,25 @@ public final class BuildOrchestrator {
 		return new OrchestratorCommandOutcome(assertNonNull(resultJournalEntry), resultExitValue
                                                      , resultException);
 	}
+  
+  /**
+   * @param path The path of the folder to empty.<br>
+   *
+   * @param msg  Text to {@link AppContext#outUser show} to the user before the path.
+   */
+  private void emptyFolder(@NotBlank String path, @NotNull String msg) {
+    
+    this.appContext.outUser(assertNonNull(msg) + dq(assertNonBlankNorTrimmable(path) + " ..."));
+    
+    try {
+      
+      FileUtils.cleanDirectory(new File(path));
+    }
+    catch (IOException e) {
+      
+      throw getUnchecked(e);
+    }
+  }
   
   /**
    * Represents the outcome of {@link #runOrchestratorCommand running an Orchestrator command}.
