@@ -181,7 +181,7 @@ public final class BuildOrchestrator {
 			
 			final File pomFolder = new File(moduleBlock.modulePath());
 			
-			this.appContext.outUser(NL2 + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
+			this.appContext.outUser(NL + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											                                     , DQChar);
@@ -194,7 +194,7 @@ public final class BuildOrchestrator {
 			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
                                                        , assertNonBlank(mvnCmd));
       
-      // If the module has an artifact destination path specified, empty that folder :
+      // If the module has an executable artifact destination path specified, empty that folder :
       
       if (moduleBlock.artifactDestPath() != null) {
         
@@ -215,7 +215,7 @@ public final class BuildOrchestrator {
         
         this.appContext.outUser(  NL + "Build successful.");
         
-        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmd + NL2 + "was " + cmdResult.exitCode + " .");
+        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + "was " + cmdResult.exitCode + " .");
         
         // If the module has an artifact destination path specified, move the built artifact there :
 				
@@ -243,9 +243,10 @@ public final class BuildOrchestrator {
             }
             throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
-          // Update the last entry of the journal, which was created when running the Orchestrator Command, adding to it
-          // the outcome of the deployment :
+        }
+        else {
           
+          this.appContext.outUser("No deployment attempted for the module because it does not have an artifact destination path specified.");
         }
 			}
 			else {
@@ -604,7 +605,10 @@ public final class BuildOrchestrator {
                                             + " ("  + getShortDescriptionWithRootCause(resultException)
                                             + ") in " + timeMs + " ms.");
 			}
-      resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(command, folder
+      resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(cmdOutcome != null ?
+                                                                                                     cmdOutcome.o1 :
+                                                                                                     command
+                                                                                              , folder
                                                                                    , L(timeMs)));
 		}
 		return new OrchestratorCommandOutcome(assertNonNull(resultJournalEntry), resultExitValue
