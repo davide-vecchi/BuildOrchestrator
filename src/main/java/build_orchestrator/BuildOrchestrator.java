@@ -189,7 +189,7 @@ public final class BuildOrchestrator {
       
       final String mvnExecPath = mvnCmds.o2;
       
-      final String mvnCmd = mvnCmds.o1;
+      final String mvnCmd =      mvnCmds.o1;
       
 			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
                                                        , assertNonBlank(mvnCmd));
