@@ -196,7 +196,7 @@ public final class BuildOrchestrator {
       
       // If the module has an executable artifact destination path specified, empty that folder :
       
-      if (moduleBlock.artifactDestPath() != null) {
+      if (moduleBlock.executableDestPath() != null) {
         
         // Empty the folder where the built artifact will be moved :
         
@@ -217,9 +217,9 @@ public final class BuildOrchestrator {
         
         this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + "was " + cmdResult.exitCode + " .");
         
-        // If the module has an artifact destination path specified, move the built artifact there :
+        // If the module has an executable artifact destination path specified, move the built artifact there :
 				
-				if (moduleBlock.artifactDestPath() != null) {
+				if (moduleBlock.executableDestPath() != null) {
           
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
@@ -274,14 +274,14 @@ public final class BuildOrchestrator {
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
-    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.artifactDestPath())) + " ...");
+    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.executableDestPath())) + " ...");
     
     final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                     , false);
     
     final DeploymentInfo mvnInfoForDeployment = calcMavenDeploymentInfo(pomFilepath
                                                     , getCanonicalPathAsDescr(this.buildListFile)
-                                                                      , moduleBlock.artifactDestPath()
+                                                      , moduleBlock.executableDestPath()
                                                                       , this.appContext.devLog);
     
     final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnInfoForDeployment

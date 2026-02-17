@@ -744,11 +744,11 @@ class BuildList {
    * @param mvnCommand Whole Maven-invoking command. May include any args; they will be passed to this Maven command as
    *                   they are.<br>
    *
-   * @param artifactDestPath Path of the folder where the built <i>executable</i> artifact must be deployed, or {@code
-   *                         null} if the artifact must not be moved after being built.<br>With or without the ending
-   *                         [back]slash.
+   * @param executableDestPath Path of the folder where the built <i>executable</i> artifact must be deployed, or {@code
+   *                           null} if the artifact must not be moved after being built.<br>With or without the ending
+   *                           [back]slash.
    */
-  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, String artifactDestPath) {
+  record ModuleBlock(@NotNull String modulePath, @NotBlank String mvnCommand, String executableDestPath) {
     
     
     /**
@@ -758,7 +758,7 @@ class BuildList {
      *
      * @param mvnCommand {@link #mvnCommand}.<br>
      *
-     * @param artifactDestPath {@link #artifactDestPath}. Must be {@code null} or match an existing folder.<br>
+     * @param executableDestPath {@link #executableDestPath}. Must be {@code null} or match an existing folder.<br>
      *
      * @throws MissingExternalValueException – If any of the given paths don't exist on the filesystem.<br>
      *
@@ -766,13 +766,13 @@ class BuildList {
      *
      * @throws InvalidValueException If the given {@code mvnCommand} is not valid.
      */
-    ModuleBlock(String modulePath, String mvnCommand, String artifactDestPath) {
+    ModuleBlock(String modulePath, String mvnCommand, String executableDestPath) {
       
       this.modulePath = assertExistingPath(modulePath, true);
       
       this.mvnCommand = assertNonBlankNorTrimmable(mvnCommand);
       
-      this.artifactDestPath = artifactDestPath != null ? assertExistingPath(artifactDestPath, true) : null;
+      this.executableDestPath = executableDestPath != null ? assertExistingPath(executableDestPath, true) : null;
     }
     
   }

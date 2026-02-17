@@ -1,4 +1,4 @@
-moduleBlock.artifactDestPath()
+moduleBlock.executableDestPath()
 
 
 Cannot rename existing old log file
