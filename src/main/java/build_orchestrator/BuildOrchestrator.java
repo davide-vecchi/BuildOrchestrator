@@ -567,8 +567,9 @@ public final class BuildOrchestrator {
       
 			try {
         
-        cmdOutcome = OSUtilities.runCommand(folder, command, this.params.commandTimeoutMs.value.longValue()
-                                 , args);
+        cmdOutcome = OSUtilities.runCommand(folder,                                          command
+                                 ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
+                                  , args);
         
 				resultExitValue = cmdOutcome.o2.intValue();
         
