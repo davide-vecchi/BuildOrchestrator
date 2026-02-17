@@ -9,7 +9,7 @@ import build_orchestrator.BuildList.ModuleBlock;
 import build_orchestrator.Journal.JournalEntry;
 import dfile.file.FileUtilities;
 import dlog.log.Log;
-import dmaven.DeploymentInfo;
+import dmaven.MavenArtifactInfo;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.isExistingFolder;
-import static dmaven.MavenUtilities.calcMavenDeploymentInfo;
+import static dmaven.MavenUtilities.calcMavenArtifactInfo;
 import static dmaven.MavenUtilities.calcNonRunnableJarPath;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getUnchecked;
@@ -181,7 +182,7 @@ public final class BuildOrchestrator {
 			
 			final File pomFolder = new File(moduleBlock.modulePath());
 			
-			this.appContext.outUser(NL + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
+			this.appContext.outUser(NL + DASH80 + NL2 + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											                                     , DQChar);
@@ -194,14 +195,23 @@ public final class BuildOrchestrator {
 			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
                                                        , assertNonBlank(mvnCmd));
       
-      // If the module has an executable artifact destination path specified, empty that folder :
+      // Calculate the artifact info (id, group id etc.) :
       
-      if (moduleBlock.executableDestPath() != null) {
-        
-        // Empty the folder where the built artifact will be moved :
-        
-        emptyFolder(moduleBlock.artifactDestPath(), NL2T + "Emptying artifact destination folder ");
-      }
+      final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+                                                           , false);
+      
+      final MavenArtifactInfo mvnArtifactInfo = calcMavenArtifactInfo(pomFilepath, this.appContext.devLog);
+      
+      // Empty the folder in the local Maven repo where the build will create the jar (e.g.
+      // ".m2\repository\DJavaLibraries\DTestNG\") :
+      
+      final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
+      
+      final String mvnArtifactFolder = calcPath(mvnRepoFolder, mvnArtifactInfo.mvnGroupId()
+                                                                         , mvnArtifactInfo.mvnArtifactId());
+      
+      emptyFolder(mvnArtifactFolder, NL2T + "Emptying artifact's Maven repo folder " );
+      
       // Run the command to build :
       
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
@@ -225,7 +235,7 @@ public final class BuildOrchestrator {
           
           // Perform the deployment :
           
-          final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock);
+          final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock, mvnArtifactInfo);
           
           if (deploymentResult.failure() == null) {
             
@@ -246,7 +256,7 @@ public final class BuildOrchestrator {
         }
         else {
           
-          this.appContext.outUser("No deployment attempted for the module because it does not have an artifact destination path specified.");
+          this.appContext.outUser("No deployment attempted for the module because it does not have an executable artifact destination path specified.");
         }
 			}
 			else {
@@ -266,34 +276,29 @@ public final class BuildOrchestrator {
    * Moves the artifact that was built for the given {@code moduleBlock} to the artifact destination folder specified in
    * the {@link #buildList} for that module.
    *
-   * @param moduleBlock The {@link ModuleBlock} specifying the deployment info for the given {@code moduleBlock}.
+   * @param moduleBlock The {@link ModuleBlock} specifying the deployment info for the given {@code moduleBlock}.<br>
+   *
+   * @param mvnArtifactInfo {@link MavenArtifactInfo Info} on the artifact to deploy (artifact id, group id etc.).
    *
    * @return A {@link BuiltArtifactDeploymentResult} describing whether and how the deployment succeeded or failed.
    */
-  @NotNull BuiltArtifactDeploymentResult deployBuiltModule(@NotNull ModuleBlock moduleBlock) {
+  @NotNull BuiltArtifactDeploymentResult deployBuiltModule(@NotNull ModuleBlock       moduleBlock
+                                                         , @NotNull MavenArtifactInfo mvnArtifactInfo) {
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
     this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.executableDestPath())) + " ...");
     
-    final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
-                                    , false);
-    
-    final DeploymentInfo mvnInfoForDeployment = calcMavenDeploymentInfo(pomFilepath
-                                                    , getCanonicalPathAsDescr(this.buildListFile)
-                                                      , moduleBlock.executableDestPath()
-                                                                      , this.appContext.devLog);
-    
-    final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnInfoForDeployment
-                                                           , mvnRepoFolder, this.appContext.devLog);
-    
+    final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnArtifactInfo
+                                                                    , mvnRepoFolder
+                                                                                    , this.appContext.devLog);
     this.journal.addEntry(deploymentResult.journalEntry);
     
     if (deploymentResult.failure() == null) {
       
       // : The deployment succeeded.
       
-      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnInfoForDeployment.builtArtifactNameElement())
+      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnArtifactInfo.executableArtifactNameElement())
                                          + " has been moved from folder "               + dq(deploymentResult.jarFilepaths().o1)
                                          + " to folder "                                + dq(deploymentResult.jarFilepaths().o2));
     }
@@ -338,11 +343,11 @@ public final class BuildOrchestrator {
    *         and, if the failure was due to an exception, in {@link TwoObjects#o2 o2} that exception, otherwise {@code
    *         o2} is {@code null}.
    */
-  private static @NotNull BuiltArtifactDeploymentResult moveBuiltArtifact(@NotNull  DeploymentInfo mvnInfo
+  private static @NotNull BuiltArtifactDeploymentResult moveBuiltArtifact(@NotNull  MavenArtifactInfo mvnInfo
                                                                         , @NotBlank String         mavenRepoFolder
                                                                         , @NotNull  Log            log) {
     
-    assertNoneBlankNorTrimmable(mvnInfo.mvnGroupId(), mvnInfo.mvnArtifactId(), mvnInfo.mvnVersion(), mvnInfo.builtArtifactNameElement(), mvnInfo.builtArtifactName(), mavenRepoFolder);
+    assertNoneBlankNorTrimmable(mvnInfo.mvnGroupId(), mvnInfo.mvnArtifactId(), mvnInfo.mvnVersion(), mvnInfo.executableArtifactNameElement(), mvnInfo.executableArtifactName(), mavenRepoFolder);
     
     assertNonEmpty(mvnInfo.pomFile());
     
@@ -360,7 +365,7 @@ public final class BuildOrchestrator {
     
     final String runnableJarFilepath = removeEnd(getCanonicalPath(nonRunnableJar)
                                              , builtArtifactExtension)  // %MavenRepoFolder%\DAccessori\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT
-                                         + DASH + mvnInfo.builtArtifactName()     // -jar-with-dependencies
+                                         + DASH + mvnInfo.executableArtifactName()     // -jar-with-dependencies
                                          + builtArtifactExtension;                // .jar
     
     final File runnableJar = new File(runnableJarFilepath);
@@ -541,7 +546,7 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
     
-    String msg;
+    final String msg, commandDescr;
     
     if (this.dontBuild) {
 			
@@ -557,6 +562,8 @@ public final class BuildOrchestrator {
       resultException = null;
       
       resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(command));
+      
+      commandDescr = command;
 		}
 		else {
 			
@@ -605,20 +612,21 @@ public final class BuildOrchestrator {
                                             + " ("  + getShortDescriptionWithRootCause(resultException)
                                             + ") in " + timeMs + " ms.");
 			}
-      resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(cmdOutcome != null ?
-                                                                                                     cmdOutcome.o1 :
-                                                                                                     command
+      commandDescr = cmdOutcome != null ? cmdOutcome.o1 : command;
+      
+      resultJournalEntry = this.journal.addEntry(JournalEntry.newInstance(commandDescr
                                                                                               , folder
                                                                                    , L(timeMs)));
 		}
-		return new OrchestratorCommandOutcome(assertNonNull(resultJournalEntry), resultExitValue
-                                                     , resultException);
+		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
+                              , resultExitValue,           resultException);
 	}
   
   /**
    * @param path The path of the folder to empty.<br>
    *
-   * @param msg  Text to {@link AppContext#outUser show} to the user before the path.
+   * @param msg  Text to {@link AppContext#outUser show} to the user before the path. May be {@link StringUtils#isEmpty
+   *             empty}.
    */
   private void emptyFolder(@NotBlank String path, @NotNull String msg) {
     
@@ -626,7 +634,14 @@ public final class BuildOrchestrator {
     
     try {
       
-      FileUtils.cleanDirectory(new File(path));
+      final File folder = new File(assertExistingPath(path, true));
+      
+      FileUtils.cleanDirectory(folder);
+      
+      if (! FileUtils.isEmptyDirectory(folder)) {
+        
+        throw new UncheckedIOException(new IOException("Could not empty folder: " + dq(path)));
+      }
     }
     catch (IOException e) {
       
@@ -637,11 +652,13 @@ public final class BuildOrchestrator {
   /**
    * Represents the outcome of {@link #runOrchestratorCommand running an Orchestrator command}.
    *
+   * @param commandDescr
    * @param journalEntry
    * @param exitCode
    * @param exception
    */
-  record OrchestratorCommandOutcome(@NotNull JournalEntry journalEntry, int exitCode, Exception exception) {}
+  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull JournalEntry journalEntry, int exitCode
+                                            , Exception exception) {}
   
   /**
    * The result of the operation of deploying a module.
@@ -656,8 +673,8 @@ public final class BuildOrchestrator {
    *
    * @param journalEntry A new {@link JournalEntry} describing the result of the operation.
    */
-  record BuiltArtifactDeploymentResult(            TwoObjects<String, String>    jarFilepaths
-                                                 , TwoObjects<String, Exception> failure
-                                        , @NotNull JournalEntry                  journalEntry) {}
+  record BuiltArtifactDeploymentResult(         TwoObjects<String, String>    jarFilepaths
+                                              , TwoObjects<String, Exception> failure
+                                     , @NotNull JournalEntry                  journalEntry) {}
 
 }

@@ -1,3 +1,13 @@
+    
+    final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+                                    , false);
+
+
+    final MavenArtifactInfo mvnArtifactInfo = calcMavenArtifactInfo(pomFilepath
+                                                , getCanonicalPathAsDescr(this.buildListFile)
+                                                  , moduleBlock.executableDestPath()
+                                                                  , this.appContext.devLog);
+
 moduleBlock.executableDestPath()
 
 
