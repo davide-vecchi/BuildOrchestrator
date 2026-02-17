@@ -210,7 +210,7 @@ public final class BuildOrchestrator {
       final String mvnArtifactFolder = calcPath(mvnRepoFolder, mvnArtifactInfo.mvnGroupId()
                                                                          , mvnArtifactInfo.mvnArtifactId());
       
-      emptyFolder(mvnArtifactFolder, NL2T + "Emptying artifact's Maven repo folder " );
+      emptyFolder(mvnArtifactFolder, NL + "Emptying artifact's Maven repo folder " );
       
       // Run the command to build :
       
@@ -256,7 +256,7 @@ public final class BuildOrchestrator {
         }
         else {
           
-          this.appContext.outUser("No deployment attempted for the module because it does not have an executable artifact destination path specified.");
+          this.appContext.outUser("No deployment attempted for the module because it does not have an executable artifact destination path specified in the Build List.");
         }
 			}
 			else {
