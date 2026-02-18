@@ -48,10 +48,10 @@ public class Journal {
   private final List<@NotNull TwoObjects<@NotBlank String, @NotNull OrchestratorCommandOutcome>> issuedInitCommands;
   
   /**
-   * The {@link JournalEntry entries} of this Journal.
+   * The {@link Entry entries} of this Journal.
    */
   @Getter
-  private final @NotNull List<JournalEntry> entries;
+  private final @NotNull List<Entry> entries;
   
   
   /**
@@ -94,7 +94,7 @@ public class Journal {
    *
    * @return The given {@code entry}.
    */
-  public JournalEntry addEntry(@NotNull JournalEntry entry) {
+  public Entry addEntry(@NotNull Journal.Entry entry) {
     
     this.entries.add(assertNonNull(entry));
     
@@ -105,7 +105,7 @@ public class Journal {
    * One entry of the {@link Journal}. It represents <i>one</i> {@link BuildOrchestrator#execModulesBuild() build} with
    * its possible {@link BuildOrchestrator#deployBuiltModule deployment}.
    */
-  public static class JournalEntry {
+  public static class Entry {
     
     
     /**
@@ -125,7 +125,7 @@ public class Journal {
     final Long durationMs;
     
     /**
-     * The time at which this {@link JournalEntry} has been created.
+     * The time at which this {@link Entry} has been created.
      */
     final Date createdAt;
     
@@ -133,12 +133,12 @@ public class Journal {
     /**
      * @param operationDescr {@link #operationDescr}.
      *
-     * @return A new {@link JournalEntry} created {@link JournalEntry#operationDescr with} the given {@code
+     * @return A new {@link Entry} created {@link Entry#operationDescr with} the given {@code
      *         operationDescr}. All its other fields will be {@code null}.
      */
-    public static JournalEntry newInstance(@NotBlank String operationDescr) {
+    public static Entry newInstance(@NotBlank String operationDescr) {
     
-      return new JournalEntry(operationDescr, null, null);
+      return new Entry(operationDescr, null, null);
     }
     
     /**
@@ -146,11 +146,11 @@ public class Journal {
      * @param sourceFolder {@link #sourceFolder}.<br>
      * @param durationMs   {@link #durationMs}.
      *
-     * @return A new {@link JournalEntry} created with the given params.
+     * @return A new {@link Entry} created with the given params.
      */
-    public static JournalEntry newInstance(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
+    public static Entry newInstance(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
-      return new JournalEntry(operationDescr, sourceFolder, durationMs);
+      return new Entry(operationDescr, sourceFolder, durationMs);
     }
     
     /**
@@ -160,7 +160,7 @@ public class Journal {
      * @param sourceFolder   {@link #sourceFolder}.<br>
      * @param durationMs     {@link #durationMs}.
      */
-    private JournalEntry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
+    private Entry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
       this.operationDescr = assertNonBlank(operationDescr);
       

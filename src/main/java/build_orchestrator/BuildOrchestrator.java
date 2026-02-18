@@ -415,7 +415,7 @@ public final class BuildOrchestrator {
           result = new BuiltArtifactDeploymentResult(
                       new TwoObjects<>(getCanonicalPath(runnableJar), jarCreationPath)
                         , null
-                    , Journal.JournalEntry.newInstance(
+                    , Journal.Entry.newInstance(
                       "The built executable artifact" + NL  + dq(runnableJar.getName())
                                      + " has been moved to folder"   + NL  + dq(jarCreationPath)
                                      + "."                           + NL2 +           deploymentInfoDescr
@@ -428,7 +428,7 @@ public final class BuildOrchestrator {
           result = new BuiltArtifactDeploymentResult(null
                                                  , new TwoObjects<>("Cannot find the built executable artifact file :" + NLT + msg
                                                                            , null)
-                                             , Journal.JournalEntry.newInstance(
+                                             , Journal.Entry.newInstance(
                                                 "The artifact " + runnableJar.getName()
                                                                + " that should have been built has not been moved to folder " + dq(jarCreationPath)
                                                                + " because it was not found." + NL2 + deploymentInfoDescr
@@ -442,7 +442,7 @@ public final class BuildOrchestrator {
         result = new BuiltArtifactDeploymentResult(null
                                                , new TwoObjects<>("The folder where the jar(s) had to be created does not exist :" + NLT + dq(jarCreationPath) + "."
                                                                          , null)
-                                           , Journal.JournalEntry.newInstance(
+                                           , Journal.Entry.newInstance(
                                                             "The destination folder " + dq(jarCreationPath)
                                                                              + " where the built artifact should have been moved does not exist, so no file was moved."
                                                                              + NL2 + deploymentInfoDescr
@@ -456,7 +456,7 @@ public final class BuildOrchestrator {
       result = new BuiltArtifactDeploymentResult(
                                            null
                                              , new TwoObjects<>(e.getClass().getSimpleName() + " : " + e.getLocalizedMessage(), e)
-                                         , Journal.JournalEntry.newInstance(
+                                         , Journal.Entry.newInstance(
                                                           getShortDescriptionWithRootCause(e)
                                                                          + " (see logs for details) occurred during the requested deployment of artifact "
                                                                          + getCanonicalPathAsDescr(runnableJar) + "." + NL2 + deploymentInfoDescr
@@ -544,7 +544,7 @@ public final class BuildOrchestrator {
 	@NotNull private OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
                                                                              , String ... args) throws InterruptedException {
-    final Journal.JournalEntry resultJournalEntry;
+    final Journal.Entry resultJournalEntry;
     int                        resultExitValue;
     Exception                  resultException;
 		
@@ -601,9 +601,8 @@ public final class BuildOrchestrator {
     }
     commandDescr = cmdOutcome != null ? cmdOutcome.o1 : command;
     
-    resultJournalEntry = this.journal.addEntry(Journal.JournalEntry.newInstance(commandDescr
-                                                                                                    , folder
-                                                                                         , L(timeMs)));
+    resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandDescr, folder
+                                                                                  , L(timeMs)));
 		
 		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
                               , resultExitValue,           resultException);
@@ -644,7 +643,7 @@ public final class BuildOrchestrator {
    * @param exitCode
    * @param exception
    */
-  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.JournalEntry journalEntry, int exitCode
+  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.Entry journalEntry, int exitCode
                                             , Exception exception) {}
   
   /**
@@ -662,6 +661,6 @@ public final class BuildOrchestrator {
    */
   record BuiltArtifactDeploymentResult(         TwoObjects<String, String>    jarFilepaths
                                               , TwoObjects<String, Exception> failure
-                                     , @NotNull Journal.JournalEntry          journalEntry) {}
+                                     , @NotNull Journal.Entry          journalEntry) {}
 
 }
