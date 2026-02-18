@@ -181,7 +181,7 @@ public class BuildOrchestratorTest {
       
       final String testDataPath = calcPath("src", "test", "resources");
       
-      final BuildOrchestrator orchestrator = newBuildOrchestrator_DontBuild(
+      final BuildOrchestrator orchestrator = newBuildOrchestrator(
                        new String[] {
                                              assertExistingPath(calcPath(
                                      testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
@@ -215,22 +215,6 @@ public class BuildOrchestratorTest {
       ac.showLogInfo();
     }
   }
-  
-  /**
-   * Same params as {@link BuildOrchestratorMain#newBuildOrchestrator(String[], AppContext)}.
-   *
-   * @return A {@link BuildOrchestratorMain#newBuildOrchestrator new BuildOrchestrator} with {@link BuildOrchestrator#dontBuild
-   *         dontBuild} {@code true}, to be used by the tests that must avoid to actually build.
-   */
-  private static BuildOrchestrator newBuildOrchestrator_DontBuild(String[] args, @NotNull AppContext ac) throws UserRequestedTermination {
-    
-    final BuildOrchestrator result = newBuildOrchestrator(args, ac);
-    
-    result.dontBuild = true;
-    
-    return result;
-  }
-  
   
   /** TODO @@@ UNIFY AND MOVE TO DTest .
    *

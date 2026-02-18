@@ -97,12 +97,6 @@ public final class BuildOrchestrator {
 	 */
 	@SuppressWarnings("FieldMayBeStatic")
 	private final boolean breakOnInitCommandFailure = true;
-	
-	/**
-	 * If {@code true}, it does everything normally except it does not actually invoke the build commands, to make sure no
-	 * jar is built, which is used by some tests that need to avoid creating the jars (e.g. not to overwrite existing ones).
-	 */
-	boolean dontBuild = false;
   
   /**
    * The {@link Journal} for this {@link #run() execution}.
@@ -228,41 +222,28 @@ public final class BuildOrchestrator {
 				if (moduleBlock.executableDestPath() != null) {
           
           // The module has an executable artifact destination path specified, so move the artifact there (if allowed) :
+            
+          final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
-          if (this.dontBuild) {
+          // Perform the deployment :
+          
+          final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock, mvnArtifactInfo);
+          
+          if (deploymentResult.failure() == null) {
             
-            // : Don't move the artifact, it's not allowed. This was set to true probably by a test.
+            // : The deployment succeeded.
             
-            final String msg = "Not moving the executable artifact to its specified path (" + dq(moduleBlock.executableDestPath()) + ")" + NL2T + "because the 'dontBuild' flag is " + this.dontBuild + " .";
-            
-            this.appContext.warnUser(NL + msg);
+            this.appContext.outUser(msg + "successful. Deployment info :" + NL2T + deploymentResult);
           }
           else {
             
-            // Move the artifact :
+            // : The deployment failed.
             
-            final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
-            
-            // Perform the deployment :
-            
-            final BuiltArtifactDeploymentResult deploymentResult = deployBuiltModule(moduleBlock, mvnArtifactInfo);
-            
-            if (deploymentResult.failure() == null) {
+            if (deploymentResult.failure().o2 != null) {
               
-              // : The deployment succeeded.
-              
-              this.appContext.outUser(msg + "successful. Deployment info :" + NL2T + deploymentResult);
+              throw getUnchecked(deploymentResult.failure().o2);
             }
-            else {
-              
-              // : The deployment failed.
-              
-              if (deploymentResult.failure().o2 != null) {
-                
-                throw getUnchecked(deploymentResult.failure().o2);
-              }
-              throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
-            }
+            throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
         }
         else {
@@ -571,76 +552,59 @@ public final class BuildOrchestrator {
     
     final String msg, commandDescr;
     
-    if (this.dontBuild) {
+    
 			
-			// : Don't run the build commands. This was set to true probably by a test.
+    // : Run the build command :
+    
+    long timeMs = System.currentTimeMillis();
+    
+    TwoObjects<@NotBlank String, Integer> cmdOutcome = null;
+    
+    try {
       
-      //noinspection ConstantValue
-      msg = "Not executing build command" + NL2T + command + NL2 + "because the 'dontBuild' flag is " + this.dontBuild + " .";
+      cmdOutcome = OSUtilities.runCommand(folder,                                          command
+                               ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
+                                , args);
       
-			this.appContext.warnUser(NL + msg);
-      
-      resultExitValue = ZERO_i;
+      resultExitValue = cmdOutcome.o2.intValue();
       
       resultException = null;
+    }
+    catch (IOException e) {
       
-      resultJournalEntry = this.journal.addEntry(Journal.JournalEntry.newInstance(command));
+      resultExitValue = -101;
       
-      commandDescr = command;
-		}
-		else {
-			
-			// : Run the build command :
-			
-			long timeMs = System.currentTimeMillis();
+      resultException = e;
+    }
+    catch (TimeoutException e) {
       
-      TwoObjects<@NotBlank String, Integer> cmdOutcome = null;
+      resultExitValue = -102;
       
-			try {
-        
-        cmdOutcome = OSUtilities.runCommand(folder,                                          command
-                                 ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
-                                  , args);
-        
-				resultExitValue = cmdOutcome.o2.intValue();
-        
-        resultException = null;
-			}
-			catch (IOException e) {
-        
-        resultExitValue = -101;
-				
-				resultException = e;
-			}
-			catch (TimeoutException e) {
-        
-        resultExitValue = -102;
-        
-        resultException = e;
-			}
-			finally {
-				
-				timeMs = System.currentTimeMillis() - timeMs;
-			}
-			if (resultExitValue == ZERO_i) {
+      resultException = e;
+    }
+    finally {
+      
+      timeMs = System.currentTimeMillis() - timeMs;
+    }
+    if (resultExitValue == ZERO_i) {
+      
+      this.appContext.outUser(NL  + "The command"  + NL2T + assertNonNull(cmdOutcome).o1
+                                    + NL2 + "executed successfully in " + timeMs + " ms from folder " + dq(getCanonicalPath(folder)) + ".");
+    }
+    else {
+      
+      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
+                                    + NL2 + "executed from folder " + dq(getCanonicalPath(folder))
+                                    + NL  + "resulted in an error " + resultExitValue
+                                    + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
+                                    + " in " + timeMs + " ms.");
+    }
+    commandDescr = cmdOutcome != null ? cmdOutcome.o1 : command;
     
-				this.appContext.outUser(NL  + "The command"  + NL2T + assertNonNull(cmdOutcome).o1
-                                      + NL2 + "executed successfully in " + timeMs + " ms from folder " + dq(getCanonicalPath(folder)) + ".");
-			}
-			else {
-				
-				this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
-                                      + NL2 + "executed from folder " + dq(getCanonicalPath(folder))
-				                              + NL  + "resulted in an error " + resultExitValue
-                                      + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
-                                      + " in " + timeMs + " ms.");
-			}
-      commandDescr = cmdOutcome != null ? cmdOutcome.o1 : command;
-      
-      resultJournalEntry = this.journal.addEntry(Journal.JournalEntry.newInstance(commandDescr
-                                                                                                      , folder
-                                                                                           , L(timeMs)));
-		}
+    resultJournalEntry = this.journal.addEntry(Journal.JournalEntry.newInstance(commandDescr
+                                                                                                    , folder
+                                                                                         , L(timeMs)));
+		
 		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
                               , resultExitValue,           resultException);
 	}
