@@ -11,6 +11,7 @@ import dutil.exception.exceptions.ExternalValueException;
 import dutil.system.OSUtilities;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -233,7 +234,7 @@ public final class BuildOrchestrator {
             
             // : The deployment succeeded.
             
-            this.appContext.outUser(msg + "successful. Deployment info :" + NL2T + deploymentResult);
+            this.appContext.outUser(msg + "successful." + NL2 + "Deployment info :" + NL2T + deploymentResult);
           }
           else {
             
@@ -291,9 +292,7 @@ public final class BuildOrchestrator {
       
       // : The deployment succeeded.
       
-      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnArtifactInfo.executableArtifactName())
-                                         + " has been moved from folder "               + dq(deploymentResult.jarFilepaths().o1)
-                                         + " to folder "                                + dq(deploymentResult.jarFilepaths().o2));
+      this.appContext.outUser(NL + "Deployment successful.");
     }
     else {
       
@@ -413,12 +412,27 @@ public final class BuildOrchestrator {
                                                                               runnableJar.getName()));
           if (oldRunnableJar.exists()) {
           
-            this.appContext.outUser(NL + "Overwriting old runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
+            this.appContext.outUser(NL + "Overwriting old non-renamed runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
             
             FileUtils.delete(oldRunnableJar);
           }
           FileUtils.moveFileToDirectory(runnableJar, new File(moduleBlock.executableDestPath())
                                  , false);
+          
+          // Rename the moved runnable jar to its final name, first deleting the old one if it's there :
+          
+          final String destArtifactFileName = mvnInfo.mvnArtifactId() + EXTENSION_SEPARATOR
+                                                                      + getExtension(runnableJar.getName());
+          
+          final File destArtifactFile = new File(calcPath(moduleBlock.executableDestPath()
+                                                                              , destArtifactFileName));
+          if (destArtifactFile.exists()) {
+            
+            this.appContext.outUser(NL + "Overwriting old renamed runnable jar " + getCanonicalPathAsDescr(destArtifactFile) + " .");
+            
+            FileUtils.delete(destArtifactFile);
+          }
+          FileUtils.moveFile(oldRunnableJar, destArtifactFile); // : This is a renaming.
           
           result = new BuiltArtifactDeploymentResult(
                       new TwoObjects<>(getCanonicalPath(runnableJar)
@@ -427,8 +441,11 @@ public final class BuildOrchestrator {
                     , Journal.Entry.newInstance(
                       "The built executable artifact" + NL  + dq(runnableJar.getName())
                                      + " has been moved to folder"   + NL  + dq(moduleBlock.executableDestPath())
+                                     + " and renamed to " +                  dq(destArtifactFile.getName())
                                      + "."                           + NL2 +           deploymentInfoDescr
-                      , runnableJar.getParentFile(), null));
+                    , runnableJar.getParentFile(), null));
+          
+          this.appContext.outUserLog(result.journalEntry.operationDescr);
         }
         else {
           
@@ -475,11 +492,15 @@ public final class BuildOrchestrator {
   }
   
   /**
-   *  TODO @@@ COMMENT
-   * @param args
-   * @return
+   * @param args List where the first element is the OS command (e.g. {@code mvn}) and the subsequent elements are the
+   *             args to the OS command (e.g. {@code clean} {@code install} {@code -D skipTests}).
+   *
+   * @return In {@link TwoObjects#o1 o1} the complete Maven command to issue (including all its args), in the form
+   *         required by the current OS.<br>
+   *         In {@link TwoObjects#o2 o2} the path to the folder where the Maven executable is. This path is already
+   *         included in {@link TwoObjects#o1 o1}.
    */
-  private @NotNull TwoObjects<String, String> calcMvnCmd(List<String> args) {
+  private @NotNull TwoObjects<String, String> calcMvnCmd(@NotEmpty List<String> args) {
     
     String mvnCmd = args.getFirst();
     
