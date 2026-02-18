@@ -691,6 +691,6 @@ public final class BuildOrchestrator {
    */
   record BuiltArtifactDeploymentResult(         TwoObjects<String, String>    jarFilepaths
                                               , TwoObjects<String, Exception> failure
-                                     , @NotNull Journal.Entry          journalEntry) {}
+                                     , @NotNull Journal.Entry                 journalEntry) {}
 
 }
