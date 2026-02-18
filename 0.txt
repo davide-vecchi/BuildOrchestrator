@@ -1,3 +1,18 @@
+      final String mvnRepoArtifactFolder = calcMvnRepoArtifactFolder(mvnArtifactInfo.mvnGroupId()
+                                                                   , mvnArtifactInfo.mvnArtifactId());
+      
+      final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
+      
+      final String mvnRepoArtifactFolder = calcPath(mvnRepoFolder, mvnArtifactInfo.mvnGroupId()
+                                                                         , mvnArtifactInfo.mvnArtifactId());
+
+
+[INFO] Installing H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\pom.xml to C:\Users\Davide\.m2\repository\IPSG\IPSG-DataReader\1.0-SNAPSHOT\IPSG-DataReader-1.0-SNAPSHOT.pom
+[INFO] Installing H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\target\IPSG-DataReader-1.0-SNAPSHOT.jar to C:\Users\Davide\.m2\repository\IPSG\IPSG-DataReader\1.0-SNAPSHOT\IPSG-DataReader-1.0-SNAPSHOT.jar
+[INFO] Installing H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\target\IPSG-DataReader-1.0-SNAPSHOT-jar-with-dependencies.jar to C:\Users\Davide\.m2\repository\IPSG\IPSG-DataReader\1.0-SNAPSHOT\IPSG-DataReader-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+
     
     final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                     , false);

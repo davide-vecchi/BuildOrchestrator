@@ -182,13 +182,12 @@ public class BuildOrchestratorTest {
       final String testDataPath = calcPath("src", "test", "resources");
       
       final BuildOrchestrator orchestrator = newBuildOrchestrator_DontBuild(
-                                new String[] {
-                                                      assertExistingPath(
-                                                        calcPath(
-                                              testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
-                                          , false)
-                                                    }
-                                , ac);
+                       new String[] {
+                                             assertExistingPath(calcPath(
+                                     testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
+                                 , false)
+                                           }
+                                 , ac);
       orchestrator.run();
       
       // Get the created Build List, save it to file and compare the file with the expected one :

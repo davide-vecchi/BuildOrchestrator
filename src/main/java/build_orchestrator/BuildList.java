@@ -792,7 +792,8 @@ class BuildList {
     
     sb.append(TAB).append("moduleBlocks=").append(listToString(this.moduleBlocks
                                                           , null, TAB2
-                                                     , EMPTY,   NL)).append(NL2).append('}');
+                                                     , EMPTY,   NL))
+                                          .append(NL2).append('}').append(NL);
     return sb.toString();
   }
 

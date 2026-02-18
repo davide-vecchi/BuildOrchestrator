@@ -16,10 +16,11 @@
 # Required : Path of the Build List file, which is the text file containing the
 #            list of modules to build and the build settings of each of them :
 
-BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List JavaLibraries.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List JavaLibraries.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List IPSG-Common.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List IPSG-DataReader.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List IPSG.TXT
+  BuildListFile = src/main/resources/Build List BuildOrchestrator.TXT
 
 ################################################################################
 
