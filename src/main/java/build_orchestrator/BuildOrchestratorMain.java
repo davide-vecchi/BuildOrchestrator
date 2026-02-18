@@ -158,9 +158,7 @@ public class BuildOrchestratorMain {
 		final File buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilePath().value)
 																						 , true,       TEN_i);
 		
-		final BuildOrchestrator orchestrator = BuildOrchestrator.newInstance(params, buildListFile);
-		
-		return orchestrator;
+		return BuildOrchestrator.newInstance(params, buildListFile);
 	}
 	
 	
