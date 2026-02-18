@@ -187,12 +187,12 @@ public class BuildOrchestratorTest {
                                      testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
                                  , false)
                                            }
-                                 , ac);
-      orchestrator.run();
+                       , ac);
+      // orchestrator.run();
       
-      // Get the created Build List, save it to file and compare the file with the expected one :
+      // Create a Build List, save it to file and compare the file with the expected one :
       
-      final BuildList buildList = orchestrator.getBuildList();
+      final BuildList buildList = BuildList.newBuildList(orchestrator.getBuildListFile(), ac);
       
       final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP"), false, MINUS1_i);
       
