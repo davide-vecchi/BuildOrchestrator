@@ -283,15 +283,15 @@ public final class BuildOrchestrator {
     
     this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.executableDestPath())) + " ...");
     
-    final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnArtifactInfo
-                                                                    , moduleBlock);
+    final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnArtifactInfo, moduleBlock);
+    
     this.journal.addEntry(deploymentResult.journalEntry);
     
     if (deploymentResult.failure() == null) {
       
       // : The deployment succeeded.
       
-      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnArtifactInfo.executableArtifactNameElement())
+      this.appContext.outUser(NL + "Deployment successful. The built artifact " + dq(mvnArtifactInfo.executableArtifactName())
                                          + " has been moved from folder "               + dq(deploymentResult.jarFilepaths().o1)
                                          + " to folder "                                + dq(deploymentResult.jarFilepaths().o2));
     }
@@ -407,17 +407,26 @@ public final class BuildOrchestrator {
         
         if (msg == null) {
           
-          // : The runnable jar to move exists. Move it :
+          // : The runnable jar to move exists. Move it, first deleting the old one if it's there :
           
+          final File oldRunnableJar = new File(calcPath(moduleBlock.executableDestPath(),
+                                                                              runnableJar.getName()));
+          if (oldRunnableJar.exists()) {
+          
+            this.appContext.outUser(NL + "Overwriting old runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
+            
+            FileUtils.delete(oldRunnableJar);
+          }
           FileUtils.moveFileToDirectory(runnableJar, new File(moduleBlock.executableDestPath())
                                  , false);
           
           result = new BuiltArtifactDeploymentResult(
-                      new TwoObjects<>(getCanonicalPath(runnableJar), jarCreationPath)
+                      new TwoObjects<>(getCanonicalPath(runnableJar)
+                                                  , moduleBlock.executableDestPath())
                         , null
                     , Journal.Entry.newInstance(
                       "The built executable artifact" + NL  + dq(runnableJar.getName())
-                                     + " has been moved to folder"   + NL  + dq(jarCreationPath)
+                                     + " has been moved to folder"   + NL  + dq(moduleBlock.executableDestPath())
                                      + "."                           + NL2 +           deploymentInfoDescr
                       , runnableJar.getParentFile(), null));
         }
@@ -616,7 +625,7 @@ public final class BuildOrchestrator {
    */
   private void emptyFolder(@NotBlank String path, @NotNull String msg) {
     
-    this.appContext.outUser(assertNonNull(msg) + dq(assertNonBlankNorTrimmable(path) + " ..."));
+    this.appContext.outUser(assertNonNull(msg) + dq(assertNonBlankNorTrimmable(path) + " ."));
     
     try {
       
