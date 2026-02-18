@@ -156,7 +156,7 @@ public class BuildOrchestratorMain {
 		// Initialize the instance of the BuildOrchestrator application, using the configuration params :
 		
 		final File buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilePath().value)
-																						 , true, TEN_i);
+																						 , true,       TEN_i);
 		
 		final BuildOrchestrator orchestrator = BuildOrchestrator.newInstance(params, buildListFile);
 		
