@@ -75,12 +75,18 @@ public class BuildOrchestratorMain {
 		final BuildOrchestrator orchestrator;
 		
 		try (
-			
+      
+      final Log screenLog = new Log(APP_DESCR + " - screen log",    APP_NAME + "_screen-log.LOG", true);
+      
+      final Log userLog =   new Log(APP_DESCR + " - user log",      APP_NAME + "_user-log.LOG",   true);
+      
+      final Log devLog =    new Log(APP_DESCR + " - developer log", APP_NAME + "_dev-log.LOG",    true);
+    
 			final AppContext ac = newAppContext(
-				ColorConsoleUserIO.newInstance1(System.in, System.out, System.err, CYAN, BLACK, RED, BLACK, YELLOW, BLACK)
-																						 , new Log(APP_DESCR + " - screen log",    APP_NAME + "_screen-log.LOG", true)
-																							 , new Log(APP_DESCR + " - user log",      APP_NAME + "_user-log.LOG",   true)
-																							  , new Log(APP_DESCR + " - developer log", APP_NAME + "_dev-log.LOG",    true)))
+				ColorConsoleUserIO.newInstance1(System.in,         System.out,         System.err
+                                            , CYAN,   BLACK,   RED
+                                            , BLACK, YELLOW, BLACK)
+																						           , screenLog,          userLog,            devLog))
 		{
 			assertTrue(ac.screenLog.logBare, "The Screen Log must have logBare true. It can be set here instead of asserting, but why is it not true already ?");
 			
