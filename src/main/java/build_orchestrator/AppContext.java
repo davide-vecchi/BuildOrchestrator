@@ -272,7 +272,7 @@ public class AppContext implements AutoCloseable {
     
     outUser("Il file di log di questa esecuzione per lo SCHERMO è :       " + getCanonicalPathAsDescr(this.screenLog.logFile) + ".");
     
-    outUser("Il file di log di questa esecuzione per  l'UTENTE è :        " + getCanonicalPathAsDescr(this.userLog  .logFile) + ".");
+    outUser("Il file di log di questa esecuzione per l'UTENTE è :         " + getCanonicalPathAsDescr(this.userLog  .logFile) + ".");
     
     outUser("Il file di log di questa esecuzione per il PROGRAMMATORE è : " + getCanonicalPathAsDescr(this.devLog   .logFile) + ".");
   }
