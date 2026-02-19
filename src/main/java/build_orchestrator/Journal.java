@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import static dutil.string.TextUtilities.assertNonBlank;
  * Class to record the performed operations (e.g. {@link BuildOrchestrator#execModulesBuild() builds}, {@link BuildOrchestrator#deployBuiltModule
  * deployments}.<br>A new Journal instance is created for each {@link BuildOrchestrator#run() execution}.
  */
+@ToString
 public class Journal {
   
   
@@ -105,6 +107,7 @@ public class Journal {
    * One entry of the {@link Journal}. It represents <i>one</i> {@link BuildOrchestrator#execModulesBuild() build} with
    * its possible {@link BuildOrchestrator#deployBuiltModule deployment}.
    */
+  @ToString
   public static class Entry {
     
     
