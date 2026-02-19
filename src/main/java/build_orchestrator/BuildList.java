@@ -59,7 +59,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
- * Represents a Build List, described in {@code DOC/Build List syntax.TXT}.
+ * Represents a Build List, see for example {@code Build List BuildOrchestrator.TXT} which is the Build List to build
+ * the BuildOrchestrator itself.
  */
 class BuildList {
   
@@ -149,8 +150,7 @@ class BuildList {
   /**
    * @param buildListFile The file containing the Build List.
    *
-   * @return A new Build List (described in {@code DOC/Build List syntax.TXT}) populated by reading the given {@code
-   *         buildListFile}.
+   * @return A new {@link BuildList} populated by reading the given {@code buildListFile}.
    */
   static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AppContext ac) {
     

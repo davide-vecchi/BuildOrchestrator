@@ -1,8 +1,6 @@
 
 # BuildOrchestrator artifact Build List.
 # (REPOS subfolder : "Accessori\BuildOrchestrator\").
-#
-# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
 
 
 [Initialization]

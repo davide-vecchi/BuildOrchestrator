@@ -188,9 +188,9 @@ public class BuildOrchestratorTest {
                                      testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
                            , false)
                                     }
-                 , ac);
+                , ac);
       
-      // orchestrator.run();
+      // 'orchestrator.run()' not called, because this test doesn't test the whole build process but just the Build List.
       
       // Create a Build List, save it to file and compare the file with the expected one :
       

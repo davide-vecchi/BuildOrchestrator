@@ -1,8 +1,6 @@
 
 # DJavaLibraries artifact group's Build List.
 # (REPOS subfolder : "JavaLibraries\").
-#
-# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
 
 
 [Initialization]

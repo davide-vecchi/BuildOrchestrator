@@ -1,8 +1,6 @@
 
 # IPSG-DataReader artifact Build List.
 # (REPOS subfolder : "IPSG\IPSG-DataReader\").
-#
-# See "src/main/resources/DOC/Build List syntax.TXT" for the syntax.
 
 
 [Initialization]
