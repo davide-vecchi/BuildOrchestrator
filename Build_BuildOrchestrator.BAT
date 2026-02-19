@@ -14,7 +14,7 @@ REM Ensure the execution starts on a clean ERRORLEVEL :
 IF !ERRORLEVEL! NEQ 0 (
 	ECHO.
 	ECHO CRITICAL ERROR; not executing the script because ERRORLEVEL
-  ECHO was already !ERRORLEVEL! instead of 0 when the script started.
+	ECHO was already !ERRORLEVEL! instead of 0 when the script started.
 	ECHO.
 	PAUSE
 	EXIT !ERRORLEVEL!
