@@ -222,7 +222,7 @@ public final class BuildOrchestrator {
 				
 				if (moduleBlock.executableDestPath() != null) {
           
-          // : The module has an executable artifact destination path specified, so move the artifact there (if allowed) :
+          // : The module has an executable artifact destination path specified, so move the artifact there) :
             
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
