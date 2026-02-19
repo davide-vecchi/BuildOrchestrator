@@ -1,3 +1,14 @@
+[INFO] --------------------------< IPSG:IPSG-Common >--------------------------
+[INFO] Building IPSG-Common 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for DJavaLibraries:DTest:jar:1.0-SNAPSHOT is missing, no dependency information available
+[WARNING] The POM for DJavaLibraries:DSAX:jar:1.0-SNAPSHOT is missing, no dependency information available
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[
+
+
       final String mvnRepoArtifactFolder = calcMvnRepoArtifactFolder(mvnArtifactInfo.mvnGroupId()
                                                                    , mvnArtifactInfo.mvnArtifactId());
       
