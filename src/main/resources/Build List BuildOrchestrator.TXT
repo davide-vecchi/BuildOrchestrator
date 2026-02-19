@@ -40,6 +40,41 @@
 #   There must be at least one empty line between blocks.
 #
 
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX
+mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMaven
+mvn clean install
+
+
 H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\
 mvn clean install
 C:\BuildOrchestrator
