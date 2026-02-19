@@ -8,7 +8,10 @@ package build_orchestrator;
 import dfile.file.FileUtilities;
 import dmaven.MavenArtifactInfo;
 import dutil.exception.exceptions.ExternalValueException;
+import dutil.exception.exceptions.InvalidExternalValueException;
+import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.system.OSUtilities;
+import dutil.value_holder.ObjectAndDescr;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
+import static dfile.file.FileUtilities.assertExistingFile;
 import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dfile.file.FileUtilities.calcPath;
@@ -200,10 +204,14 @@ public final class BuildOrchestrator {
       // Empty the folder in the local Maven repo where the build will create the jar (e.g.
       // ".m2\repository\DJavaLibraries\DTestNG\") :
       
-      final String mvnRepoArtifactFolder = calcMvnRepoArtifactFolder(mvnArtifactInfo.mvnGroupId()
-                                                                   , mvnArtifactInfo.mvnArtifactId());
+      final ObjectAndDescr<File> mvnRepoArtifactFolder = calcMvnRepoArtifactFolder(mvnArtifactInfo.mvnGroupId()
+                                                                                 , mvnArtifactInfo.mvnArtifactId()
+                                                                 , true);
+      if (mvnRepoArtifactFolder.description != null) {
       
-      emptyFolder(mvnRepoArtifactFolder, NL + "Emptying artifact's Maven repo folder ");
+        this.appContext.warnUser(NL + mvnRepoArtifactFolder.description);
+      }
+      emptyFolder(getCanonicalPath(mvnRepoArtifactFolder.object), NL + "Emptying artifact's Maven repo folder ");
       
       // Run the command to build :
       
@@ -266,7 +274,7 @@ public final class BuildOrchestrator {
 				
           throw getUnchecked(cmdResult.exception);
         }
-        throw new ExternalValueException("Error " + cmdResult.exitCode + " returned from command :" + NL2T + cmdResult.commandDescr + NL2 + ". Error code " + cmdResult.exitCode + " instead of " + ZERO_i + " .");
+        throw new ExternalValueException("Error " + cmdResult.exitCode + " returned from command :" + NL2T + cmdResult.commandDescr + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitCode + " instead of " + ZERO_i + " .");
 			}
 		}
 	}
@@ -315,12 +323,34 @@ public final class BuildOrchestrator {
   }
   
   /**
-   * TODO @@@@ COMMENT
-   * @param mvnGroupId
-   * @param mvnArtifactId
-   * @return
+   * @param mvnGroupId {@code <groupId>} of the artifact in the POM file.<br>
+   *
+   * @param mvnArtifactId {@code <artifactId>} of the artifact in the POM file.<br>
+   *
+   * @param createIfMissing If the path to return doesn't exist under the {@link BuildOrchestratorParams#mavenRepoFolder
+   *                        local Maven repo} (which must exist):<ul><li>If this is {@code true}, the path will be created.</li><li>
+   *                        If this is {@code false}, an exception will be thrown.</li></ul>
+   *
+   * @return In {@link ObjectAndDescr#object object} the path where the artifact must be built, under the {@link BuildOrchestratorParams#mavenRepoFolder
+   *         local Maven repo}.<br>This returned path is guaranteed to exist and to be a folder.<br><br>
+   *         In {@link ObjectAndDescr#description description} {@code null} if the {@link ObjectAndDescr#object path}
+   *         already existed, otherwise textual info that the path has been created.
+   *
+   * @throws MissingExternalValueException <ul><li>If the {@link BuildOrchestratorParams#mavenRepoFolder local Maven
+   *                                               repo} does not exist.</li>
+   *
+   *                                           <li>If the path to return does not exist and {@code createIfMissing} is {@code
+   *                                               false}.</li></ul>
+   *
+   * @throws InvalidExternalValueException <ul><li>If the {@link BuildOrchestratorParams#mavenRepoFolder local Maven
+   *                                               repo} path corresponds to a file instead of a folder.</li>
+   *
+   *                                           <li>If the path to return corresponds to a file instead of a folder.</li></ul>
    */
-  private String calcMvnRepoArtifactFolder(@NotBlank String mvnGroupId, @NotBlank String mvnArtifactId) {
+  private @NotNull ObjectAndDescr<@NotNull File> calcMvnRepoArtifactFolder(@NotBlank String  mvnGroupId
+                                                                         , @NotBlank String  mvnArtifactId
+                                                                                   , boolean createIfMissing) {
+    final ObjectAndDescr<File> result = new ObjectAndDescr<>();
     
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
@@ -328,7 +358,34 @@ public final class BuildOrchestrator {
                                                             , assertNonBlankNorTrimmable(mvnGroupId)
                                                             , assertNonBlankNorTrimmable(mvnArtifactId));
     
-    return assertExistingPath(mvnRepoArtifactFolder, true);
+    result.object = new File(mvnRepoArtifactFolder);
+    
+    if (result.object.exists()) {
+      
+      // : The path to return already exists.
+      
+      assertExistingFile(result.object, true);
+    }
+    else {
+      
+      // : The path to return does not exist. If requested, create it :
+      
+      if (! createIfMissing) {
+      
+        throw new MissingExternalValueException("The path" + NL2T + getCanonicalPath(result.object) + NL2 + " does not exist.");
+      }
+      try {
+        
+        FileUtils.forceMkdir(result.object);
+        
+        result.description = "Created non-existing path " + dq(getCanonicalPath(result.object));
+      }
+      catch (IOException e) {
+  
+        throw getUnchecked(e);
+      }
+    }
+    return result;
   }
   
   /**
@@ -648,7 +705,7 @@ public final class BuildOrchestrator {
    */
   private void emptyFolder(@NotBlank String path, @NotNull String msg) {
     
-    this.appContext.outUser(assertNonNull(msg) + dq(assertNonBlankNorTrimmable(path) + " ."));
+    this.appContext.outUser(assertNonNull(msg) + dq(assertNonBlankNorTrimmable(path)) + " .");
     
     try {
       
