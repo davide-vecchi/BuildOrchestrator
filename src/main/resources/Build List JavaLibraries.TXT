@@ -109,3 +109,6 @@ mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX
 mvn clean install
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMaven
+mvn clean install
