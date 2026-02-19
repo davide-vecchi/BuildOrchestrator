@@ -13,15 +13,16 @@ PAUSE
 SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator
 
 java -jar BuildOrchestrator.jar "%BasePath%\src\main\resources\BuildOrchestrator-Config.TXT"
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList02.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList03.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList04.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05a.TXT
-														 REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05b.TXT
-														 REM %BasePath%\src\main\resources\BuildOrchestrator-Config.TXT
-														 REM C:\BuildOrchestrator\BuildOrchestrator-Config.TXT
+
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList02.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList03.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList04.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05a.TXT
+                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05b.TXT
+                             REM %BasePath%\src\main\resources\BuildOrchestrator-Config.TXT
+                             REM C:\BuildOrchestrator\BuildOrchestrator-Config.TXT
 PAUSE
 
 GOTO SkipComment

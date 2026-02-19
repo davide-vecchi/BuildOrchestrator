@@ -45,7 +45,7 @@ IF !ERRORLEVEL! NEQ 0 (
 
 	ECHO.
 	ECHO CRITICAL ERROR; not executing the deployment script because ERRORLEVEL
-  ECHO was !ERRORLEVEL! when the Maven build command returned.
+	ECHO was !ERRORLEVEL! when the Maven build command returned.
 	ECHO.
 	PAUSE
 	EXIT !ERRORLEVEL!

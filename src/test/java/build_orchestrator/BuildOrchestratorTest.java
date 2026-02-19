@@ -182,19 +182,22 @@ public class BuildOrchestratorTest {
       final String testDataPath = calcPath("src", "test", "resources");
       
       final BuildOrchestrator orchestrator = newBuildOrchestrator(
-                       new String[] {
-                                             assertExistingPath(calcPath(
+                new String[] {
+                                      assertExistingPath(
+                                        calcPath(
                                      testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
-                                 , false)
-                                           }
-                       , ac);
+                           , false)
+                                    }
+                 , ac);
+      
       // orchestrator.run();
       
       // Create a Build List, save it to file and compare the file with the expected one :
       
       final BuildList buildList = BuildList.newBuildList(orchestrator.getBuildListFile(), ac);
       
-      final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP"), false, MINUS1_i);
+      final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP")
+                                          , false, MINUS1_i);
       
       write(fileTest, buildList.toString(), null);
       
