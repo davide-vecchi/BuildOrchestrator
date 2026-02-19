@@ -222,7 +222,7 @@ public final class BuildOrchestrator {
 				
 				if (moduleBlock.executableDestPath() != null) {
           
-          // The module has an executable artifact destination path specified, so move the artifact there (if allowed) :
+          // : The module has an executable artifact destination path specified, so move the artifact there (if allowed) :
             
           final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
           
@@ -248,6 +248,8 @@ public final class BuildOrchestrator {
           }
         }
         else {
+          
+          // : The module does not have an executable artifact destination path specified.
           
           this.appContext.outUser("No deployment attempted for the module because it does not have an executable artifact destination path specified in the Build List.");
         }
