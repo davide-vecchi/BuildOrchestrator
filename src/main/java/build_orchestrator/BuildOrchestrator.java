@@ -605,7 +605,7 @@ public final class BuildOrchestrator {
 			
 			if (cmdResult.exitValue != ZERO_i) {
 				
-				final String errMsg = "Initialization command " + dq(initCommand) + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
+				final String errMsg = "Initialization command :" + NL2T + initCommand + NL2 + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
 				
 				this.appContext.errUser(errMsg);
 				
@@ -699,10 +699,10 @@ public final class BuildOrchestrator {
     }
     else {
       
-      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command) + ","
+      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
                                     + NL2 + (cmdOutcome != null ? "executed from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
-                                                                : "which threw the exception " + resultException.getLocalizedMessage()) + ","
-                                    + NL  + "resulted in an error (process exit value " + resultExitValue + ")"
+                                                                : "which threw the exception" + NL2T + resultException.getLocalizedMessage())
+                                    + NL2 + "resulted in an error (process exit value " + resultExitValue + ")"
                                     + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
                                     + " in " + timeMs + " ms.");
     }
