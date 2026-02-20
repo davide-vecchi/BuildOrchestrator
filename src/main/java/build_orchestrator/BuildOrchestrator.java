@@ -693,7 +693,7 @@ public final class BuildOrchestrator {
       }
       this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs
-                                    + " ms from folder " + dq(getCanonicalPath(cmdOutcome.processFolder())) + ".");
+                                          + " ms from folder " + dq(getCanonicalPath(cmdOutcome.processFolder())) + ".");
     }
     else {
       
