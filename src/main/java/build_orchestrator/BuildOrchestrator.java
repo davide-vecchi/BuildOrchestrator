@@ -8,6 +8,7 @@ package build_orchestrator;
 import dfile.file.FileUtilities;
 import dlog.log.Log;
 import dmaven.MavenArtifactInfo;
+import dutil.exception.exceptions.ExternalProcessException;
 import dutil.exception.exceptions.ExternalValueException;
 import dutil.exception.exceptions.InternalErrorException;
 import dutil.exception.exceptions.InvalidExternalValueException;
@@ -102,7 +103,8 @@ public final class BuildOrchestrator {
 	private BuildList buildList;
 	
 	/**
-	 * Whether to terminate after an {@link #issueInitCommands() Initialization Command} returned an error result.
+	 * Whether to {@link ExternalProcessException terminate} after an {@link #issueInitCommands() Initialization Command}
+   * returned an error result.
 	 * TODO @@@ MAKE THIS A {@link BuildOrchestratorParams param}.
 	 */
 	@SuppressWarnings("FieldMayBeStatic")
@@ -609,7 +611,7 @@ public final class BuildOrchestrator {
 				
 				if (this.breakOnInitCommandFailure) {
 					
-					break;
+					throw new ExternalProcessException(errMsg);
 				}
 			}
 			else {
