@@ -679,7 +679,7 @@ public final class BuildOrchestrator {
     }
     if (resultExitValue == ZERO_i) {
       
-      this.appContext.outUser(NL  + "The command"  + NL2T + assertNonNull(cmdOutcome).o1
+      this.appContext.outUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).o1
                                     + NL2 + "executed successfully in " + timeMs + " ms from folder " + dq(getCanonicalPath(folder)) + ".");
     }
     else {
