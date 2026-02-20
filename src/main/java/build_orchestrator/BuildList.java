@@ -421,8 +421,8 @@ class BuildList {
    * @throws InvalidExternalValueException If the given {@code mavenCommand} is not {@link TextUtilities#isBlankOrTrimmable
    *                                       blank or trimmable} but it's not a valid command to invoke Maven.
    */
-  private static String validateMavenCommand(@NotNull  LineWithNumber commandLineWithNumber
-                                           , @NotNull  LineWithNumber pathLineWithNumber,   String buildListFileDescr) {
+  private static String validateMavenCommand(@NotNull LineWithNumber commandLineWithNumber
+                                           , @NotNull LineWithNumber pathLineWithNumber,   String buildListFileDescr) {
     
     final String mavenCommand = commandLineWithNumber.line;
     
