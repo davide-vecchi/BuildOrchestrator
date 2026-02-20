@@ -508,7 +508,7 @@ class BuildList {
       
       result.add(assertNonBlank(lineWithNumber.line).stripTrailing());
     }
-    assertTrue(result.isEmpty(), "The", surround(initSectionKey, SECTION_NAME_START, SECTION_NAME_END), "section in file", getCanonicalPathAsDescr(buildListFile)
+    assertTrue(result.isEmpty(), "The", surround(initSectionKey, SECTION_NAME_START, SECTION_NAME_END), "section in", getCanonicalPathAsDescr(buildListFile)
                                                  , "has content, but it must not.", NL, "The section must be present but empty (only comments allowed), because issuing initialization commands is not implemented yet.");
     
     return result;
