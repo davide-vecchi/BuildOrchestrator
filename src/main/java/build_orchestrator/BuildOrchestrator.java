@@ -6,6 +6,7 @@
 package build_orchestrator;
 
 import dfile.file.FileUtilities;
+import dlog.log.Log;
 import dmaven.MavenArtifactInfo;
 import dutil.exception.exceptions.ExternalValueException;
 import dutil.exception.exceptions.InvalidExternalValueException;
@@ -194,7 +195,7 @@ public final class BuildOrchestrator {
 			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
                                                        , assertNonBlank(mvnCmd));
       
-      // Calculate the artifact info (id, group id etc.) :
+      // Calculate the artifact's Maven info (id, group id etc.) :
       
       final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
                                                            , false);
@@ -616,14 +617,15 @@ public final class BuildOrchestrator {
 	}
 	
 	/**
-	 * {@link OSUtilities#runCommand( File, String, long, String...) Runs} the given shell command as per the given params.<br>
+	 * {@link OSUtilities#runCommand(File, String, long, Log, String...) Runs} the given shell command as per the given
+   * params.<br>
 	 * When the command returns, {@link AppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
 	 * a <i>KO</i> {@link AppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
 	 *
-	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand( File, String, long, String...)}.<br><br>
+	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand(File, String, long, Log, String...)}.<br><br>
    *
-   * When this method returns, no matter the command's outcome, a new {@link JournalEntry} has been {@link Journal#addEntry
-   * added} to the {@link #journal} (and it can be further updated if needed).
+   * When this method returns, no matter the command's outcome, a new {@link Journal.Entry} has been {@link Journal#addEntry
+   * added} to the {@link #journal}).
 	 *
 	 * @return TODO @@@ FIX THIS COMMENT @@@ The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
 	 *         values can be returned by this method:<ul>
