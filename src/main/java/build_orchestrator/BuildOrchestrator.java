@@ -636,8 +636,8 @@ public final class BuildOrchestrator {
                                                                    , @NotBlank String     command
                                                                              , String ... args) throws InterruptedException {
     final Journal.Entry resultJournalEntry;
-    int                        resultExitValue;
-    Exception                  resultException;
+    int                 resultExitValue;
+    Exception           resultException;
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
     
