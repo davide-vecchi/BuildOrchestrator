@@ -641,9 +641,7 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
     
-    final String msg, commandDescr;
-    
-    
+    final String commandDescr;
 			
     // : Run the build command :
     
