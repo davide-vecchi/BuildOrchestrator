@@ -226,7 +226,7 @@ public final class BuildOrchestrator {
       
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
 																															 pomFolder, mvnCmdWithPath
-																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
+																										, args.subList(ONE_i, args.size()).toArray(new String[ZERO_i]));
       if (cmdResult.exitValue == ZERO_i) {
 				
 				// : The build command succeeded.
