@@ -694,7 +694,7 @@ public final class BuildOrchestrator {
                                                                                   , L(timeMs)));
 		
 		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
-                              , resultExitValue,           resultException);
+                                        , resultExitValue,          resultException);
 	}
   
   /**
