@@ -63,6 +63,7 @@ import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
 import static dutil.string.TextUtilities.SQ;
+import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
@@ -605,7 +606,7 @@ public final class BuildOrchestrator {
 			
 			if (cmdResult.exitValue != ZERO_i) {
 				
-				final String errMsg = "Initialization command :" + NL2T + initCommand + NL2 + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
+				final String errMsg = "Initialization command :" + NL2T + TAB + initCommand + NL2 + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
 				
 				this.appContext.errUser(errMsg);
 				
