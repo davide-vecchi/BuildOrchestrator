@@ -77,5 +77,4 @@ mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\
 mvn clean install
-C:\Temp\
-# C:\BuildOrchestrator
+C:\BuildOrchestrator
