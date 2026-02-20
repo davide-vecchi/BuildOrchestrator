@@ -9,6 +9,7 @@ import dfile.file.FileUtilities;
 import dlog.log.Log;
 import dmaven.MavenArtifactInfo;
 import dutil.exception.exceptions.ExternalValueException;
+import dutil.exception.exceptions.InternalErrorException;
 import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.system.OSUtilities;
@@ -49,6 +50,7 @@ import static dutil.list.text.TextListUtilities.assertNoneBlankNorTrimmable;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
+import static dutil.object.ObjectUtilities.assertDifferentNullness;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
 import static dutil.string.TextUtilities.DASH;
@@ -59,6 +61,7 @@ import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.SPACEChar;
+import static dutil.string.TextUtilities.SQ;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
@@ -673,9 +676,22 @@ public final class BuildOrchestrator {
       
       timeMs = System.currentTimeMillis() - timeMs;
     }
+    assertDifferentNullness(cmdOutcome, resultException
+              , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
+                              + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
+    
     if (resultExitValue == ZERO_i) {
       
-      this.appContext.outUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).commandLine()
+      if (cmdOutcome == null) {
+        
+        throw new InternalErrorException("This is never reached because if resultExitValue is 0 then cmdOutcome cannot be null."
+                                  + NL + "cmdOutcome will be null only if runCommand(*) throws and the exception is caught here,"
+                                  + NL + "but in that case resultExitValue will not be 0 so the execution will not be here."
+                                  + NL + "This 'throw' statement is here only to avoid the erroneous IntelliJ NPE warning ("
+                                  + SQ + "A \"NullPointerException\" could be thrown; \"cmdOutcome\" is nullable here.)" + SQ
+                                  + NL + "and the erroneous SonarQube NPE issue detection (rule \"java:S2259\")");
+      }
+      this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs
                                     + " ms from folder " + dq(getCanonicalPath(cmdOutcome.processFolder())) + ".");
     }
