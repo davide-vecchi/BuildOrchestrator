@@ -12,6 +12,7 @@ import dutil.exception.exceptions.ExternalValueException;
 import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
 import dutil.system.OSUtilities;
+import dutil.system.OSUtilities.RunCommandOutcome;
 import dutil.value_holder.ObjectAndDescr;
 import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotBlank;
@@ -627,10 +628,7 @@ public final class BuildOrchestrator {
    * When this method returns, no matter the command's outcome, a new {@link Journal.Entry} has been {@link Journal#addEntry
    * added} to the {@link #journal}).
 	 *
-	 * @return TODO @@@ FIX THIS COMMENT @@@ The OS process' exit code. Besides its {@link Process#exitValue() normal values}, the following custom
-	 *         values can be returned by this method:<ul>
-	 *           <li>-101 ({@link IOException})</li>
-	 *           <li>-102 ({@link TimeoutException})</li></ul>
+	 * @return An {@link OrchestratorCommandOutcome} describing the outcome of running the {@code command}.
 	 */
 	@NotNull private OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
@@ -647,7 +645,7 @@ public final class BuildOrchestrator {
     
     long timeMs = System.currentTimeMillis();
     
-    TwoObjects<@NotBlank String, Integer> cmdOutcome = null;
+    RunCommandOutcome cmdOutcome = null;
     
     try {
       
@@ -655,7 +653,7 @@ public final class BuildOrchestrator {
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
                                 , args);
       
-      resultExitValue = cmdOutcome.o2.intValue();
+      resultExitValue = cmdOutcome.exitValue();
       
       resultException = null;
     }
@@ -677,18 +675,20 @@ public final class BuildOrchestrator {
     }
     if (resultExitValue == ZERO_i) {
       
-      this.appContext.outUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).o1
-                                    + NL2 + "executed successfully in " + timeMs + " ms from folder " + dq(getCanonicalPath(folder)) + ".");
+      this.appContext.outUser(NL  + "The command" + NL2T + assertNonNull(cmdOutcome).commandLine()
+                                    + NL2 + "executed successfully in " + timeMs
+                                    + " ms from folder " + dq(getCanonicalPath(cmdOutcome.processFolder())) + ".");
     }
     else {
       
-      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
-                                    + NL2 + "executed from folder " + dq(getCanonicalPath(folder))
-                                    + NL  + "resulted in an error " + resultExitValue
+      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command) + ","
+                                    + NL2 + (cmdOutcome != null ? "executed from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
+                                                                : "which threw the exception " + resultException.getLocalizedMessage()) + ","
+                                    + NL  + "resulted in an error (process exit value " + resultExitValue + ")"
                                     + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
                                     + " in " + timeMs + " ms.");
     }
-    commandDescr = cmdOutcome != null ? cmdOutcome.o1 : command;
+    commandDescr = cmdOutcome != null ? cmdOutcome.commandLine() : command;
     
     resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandDescr, folder
                                                                                   , L(timeMs)));
@@ -729,7 +729,10 @@ public final class BuildOrchestrator {
    *
    * @param commandDescr
    * @param journalEntry
-   * @param exitCode
+   *
+   * @param exitValue Besides its {@link Process#exitValue() normal values}, this field may have the following custom
+   *                  values :<ul><li>-101 ({@link IOException})</li>
+   *                              <li>-102 ({@link TimeoutException})</li></ul><br>
    * @param exception
    */
   record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.Entry journalEntry, int exitValue
