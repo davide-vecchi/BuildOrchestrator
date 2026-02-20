@@ -1,19 +1,24 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
----------------------------------------------------------------------
-* 20:10 2026-02-18
-
-* Either show / log the Journal or remove it.
-
----------------------------------------------------------------------
 @ 17:14 2026-02-04
 
-@ Add same functionality of Deploy_*.BAT scripts.
+@ Must implement the behavior for the existing Build List params :
+
+  * DoPause.
+
+  @ DoTests.
+
+@ Test the Orchestrator when some module fails to build.
+
+  * Because of code errors.
+
+  - Because of failing tests.
+
+- Add same functionality of Deploy_*.BAT scripts.
 
   - One deployment per each module.
 
-    - So the deployment folder must be an entry of
-      the ModuleBlock.
+    - So the deployment folder must be an entry of the ModuleBlock.
 
       - Need a way to make the deployment optional, so
         the deployment folder, if present, must be the
@@ -46,19 +51,21 @@
 				=	MOVE %MavenRepoFolder%\IPSG\IPSG-Core\1.0-SNAPSHOT\IPSG-Core-1.0-SNAPSHOT-jar-with-dependencies.jar ^
 							 C:\IPSG\IPSG-Core.jar
 
-* Must implement the behavior for the existing Build List params :
-
-  * DoPause.
-
-  * DoTests.
-
 - Empty destination folder in local Maven repo before
   building its module.
 
-@ Test the Orchestrator when some module fails to build.
+---------------------------------------------------------------------
+* 14:14 2026-02-20
 
-  * Because of code errors.
+* Find how to capture mvn's output.
 
-  - Because of failing tests.
+  * Then log it.
+
+---------------------------------------------------------------------
+- 20:10 2026-02-18
+
+- Either show / log the Journal or remove it.
+
+  = Logged, as toString() .
 
 ---------------------------------------------------------------------
