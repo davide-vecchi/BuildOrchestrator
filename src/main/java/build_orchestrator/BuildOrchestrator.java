@@ -67,6 +67,7 @@ import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static dutil.string.TextUtilities.dqStr;
 import static dutil.string.TextUtilities.parseNotWithinDelimiters;
 import static dutil.string.TextUtilities.removeEnd;
 import static java.util.Arrays.asList;
@@ -602,7 +603,10 @@ public final class BuildOrchestrator {
 		
 		for (final String initCommand : this.buildList.getInitCommands()) {
       
-      final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(null, initCommand);
+      final List<String> commandWithArgs = parseNotWithinDelimiters(initCommand, SPACEChar, DQChar);
+      
+      final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
+          null, commandWithArgs.getFirst(), commandWithArgs.subList(ONE_i, commandWithArgs.size()).toArray(new String[ZERO_i]));
 			
 			if (cmdResult.exitValue != ZERO_i) {
 				
@@ -696,12 +700,12 @@ public final class BuildOrchestrator {
       }
       this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs
-                                          + " ms from folder " + dq(getCanonicalPath(cmdOutcome.processFolder())) + ".");
+                                          + " ms from folder " + dqStr(cmdOutcome.processFolder()) + ".");
     }
     else {
       
       this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
-                                    + NL2 + (cmdOutcome != null ? "executed from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
+                                    + NL2 + (cmdOutcome != null ? "executed from folder " + dqStr(cmdOutcome.processFolder())
                                                                 : "which threw the exception" + NL2T + resultException.getLocalizedMessage())
                                     + NL2 + "resulted in an error (process exit value " + resultExitValue + ")"
                                     + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
