@@ -626,7 +626,7 @@ public final class BuildOrchestrator {
 	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand(File, String, long, Log, String...)}.<br><br>
    *
    * When this method returns, no matter the command's outcome, a new {@link Journal.Entry} has been {@link Journal#addEntry
-   * added} to the {@link #journal}).
+   * added} to the {@link #journal}.
 	 *
 	 * @return An {@link OrchestratorCommandOutcome} describing the outcome of running the {@code command}.
 	 */
