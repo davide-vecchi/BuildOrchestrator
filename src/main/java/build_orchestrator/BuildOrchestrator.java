@@ -219,7 +219,7 @@ public final class BuildOrchestrator {
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
 																															 pomFolder, mvnCmdWithPath
 																										, args.subList(ONE_i, args.size()).toArray(new String[0]));
-      if (cmdResult.exitCode == ZERO_i) {
+      if (cmdResult.exitValue == ZERO_i) {
 				
 				// : The build command succeeded.
 				
@@ -227,7 +227,7 @@ public final class BuildOrchestrator {
         
         this.appContext.outUser(  NL + "Build successful.");
         
-        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + "was " + cmdResult.exitCode + " .");
+        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + "was " + cmdResult.exitValue + " .");
 				
 				if (moduleBlock.executableDestPath() != null) {
           
@@ -267,7 +267,7 @@ public final class BuildOrchestrator {
 				
         // : The build command failed.
         
-				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitCode + ").";
+				final String errMsg = "Build command " + dq(mvnCmdWithPath) + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
 				
 				this.appContext.errUser(errMsg);
 				
@@ -275,7 +275,7 @@ public final class BuildOrchestrator {
 				
           throw getUnchecked(cmdResult.exception);
         }
-        throw new ExternalValueException("Error " + cmdResult.exitCode + " returned from command :" + NL2T + cmdResult.commandDescr + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitCode + " instead of " + ZERO_i + " .");
+        throw new ExternalValueException("Error " + cmdResult.exitValue + " returned from command :" + NL2T + cmdResult.commandDescr + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitValue + " instead of " + ZERO_i + " .");
 			}
 		}
 	}
@@ -597,9 +597,9 @@ public final class BuildOrchestrator {
       
       final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(null, initCommand);
 			
-			if (cmdResult.exitCode != ZERO_i) {
+			if (cmdResult.exitValue != ZERO_i) {
 				
-				final String errMsg = "Initialization command " + dq(initCommand) + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitCode + ").";
+				final String errMsg = "Initialization command " + dq(initCommand) + " failed: " + cmdResult.exception + " (exit code " + cmdResult.exitValue + ").";
 				
 				this.appContext.errUser(errMsg);
 				
@@ -732,7 +732,7 @@ public final class BuildOrchestrator {
    * @param exitCode
    * @param exception
    */
-  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.Entry journalEntry, int exitCode
+  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.Entry journalEntry, int exitValue
                                             , Exception exception) {}
   
   /**
