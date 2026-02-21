@@ -640,7 +640,7 @@ public final class BuildOrchestrator {
 	 *
 	 * @return An {@link OrchestratorCommandOutcome} describing the outcome of running the {@code command}.
 	 */
-	@NotNull private OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
+	private @NotNull OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
                                                                              , String ... args) throws InterruptedException {
     final Journal.Entry resultJournalEntry;
@@ -684,9 +684,8 @@ public final class BuildOrchestrator {
       timeMs = System.currentTimeMillis() - timeMs;
     }
     assertDifferentNullness(cmdOutcome, resultException
-              , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
-                              + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
-    
+                             , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
+                                             + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
     if (resultExitValue == ZERO_i) {
       
       if (cmdOutcome == null) {
