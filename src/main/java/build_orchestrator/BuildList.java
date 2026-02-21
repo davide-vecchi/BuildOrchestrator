@@ -40,9 +40,8 @@ import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.number.NumberUtilities.assertPositive;
-import static dutil.object.ObjectUtilities.B;
-import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertTrue;
+import static dutil.object.ObjectUtilities.defaultValue;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
@@ -53,6 +52,8 @@ import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.isBlankOrTrimmable;
 import static dutil.string.TextUtilities.surround;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -202,9 +203,9 @@ class BuildList {
     
     final TwoObjects<Boolean, Boolean> options = extractOptionsSection(buildListFile, sectionLines, optionsSectionKey);
     
-    result.doPause = assertNonNull(options.o1);
+    result.doPause = defaultValue(options.o1, TRUE);
     
-    result.doTests = assertNonNull(options.o2);
+    result.doTests = defaultValue(options.o2, TRUE);
     
     // Parse Modules section :
     
@@ -459,13 +460,13 @@ class BuildList {
    *
    * @return
    */
-  private static TwoObjects<@NotNull Boolean, @NotNull Boolean> extractOptionsSection(
+  private static @NotNull TwoObjects<Boolean, Boolean> extractOptionsSection(
                                                                    @NotNull  File                      buildListFile
                                                                  , @NotEmpty Map<String
                                                                                , List<LineWithNumber>> sectionLines
                                                                  , @NotBlank String                    optionsSectionKey) {
     
-    boolean doPause = true, doTests = true; // : Default values if their option is missing in the file.
+    Boolean doPause = null, doTests = null;
     
     final List<LineWithNumber> rawOptionsLines = sectionLines.get(optionsSectionKey);
     
@@ -475,11 +476,11 @@ class BuildList {
       
       if (trimmed.equalsIgnoreCase(NO_PAUSE)) {
         
-        doPause = false;
+        doPause = FALSE;
       }
       else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
         
-        doTests = false;
+        doTests = FALSE;
       }
       else {
         
@@ -489,7 +490,7 @@ class BuildList {
                                               + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
       }
     }
-    return new TwoObjects<>(B(doPause), B(doTests));
+    return new TwoObjects<>(doPause, doTests);
   }
   
   /**

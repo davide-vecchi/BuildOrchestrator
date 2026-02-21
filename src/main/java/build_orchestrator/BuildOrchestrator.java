@@ -8,11 +8,13 @@ package build_orchestrator;
 import dfile.file.FileUtilities;
 import dlog.log.Log;
 import dmaven.MavenArtifactInfo;
+import dutil.exception.UserRequestedTermination;
 import dutil.exception.exceptions.ExternalProcessException;
 import dutil.exception.exceptions.ExternalValueException;
 import dutil.exception.exceptions.InternalErrorException;
 import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
+import dutil.io.IOUtilities;
 import dutil.system.OSUtilities;
 import dutil.system.OSUtilities.RunCommandOutcome;
 import dutil.value_holder.ObjectAndDescr;
@@ -155,7 +157,7 @@ public final class BuildOrchestrator {
 	/**
 	 * The method that starts the processing.
 	 */
-	public void run() throws InterruptedException {
+	public void run() throws InterruptedException, UserRequestedTermination {
 		
     this.journal = Journal.newInstance();
     
@@ -184,7 +186,7 @@ public final class BuildOrchestrator {
 	 * Loops over the entries in the {@link BuildList#getModuleBlocks() Modules section} of the {@link #buildList Build
 	 * List}, and for each one executes its {@link BuildList.ModuleBlock#mvnCommand Maven command}.
 	 */
-	private void buildAndDeployModules() throws InterruptedException {
+	private void buildAndDeployModules() throws InterruptedException, UserRequestedTermination {
 		
 		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
@@ -225,8 +227,9 @@ public final class BuildOrchestrator {
       // Run the command to build :
       
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
-																															 pomFolder, mvnCmdWithPath
-																										, args.subList(ONE_i, args.size()).toArray(new String[ZERO_i]));
+                                                           pomFolder, mvnCmdWithPath
+                                                , this.buildList.getDoPause().booleanValue()
+                                                , args.subList(ONE_i, args.size()).toArray(new String[ZERO_i]));
       if (cmdResult.exitValue == ZERO_i) {
 				
 				// : The build command succeeded.
@@ -597,7 +600,7 @@ public final class BuildOrchestrator {
 	/**
 	 * {@link #runOrchestratorCommand Issues} the {@link BuildList#getInitCommands() Initialization Commands}.
 	 */
-	private void issueInitCommands() throws InterruptedException {
+	private void issueInitCommands() throws InterruptedException, UserRequestedTermination {
 		
 		this.appContext.outUser();
 		
@@ -606,7 +609,8 @@ public final class BuildOrchestrator {
       final List<String> commandWithArgs = parseNotWithinDelimiters(initCommand, SPACEChar, DQChar);
       
       final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
-          null, commandWithArgs.getFirst(), commandWithArgs.subList(ONE_i, commandWithArgs.size()).toArray(new String[ZERO_i]));
+          null, commandWithArgs.getFirst(), this.buildList.getDoPause().booleanValue()
+        , commandWithArgs.subList(ONE_i, commandWithArgs.size()).toArray(new String[ZERO_i]));
 			
 			if (cmdResult.exitValue != ZERO_i) {
 				
@@ -637,12 +641,19 @@ public final class BuildOrchestrator {
    *
    * When this method returns, no matter the command's outcome, a new {@link Journal.Entry} has been {@link Journal#addEntry
    * added} to the {@link #journal}.
+   *
+   * @param doPause If {@code true}, after {@link OSUtilities#runCommand executing} the {@code command}, {@link IOUtilities#askValue
+   *                waits} for the Enter key to be pressed.
 	 *
 	 * @return An {@link OrchestratorCommandOutcome} describing the outcome of running the {@code command}.
+   *
+   * @throws UserRequestedTermination If {@code doPause} is {@code true} and the user responds to the pausing question
+   *                                  with {@code A} (for Abort).
 	 */
 	private @NotNull OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
-                                                                             , String ... args) throws InterruptedException {
+                                                                             , boolean    doPause
+                                                                             , String ... args) throws InterruptedException, UserRequestedTermination {
     final Journal.Entry resultJournalEntry;
     int                 resultExitValue;
     Exception           resultException;
@@ -698,8 +709,9 @@ public final class BuildOrchestrator {
                                   + NL + "and the erroneous SonarQube NPE issue detection (rule \"java:S2259\")");
       }
       this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
-                                    + NL2 + "executed successfully in " + timeMs
-                                          + " ms from folder " + dqStr(cmdOutcome.processFolder()) + ".");
+                                    + NL2 + "executed successfully in " + timeMs + " ms"
+                                          + (cmdOutcome.processFolder() != null ? " from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
+                                                                                : EMPTY) + ".");
     }
     else {
       
@@ -710,6 +722,12 @@ public final class BuildOrchestrator {
                                     + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
                                     + " in " + timeMs + " ms.");
     }
+    // If required, wait for a key to be pressed :
+    
+    if (doPause) {
+      
+      doPause("Aa");
+    }
     commandDescr = cmdOutcome != null ? cmdOutcome.commandLine() : command;
     
     resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandDescr, folder
@@ -718,6 +736,29 @@ public final class BuildOrchestrator {
 		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
                                         , resultExitValue,          resultException);
 	}
+  
+  /**
+   * @param cancelChars If the entered value is 1-char long and contained in this string, returns {@code null}.<br>Pass
+   *                    an {@link StringUtils#EMPTY empty string} to prevent the user from canceling.
+   *
+   * @throws UserRequestedTermination If the user responds to the pausing question with one of the {@code cancelChars}.
+   */
+  private void doPause(@NotNull String cancelChars) throws UserRequestedTermination {
+    
+    assertNonNull(cancelChars);
+    
+    final String in = this.appContext.userIO.in("Press Enter to continue, or " + (cancelChars.length() == ONE_i ?
+                                                        cancelChars : "one of the " + dq(cancelChars) + " characters")
+                                                        + " and then Enter to Abort : ", EMPTY, cancelChars);
+    if (in == null) {
+      
+      // : The user requested to abort :
+      
+      this.appContext.errUser(NL + "Terminating as requested by the user." + NL);
+      
+      throw new UserRequestedTermination();
+    }
+  }
   
   /**
    * @param path The path of the folder to empty.<br>
