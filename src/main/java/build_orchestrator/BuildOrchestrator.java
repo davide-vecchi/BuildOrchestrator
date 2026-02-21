@@ -651,7 +651,7 @@ public final class BuildOrchestrator {
     
     final String commandDescr;
 			
-    // : Run the build command :
+    // : Run the command :
     
     long timeMs = System.currentTimeMillis();
     
