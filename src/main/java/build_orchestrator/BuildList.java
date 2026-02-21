@@ -129,7 +129,12 @@ class BuildList {
   /**
    * Represents the Build List line (found in the <i>Options</i> Section) that determines whether Maven will run the
    * tests for each module. {@code null} means that that line has not been encountered yet.
+   *
+   * @deprecated To be removed, it's not useful because the Build List contains the {@code mvn} commands for each
+   *             module and that's the right place : if you want to skip tests for some modules, add {@code -D skipTests}
+   *             to their {@code mvn} commands.
    */
+  @Deprecated(forRemoval = true, since = "2026-02-21")
   @Getter
   private Boolean doTests;
   
