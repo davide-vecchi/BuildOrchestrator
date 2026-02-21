@@ -228,8 +228,8 @@ public class BuildOrchestratorMain {
 		
 		final Map<String, String> configurationMap = toMap(readProperties(cfgFileCanonicalName));
 		
-		appContext.outUser(configurationMap.size() + " parameters read from the configuration file.");
-		
+		appContext.outUser("The following " + configurationMap.size() + " parameters were read from the configuration file :" + NL2 + configurationMap);
+  
 		return configurationMap;
 	}
 	
