@@ -121,7 +121,7 @@ class BuildList {
   /**
    * Represents the Build List line (found in the <i>Options</i> Section) that determines whether after the build of
    * each module there will be a pause waiting for a key to be pressed. {@code null} means that that Section has not
-   * been encountered yet. If the Section doesn't contain this value, it means
+   * been encountered yet.
    */
   @Getter
   private Boolean doPause;
