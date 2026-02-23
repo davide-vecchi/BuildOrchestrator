@@ -788,17 +788,19 @@ public final class BuildOrchestrator {
   }
   
   /**
-   * TODO @@@@ COMPLETE THIS COMMENT.<br><br>
    * Represents the outcome of {@link #runOrchestratorCommand running an Orchestrator command}.
    *
    * @param commandLine The OS command that generated this outcome.<br>
    *
-   * @param journalEntry
+   * @param journalEntry The Journal Entry that has been created to describe the operation of running the {@code command}.
    *
    * @param exitValue Besides its {@link Process#exitValue() normal values}, this field may have the following custom
    *                  values :<ul><li>-101 ({@link IOException})</li>
    *                              <li>-102 ({@link TimeoutException})</li></ul><br>
-   * @param exception
+   *
+   * @param exception If the execution of the {@code command} failed, and the failure was caused by an exception, it is
+   *                  this one. So if this is not {@code null} then {@code exitValue} cannot be 0 which would indicate
+   *                  success and not failure.
    */
   record OrchestratorCommandOutcome(@NotBlank String    commandLine, @NotNull Journal.Entry journalEntry, int exitValue
                                             , Exception exception) {}
