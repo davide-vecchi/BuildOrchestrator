@@ -13,6 +13,7 @@ import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.NonUniqueExternalValueException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -23,8 +24,10 @@ import java.util.Map;
 import static build_orchestrator.AppContext.newAppContext;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
+import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
 import static dlog.log.Log.writeLogsHeaders;
+import static dutil.date.DateTimeUtilities.waitMillis;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
 import static dutil.map.MapUtilities.assertNonEmpty;
 import static dutil.number.NumberUtilities.ONE_i;
@@ -39,7 +42,9 @@ import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.assertNonBlank;
+import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.fusesource.jansi.Ansi.Color.BLACK;
 import static org.fusesource.jansi.Ansi.Color.CYAN;
 import static org.fusesource.jansi.Ansi.Color.RED;
@@ -63,6 +68,12 @@ public class BuildOrchestratorMain {
 	 * The description of this program. Description, not a Short name (see #APP_NAME).
 	 */
 	public static final String APP_DESCR = APP_NAME + " - Build orchestrator for building Java projects with Maven.";
+  
+  /**
+   * Each of these characters, if entered alone by the user as the answer to a question, means that the user is
+   * requesting to terminate the program.
+   */
+  static final String CANCEL_CHARS = "Aa/";
 	
 	
 	/**
@@ -133,7 +144,7 @@ public class BuildOrchestratorMain {
 	 *
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
    */
-	static @NotNull BuildOrchestrator newBuildOrchestrator(@NotNull String[] args, @NotNull AppContext ac) throws UserRequestedTermination {
+	static @NotNull BuildOrchestrator newBuildOrchestrator(@NotNull String[] args, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
 		
 		if (args.length != ONE_i) {
 			
@@ -154,15 +165,76 @@ public class BuildOrchestratorMain {
 																									       , ac);
 		
 		// Initialize the instance of the BuildOrchestrator application, using the configuration params :
-		
-		final File buildListFile = newValidatedFile(assertNonBlank(params.getBuildListFilepath().value)
+    
+    final String buildListFilepath = assertNonBlankNorTrimmable(
+                        params.getBuildListFilepath().value == null ?
+                                  askBuildListFilepath("Build List file name not found in configuration "
+                                                                  + getCanonicalPathAsDescr(configurationFile) + "."
+                                                    , CANCEL_CHARS, ac)
+                                : params.getBuildListFilepath().value);
+    
+		final File buildListFile = newValidatedFile(assertNonBlank(buildListFilepath)
 																						 , true,       TEN_i);
 		
 		return BuildOrchestrator.newInstance(params, buildListFile);
 	}
-	
-	
-	/**
+  
+  /**
+   * @param prePrompt Text to show right before the prompt that this method shows (which starts with "Enter the Build
+   *                  List file name" etc.). It will not be re-shown if the entered value is invalid and causes the
+   *                  prompt to be re-shown.<br>May be {@code null}.<br>
+   *
+   * @param cancelChars If the entered value is 1-char long and contained in this string, returns {@code null}.<br>Pass
+   *                    an {@link StringUtils#EMPTY empty string} to prevent the user from canceling.
+   *
+   * @return The text entered by the user.
+   *
+   * @throws UserRequestedTermination If the user responds to the question with one of the {@code cancelChars}.
+   */
+  private static String askBuildListFilepath(String prePrompt, @NotNull String cancelChars, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
+    
+    ac.warnUser(NL + prePrompt);
+    
+    final String prompt = "Enter the Build List file name, with or without path (the current folder is " + dq(getCurrentFolder())
+                          + "), or " + (cancelChars.length() == ONE_i ? cancelChars : "one of the " + dq(cancelChars) + " characters")
+                          + " and then Enter to Abort : ";
+    String result;
+    
+    boolean done;
+    
+    do {
+      
+      result = ac.userIO.in(prompt , EMPTY, cancelChars);
+      
+      if (result == null) {
+        
+        // : The user requested to abort :
+        
+        ac.errUser(NL + "Terminating as requested by the user." + NL);
+        
+        throw new UserRequestedTermination();
+      }
+      done = new File(result).exists();
+      
+      if (! done) {
+        
+        ac.userIO.warnChars("The specified file does not exist." + NL);
+        
+        final InterruptedException ie = waitMillis(500);
+        
+        if (ie != null) {
+          
+          throw ie;
+        }
+      }
+    }
+    while (! done);
+    
+    return result;
+  }
+  
+  
+  /**
 	 * @param configurationMap {@link AParams#configurationMap configurationMap}.<br>
 	 *
 	 * @param sourceDescr      {@link AParams#sourceDescr sourceDescr}.

@@ -35,6 +35,9 @@ cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\Thread
 #
 # NoTests
 
+NoPause
+
+
 
 [Modules]
 

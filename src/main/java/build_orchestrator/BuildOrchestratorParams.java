@@ -134,7 +134,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		this.buildListFilepath.setValueParser(new NeutralStringParser()).loadMandatoryValue();
+		this.buildListFilepath.setValueParser(new NeutralStringParser()).loadOptionalValue(null);
 		
 		// Param MavenFolder :
 		

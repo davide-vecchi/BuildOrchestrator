@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import static build_orchestrator.BuildList.newBuildList;
+import static build_orchestrator.BuildOrchestratorMain.CANCEL_CHARS;
 import static dfile.file.FileUtilities.assertExistingFile;
 import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.assertNonEmpty;
@@ -726,7 +727,7 @@ public final class BuildOrchestrator {
     
     if (doPause) {
       
-      doPause("Aa");
+      doPause(CANCEL_CHARS);
     }
     commandLine = cmdOutcome != null ? cmdOutcome.commandLine() : command;
     
@@ -744,8 +745,6 @@ public final class BuildOrchestrator {
    * @throws UserRequestedTermination If the user responds to the pausing question with one of the {@code cancelChars}.
    */
   private void doPause(@NotNull String cancelChars) throws UserRequestedTermination {
-    
-    assertNonNull(cancelChars);
     
     final String in = this.appContext.userIO.in("Press Enter to continue, or " + (cancelChars.length() == ONE_i ?
                                                         cancelChars : "one of the " + dq(cancelChars) + " characters")

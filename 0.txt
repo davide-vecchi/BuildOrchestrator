@@ -1,5 +1,5 @@
 buildListFilepath
-@@@@ Param "BuildListFile" made optional and asked if missing.
+@@@ Param "BuildListFile" made optional and asked if missing.
 
 
 Implemented DoPause behavior.
