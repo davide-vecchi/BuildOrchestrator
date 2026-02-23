@@ -178,9 +178,6 @@ public final class BuildOrchestrator {
 		buildAndDeployModules();
 		
 		this.appContext.outUserLog(NL2 + DASH80 + NL2 + "Execution journal:" + NL2 + this.journal + NL2 + DASH80);
-		
-		// @@@ q @@@@@@@@@@@@@@@
-		
 	}
 	
 	/**
