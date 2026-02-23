@@ -252,7 +252,9 @@ public final class BuildOrchestrator {
             
             // : The deployment succeeded.
             
-            this.appContext.outUser(msg + "successful." + NL2 + "Deployment info :" + NL2T + deploymentResult);
+            this.appContext.outUser(msg + "successful." + NL2 + deploymentResult.journalEntry.operationDescr);
+            
+            this.appContext.outDevLog("Deployment info :" + NL2T + deploymentResult);
           }
           else {
             
