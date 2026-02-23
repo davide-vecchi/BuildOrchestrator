@@ -134,17 +134,6 @@ public class Journal {
     
     
     /**
-     * @param operationDescr {@link #operationDescr}.
-     *
-     * @return A new {@link Entry} created {@link Entry#operationDescr with} the given {@code
-     *         operationDescr}. All its other fields will be {@code null}.
-     */
-    public static Entry newInstance(@NotBlank String operationDescr) {
-    
-      return new Entry(operationDescr, null, null);
-    }
-    
-    /**
      * @param buildCommand {@link #operationDescr}.<br>
      * @param sourceFolder {@link #sourceFolder}.<br>
      * @param durationMs   {@link #durationMs}.
