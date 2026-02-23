@@ -67,7 +67,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * Mandatory : The filesystem path to the <i>Build List file</i>.
 	 */
 	@Getter
-	@NotNull ParamMono<Object, String> buildListFilePath;
+	@NotNull ParamMono<Object, String> buildListFilepath;
 	
 	/**
 	 * Optional : The filesystem path to the Maven installation folder (not the Maven repository folder).<br><br>
@@ -114,7 +114,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		this.buildListFilePath = new ParamMono<>(this, "BuildListFile");
+		this.buildListFilepath = new ParamMono<>(this, "BuildListFile");
     
     // Param MavenFolder :
     
@@ -134,7 +134,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		this.buildListFilePath.setValueParser(new NeutralStringParser()).loadMandatoryValue();
+		this.buildListFilepath.setValueParser(new NeutralStringParser()).loadMandatoryValue();
 		
 		// Param MavenFolder :
 		
@@ -162,7 +162,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		validateExistingFilePathParam(this.buildListFilePath);
+		validateExistingFilePathParam(this.buildListFilepath);
     
     // Param MavenFolder :
     
