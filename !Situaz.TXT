@@ -4,9 +4,9 @@
 
 @ Must implement the behavior for the existing Build List params :
 
-  @ DoPause.
+  - DoPause.
 
-  - DoTests.
+  @ DoTests.
 
     * No, remove it.
 
