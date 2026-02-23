@@ -14,9 +14,9 @@
 
 # For Windows :
 
-cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries")
+# cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries")
 
-cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat")
+# cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat")
 
 # For Unix :
 
@@ -31,7 +31,7 @@ cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\Thread
 # This section may contain or not the following line (case-insensitive) :
 #
 # NoPause
-
+NoPause
 
 [Modules]
 
