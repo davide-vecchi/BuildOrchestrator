@@ -30,7 +30,7 @@ import static dfile.file.FileUtilities.write;
 import static dlog.log.Log.writeLogsHeaders;
 import static dtest.TestUtilities.assertFilesEqual;
 import static dtest.TestUtilities.newUserIOForTests;
-import static dutil.exception.ExceptionUtilities.getUnchecked;
+import static dutil.exception.ExceptionUtilities.calcUnchecked;
 import static dutil.list.text.TextListUtilities.assertNoneBlank;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.MINUS1_i;
@@ -76,7 +76,7 @@ public class BuildOrchestratorTest {
     }
     catch (Exception e) {
       
-      throw getUnchecked(e);
+      throw calcUnchecked(e);
     }
     this.appContext = null;
   }

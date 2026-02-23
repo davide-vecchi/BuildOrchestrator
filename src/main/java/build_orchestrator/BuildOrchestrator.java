@@ -46,9 +46,9 @@ import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.isExistingFolder;
 import static dmaven.MavenUtilities.calcMavenArtifactInfo;
 import static dmaven.MavenUtilities.calcNonRunnableJarPath;
+import static dutil.exception.ExceptionUtilities.calcUnchecked;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
-import static dutil.exception.ExceptionUtilities.getUnchecked;
 import static dutil.list.text.TextListUtilities.assertNoneBlankNorTrimmable;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
@@ -262,7 +262,7 @@ public final class BuildOrchestrator {
             
             if (deploymentResult.failure().o2 != null) {
               
-              throw getUnchecked(deploymentResult.failure().o2);
+              throw calcUnchecked(deploymentResult.failure().o2);
             }
             throw new UncheckedIOException(new IOException(msg + "failed :" + NL2T + deploymentResult.failure()));
           }
@@ -284,7 +284,7 @@ public final class BuildOrchestrator {
 				
         if (cmdResult.exception != null) {
 				
-          throw getUnchecked(cmdResult.exception);
+          throw calcUnchecked(cmdResult.exception);
         }
         throw new ExternalValueException("Error " + cmdResult.exitValue + " returned from command :" + NL2T + cmdResult.commandLine + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitValue + " instead of " + ZERO_i + " .");
 			}
@@ -328,7 +328,7 @@ public final class BuildOrchestrator {
       
       if (exception != null) {
         
-        throw getUnchecked(exception);
+        throw calcUnchecked(exception);
       }
     }
     return deploymentResult;
@@ -394,7 +394,7 @@ public final class BuildOrchestrator {
       }
       catch (IOException e) {
   
-        throw getUnchecked(e);
+        throw calcUnchecked(e);
       }
     }
     return result;
@@ -783,7 +783,7 @@ public final class BuildOrchestrator {
     }
     catch (IOException e) {
       
-      throw getUnchecked(e);
+      throw calcUnchecked(e);
     }
   }
   
