@@ -9,9 +9,9 @@ TEST Line before the first section. Must be caught as an error.
 # because issuing initialization commands is not implemented yet.
 
 
+
 [Options]
 
-NOTESTS
 
 
 [Modules]

@@ -104,12 +104,6 @@ class BuildList {
   private static final String NO_PAUSE = "NoPause";
   
   /**
-   * If the Build List file contains this line (case-insensitive) in the "Options" Section, {@link #doTests} will be {@link Boolean#FALSE
-   * FALSE}, otherwise it will be {@link Boolean#TRUE TRUE}.
-   */
-  private static final String NO_TESTS = "NoTests";
-  
-  /**
    * The lines in the <i>Initialization</i> Section of a Build List. Each line represents an <i>Initialization Command</i>.<br><br>{@code
    * null} means that that Section has not been encountered yet. If that Section exists and is empty, this list will be
    * empty.<br><br>
@@ -126,18 +120,6 @@ class BuildList {
    */
   @Getter
   private Boolean doPause;
-  
-  /**
-   * Represents the Build List line (found in the <i>Options</i> Section) that determines whether Maven will run the
-   * tests for each module. {@code null} means that that line has not been encountered yet.
-   *
-   * @deprecated To be removed, it's not useful because the Build List contains the {@code mvn} commands for each
-   *             module and that's the right place : if you want to skip tests for some modules, add {@code -D skipTests}
-   *             to their {@code mvn} commands.
-   */
-  @Deprecated(forRemoval = true, since = "2026-02-21")
-  @Getter
-  private Boolean doTests;
   
   /**
    * Represents the Build list Section <i>Modules</i>. The elements of this list will be the {@link ModuleBlock}s
@@ -205,11 +187,9 @@ class BuildList {
     
     result.doPause = defaultValue(options.o1, TRUE);
     
-    result.doTests = defaultValue(options.o2, TRUE);
-    
     // Parse Modules section :
     
-    result.moduleBlocks = extractModulesSection(buildListFile, sectionLines, modulesSectionKey, ac);
+    result.moduleBlocks = extractModulesSection(buildListFile, sectionLines, modulesSectionKey);
     
     // Validate at least one module exists :
     
@@ -240,34 +220,19 @@ class BuildList {
   }
   
   /**
+   * TODO @@@@ COMMENT<br><br>
+   *
    * Parse Modules section.
-   *
-   * @param buildListFile
-   * @param sectionLines
-   * @param modulesSectionKey
-   * @param ac
-   *
-   * @return TODO @@@@ COMMENT
    */
   private static List<ModuleBlock> extractModulesSection(@NotNull  File                             buildListFile
                                                        , @NotEmpty Map<String,List<LineWithNumber>> sectionLines
-                                                       , @NotBlank String                           modulesSectionKey
-                                                       , @NotNull  AppContext                       ac) {
-    
-    
+                                                       , @NotBlank String                           modulesSectionKey) {
     
     final String buildListFileDescr = getCanonicalPathAsDescr(assertNonEmpty(buildListFile));
-    
-    
-    
-    
-    
     
     final List<ModuleBlock> moduleBlocks = new ArrayList<>();
     
     final List<LineWithNumber> rawModuleLines = sectionLines.get(modulesSectionKey);
-    
-    // @@@@@@@@@ improve this comment @@@@@@@@@@ Track seen module paths for duplicate detection with case normalization :
     
     final Set<String> seenModulePaths = new HashSet<>();
     
@@ -458,15 +423,17 @@ class BuildList {
    * @param sectionLines
    * @param optionsSectionKey
    *
-   * @return
+   * @return <ul><li>In {@link TwoObjects#o1 o1} {@link Boolean#FALSE FALSE} if the option {@value #NO_PAUSE} is found
+   *                 in the [Options] section, otherwise {@code null}.</li>
+   *                 <li>In {@link TwoObjects#o2 o2} {@code null} (it was used for the now removed DoTests, I left it
+   *                 for future use).</li></ul>
    */
   private static @NotNull TwoObjects<Boolean, Boolean> extractOptionsSection(
                                                                    @NotNull  File                      buildListFile
                                                                  , @NotEmpty Map<String
                                                                                , List<LineWithNumber>> sectionLines
                                                                  , @NotBlank String                    optionsSectionKey) {
-    
-    Boolean doPause = null, doTests = null;
+    Boolean doPause = null;
     
     final List<LineWithNumber> rawOptionsLines = sectionLines.get(optionsSectionKey);
     
@@ -478,19 +445,15 @@ class BuildList {
         
         doPause = FALSE;
       }
-      else if (trimmed.equalsIgnoreCase(NO_TESTS)) {
-        
-        doTests = FALSE;
-      }
       else {
         
         throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
                                               + " in section [" + OPTIONS_SECTION_NAME + "] of file "
                                               + getCanonicalPathAsDescr(buildListFile)
-                                              + ". Valid options are: " + NO_PAUSE + ", " + NO_TESTS);
+                                              + ". Valid options are: " + NO_PAUSE);
       }
     }
-    return new TwoObjects<>(doPause, doTests);
+    return new TwoObjects<>(doPause, null);
   }
   
   /**
@@ -790,8 +753,6 @@ class BuildList {
                                         , EMPTY,            NL));
     
     sb.append(TAB).append("doPause=").append(this.doPause).append(NL2);
-    
-    sb.append(TAB).append("doTests=").append(this.doTests).append(NL2);
     
     sb.append(TAB).append("moduleBlocks=").append(listToString(this.moduleBlocks
                                                           , null, TAB2

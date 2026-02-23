@@ -4,8 +4,6 @@ BuildList {
 
 	doPause=true
 
-	doTests=false
-
 	moduleBlocks=ArrayList:
 
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG, mvnCommand=mvn clean install, executableDestPath=null]

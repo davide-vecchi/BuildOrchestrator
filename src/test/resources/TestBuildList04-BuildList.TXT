@@ -11,14 +11,10 @@
 
 [Options]
 
-# This section may contain or not one or both of the following lines (both are
-# case-insensitive) :
+# This section may contain or not the following line (case-insensitive) :
 #
 # NoPause
-#
-# NoTests
 NoPause
-NoTests
 
 
 [Modules]

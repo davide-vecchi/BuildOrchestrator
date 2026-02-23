@@ -4,8 +4,6 @@ BuildList {
 
 	doPause=false
 
-	doTests=false
-
 	moduleBlocks=ArrayList:
 
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common, mvnCommand=mvn clean install, executableDestPath=null]
