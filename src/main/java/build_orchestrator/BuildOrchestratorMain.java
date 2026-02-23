@@ -161,7 +161,7 @@ public class BuildOrchestratorMain {
 		final BuildOrchestratorParams params = newBuildOrchestratorParams(readConfigurationMap(configurationFile
 			                                                                       , ac)
 																											 , "Configuration file "+  dq(
-																							                getCanonicalPath(configurationFile))
+																							                 getCanonicalPath(configurationFile))
 																									       , ac);
 		
 		// Initialize the instance of the BuildOrchestrator application, using the configuration params :
