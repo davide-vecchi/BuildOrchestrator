@@ -14,15 +14,15 @@
 
 # For Windows :
 
-cmd.exe /c RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries"
+cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries")
 
-cmd.exe /c RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat"
+cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat")
 
 # For Unix :
 
-# /bin/sh -c "rm -rf '/home/davide/.m2/repository/DJavaLibraries'"
+# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/DJavaLibraries"'
 
-# /bin/sh -c "rm -rf '/home/davide/.m2/repository/JavaLibraries3rdParty/ThreadSafeNumberFormat'"
+# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/JavaLibraries3rdParty/ThreadSafeNumberFormat"'
 
 
 
