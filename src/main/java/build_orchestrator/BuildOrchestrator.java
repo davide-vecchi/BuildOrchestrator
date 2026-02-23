@@ -238,7 +238,7 @@ public final class BuildOrchestrator {
         
         this.appContext.outUser(  NL + "Build successful.");
         
-        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + "was " + cmdResult.exitValue + " .");
+        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + cmdResult.commandLine + " was " + cmdResult.exitValue + " .");
 				
 				if (moduleBlock.executableDestPath() != null) {
           
@@ -286,7 +286,7 @@ public final class BuildOrchestrator {
 				
           throw getUnchecked(cmdResult.exception);
         }
-        throw new ExternalValueException("Error " + cmdResult.exitValue + " returned from command :" + NL2T + cmdResult.commandDescr + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitValue + " instead of " + ZERO_i + " .");
+        throw new ExternalValueException("Error " + cmdResult.exitValue + " returned from command :" + NL2T + cmdResult.commandLine + NL2 + "executed from folder " + dq(moduleBlock.modulePath()) + ". Error code " + cmdResult.exitValue + " instead of " + ZERO_i + " .");
 			}
 		}
 	}
@@ -660,7 +660,7 @@ public final class BuildOrchestrator {
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
     
-    final String commandDescr;
+    final String commandLine;
 			
     // : Run the command :
     
@@ -728,13 +728,13 @@ public final class BuildOrchestrator {
       
       doPause("Aa");
     }
-    commandDescr = cmdOutcome != null ? cmdOutcome.commandLine() : command;
+    commandLine = cmdOutcome != null ? cmdOutcome.commandLine() : command;
     
-    resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandDescr, folder
+    resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandLine, folder
                                                                                   , L(timeMs)));
 		
-		return new OrchestratorCommandOutcome(commandDescr,assertNonNull(resultJournalEntry)
-                                        , resultExitValue,          resultException);
+		return new OrchestratorCommandOutcome(commandLine,assertNonNull(resultJournalEntry)
+                                                     , resultExitValue,          resultException);
 	}
   
   /**
@@ -788,9 +788,11 @@ public final class BuildOrchestrator {
   }
   
   /**
+   * TODO @@@@ COMPLETE THIS COMMENT.<br><br>
    * Represents the outcome of {@link #runOrchestratorCommand running an Orchestrator command}.
    *
-   * @param commandDescr
+   * @param commandLine The OS command that generated this outcome.<br>
+   *
    * @param journalEntry
    *
    * @param exitValue Besides its {@link Process#exitValue() normal values}, this field may have the following custom
@@ -798,7 +800,7 @@ public final class BuildOrchestrator {
    *                              <li>-102 ({@link TimeoutException})</li></ul><br>
    * @param exception
    */
-  record OrchestratorCommandOutcome(@NotBlank String    commandDescr, @NotNull Journal.Entry journalEntry, int exitValue
+  record OrchestratorCommandOutcome(@NotBlank String    commandLine, @NotNull Journal.Entry journalEntry, int exitValue
                                             , Exception exception) {}
   
   /**
