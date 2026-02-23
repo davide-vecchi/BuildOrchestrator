@@ -210,7 +210,7 @@ public class BuildOrchestratorMain {
         
         // : The user requested to abort :
         
-        ac.errUser(NL + "Terminating as requested by the user." + NL);
+        ac.warnUser(NL + "Terminating as requested by the user." + NL);
         
         throw new UserRequestedTermination();
       }

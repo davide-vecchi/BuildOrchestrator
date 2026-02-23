@@ -753,7 +753,7 @@ public final class BuildOrchestrator {
       
       // : The user requested to abort :
       
-      this.appContext.errUser(NL + "Terminating as requested by the user." + NL);
+      this.appContext.warnUser(NL + "Terminating as requested by the user." + NL);
       
       throw new UserRequestedTermination();
     }
