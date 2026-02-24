@@ -1,3 +1,14 @@
+Log command output ?
+
+	Y
+		adjustForLog != null
+		Show command output to user ?
+			Y
+				outToUser != null
+
+
+
+
 Ansi.ansi().fg(this.fgErrColor).bg(this.bgErrColor).bold().a(chars).reset()
 
 
