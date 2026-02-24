@@ -1,14 +1,38 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
-@ 17:14 2026-02-04
+@ 14:14 2026-02-20
 
-@ Must implement the behavior for the existing Build List params :
+@ Find how to capture mvn's output.
+
+  * Then log it.
+
+---------------------------------------------------------------------
+* 12:35 2026-02-21
+
+* Instead of having to put in the Build List the
+
+  cmd.exe /c
+
+  (if Windows) or the
+
+  /bin/sh -c
+
+  (if Unix) to run OS commands (e.g. RMDIR) vs. programs (e.g. FORMAT.COM),
+  verify if they work for both commands and programs, and if yes, have the
+  BuildOrchestrator add them to all Initialization commands (regardless of
+  whether they are OS commands or programs) and remove them from the Build
+  List.
+
+---------------------------------------------------------------------
+- 17:14 2026-02-04
+
+- Must implement the behavior for the existing Build List params :
 
   - DoPause.
 
-  @ DoTests.
+  - DoTests.
 
-    * No, remove it.
+    - No, remove it.
 
 @ Test the Orchestrator when some module fails to build.
 
@@ -55,30 +79,6 @@
 
 - Empty destination folder in local Maven repo before
   building its module.
-
----------------------------------------------------------------------
-* 12:35 2026-02-21
-
-* Instead of having to put in the Build List the
-
-  cmd.exe /c
-
-  (if Windows) or the
-
-  /bin/sh -c
-
-  (if Unix) to run OS commands (e.g. RMDIR) vs. programs (e.g. FORMAT.COM),
-  verify if they work for both commands and programs, and if yes, have the
-  BuildOrchestrator add them to all Initialization commands (regardless of
-  whether they are OS commands or programs) and remove them from the Build
-  List.
-
----------------------------------------------------------------------
-* 14:14 2026-02-20
-
-* Find how to capture mvn's output.
-
-  * Then log it.
 
 ---------------------------------------------------------------------
 - 20:10 2026-02-18

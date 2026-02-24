@@ -1,3 +1,9 @@
+Ansi.ansi().fg(this.fgErrColor).bg(this.bgErrColor).bold().a(chars).reset()
+
+
+logIfLog(log, TWO_i, DASH80 + NL + "BEGINNING OF OS PROCESS' OUTPUT" + NL + DASH80, TWO_i);
+
+
 buildListFilepath
 @@@ Param "BuildListFile" made optional and asked if missing.
 

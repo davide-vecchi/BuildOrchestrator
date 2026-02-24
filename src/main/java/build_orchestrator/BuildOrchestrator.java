@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 import static build_orchestrator.BuildList.newBuildList;
 import static build_orchestrator.BuildOrchestratorMain.CANCEL_CHARS;
@@ -668,10 +669,15 @@ public final class BuildOrchestrator {
     
     RunCommandOutcome cmdOutcome = null;
     
+    final Function<String, String> outToUser =    text-> this.appContext.userIO.asIsChars(text + NL);
+    
+    final Function<String, String> adjustForLog = text-> this.appContext.userIO.screenToPlain(text);
+    
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
+                                         , outToUser,                                      adjustForLog
                                 , args);
       
       resultExitValue = cmdOutcome.exitValue();
