@@ -1,0 +1,66 @@
+
+# DSAX artifact Build List
+# (from DJavaLibraries artifact group).
+# (REPOS subfolder : "JavaLibraries\DSAX").
+#
+# This Build List expects that the other libraries
+# needed by the DSAX module are already built.
+# This Build List only builds DSAX module.
+
+
+
+[Initialization]
+
+# Empty the whole libraries' parent target folders
+# (WARNING: this will remove from the local repo
+# ALL the DJavaLibraries that are there, regardless
+# of whether all of them or only some of them will
+# be rebuilt now) :
+
+# For Windows :
+
+cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries\DSAX" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries\DSAX")
+
+# cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat")
+
+# For Unix :
+
+# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/DJavaLibraries/DSAX"'
+
+# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/JavaLibraries3rdParty/ThreadSafeNumberFormat"'
+
+
+
+[Options]
+
+# This section may contain or not the following line (case-insensitive) :
+#
+# NoPause
+
+
+
+[Modules]
+
+#
+# Beginning of the module list.
+#
+# Each module is represented by a block made of 2 or 3 lines :
+#
+#   The 1st line is the filesystem path to the module's folder,
+#   that is the folder where the pom.xml is.
+#
+#   The 2nd line is the build command to issue for that module;
+#   it can have any arguments.
+#
+#   The 3nd line, if present, is the path of the folder where the artifact built
+#   for that module must be moved. If the line is not present, the artifact will
+#   not be moved.
+#
+#   There can not be any comment or empty line inside a block.
+#   There must be at least one empty line between blocks.
+#
+
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX
+  mvn clean install
+  
+# mvn clean install -DskipTests
