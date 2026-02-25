@@ -52,6 +52,7 @@ import static dutil.exception.ExceptionUtilities.calcUnchecked;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
 import static dutil.exception.ExceptionUtilities.getShortDescriptionWithRootCause;
 import static dutil.list.text.TextListUtilities.assertNoneBlankNorTrimmable;
+import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_i;
@@ -78,6 +79,7 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
 import static org.apache.commons.io.FilenameUtils.getExtension;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 
@@ -703,8 +705,10 @@ public final class BuildOrchestrator {
                              , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
                                              + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
     
-    final String knownCommandLine = assertNonBlank(cmdOutcome != null ? cmdOutcome.commandLine() : command);
-    
+    final String knownCommandLine = assertNonBlank(
+cmdOutcome != null ? cmdOutcome.commandLine()
+                           : command + SPACE + listToString(asList(args), EMPTY, EMPTY
+                                           , EMPTY,       SPACE));
     if (resultExitValue == ZERO_i) {
       
       if (cmdOutcome == null) {
