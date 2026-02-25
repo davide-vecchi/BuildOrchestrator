@@ -660,8 +660,6 @@ public final class BuildOrchestrator {
     Exception           resultException;
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
-    
-    final String commandLine;
 			
     // : Run the command :
     
@@ -669,15 +667,16 @@ public final class BuildOrchestrator {
     
     RunCommandOutcome cmdOutcome = null;
     
-    final Function<String, String> outToUser =    text-> this.appContext.userIO.asIsChars(text + NL);
+    final Function<String, String> adjustForLog = this.params.captureBuildOutput.value.booleanValue() ?
+                                          text-> this.appContext.userIO.screenToPlain(text) : null;
     
-    final Function<String, String> adjustForLog = text-> this.appContext.userIO.screenToPlain(text);
-    
+    final Function<String, String> outToUser = this.params.showCapturedOutput.value.booleanValue() ?
+                                          text-> this.appContext.userIO.asIsChars(text + NL) : null;
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
-                                         , outToUser,                                      adjustForLog
+                                         , adjustForLog,                       outToUser
                                 , args);
       
       resultExitValue = cmdOutcome.exitValue();
@@ -703,6 +702,9 @@ public final class BuildOrchestrator {
     assertDifferentNullness(cmdOutcome, resultException
                              , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
                                              + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
+    
+    final String knownCommandLine = assertNonBlank(cmdOutcome != null ? cmdOutcome.commandLine() : command);
+    
     if (resultExitValue == ZERO_i) {
       
       if (cmdOutcome == null) {
@@ -716,12 +718,13 @@ public final class BuildOrchestrator {
       }
       this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs + " ms"
-                                          + (cmdOutcome.processFolder() != null ? " from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
-                                                                                : EMPTY) + ".");
+                                          + (cmdOutcome.processFolder() != null ?
+                                             " from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
+                                          : EMPTY) + ".");
     }
     else {
       
-      this.appContext.errUser(NL  + "The command" + NL2T + assertNonBlank(command)
+      this.appContext.errUser(NL  + "The command" + NL2T + knownCommandLine
                                     + NL2 + (cmdOutcome != null ? "executed from folder " + dqStr(cmdOutcome.processFolder())
                                                                 : "which threw the exception" + NL2T + resultException.getLocalizedMessage())
                                     + NL2 + "resulted in an error (process exit value " + resultExitValue + ")"
@@ -734,13 +737,11 @@ public final class BuildOrchestrator {
       
       doPause(CANCEL_CHARS);
     }
-    commandLine = cmdOutcome != null ? cmdOutcome.commandLine() : command;
-    
-    resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(commandLine, folder
+    resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(knownCommandLine, folder
                                                                                   , L(timeMs)));
 		
-		return new OrchestratorCommandOutcome(commandLine,assertNonNull(resultJournalEntry)
-                                        , resultExitValue,          resultException);
+		return new OrchestratorCommandOutcome(knownCommandLine,assertNonNull(resultJournalEntry)
+                                        , resultExitValue,              resultException);
 	}
   
   /**
