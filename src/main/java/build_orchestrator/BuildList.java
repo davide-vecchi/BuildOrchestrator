@@ -45,6 +45,7 @@ import static dutil.object.ObjectUtilities.defaultValue;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
+import static dutil.string.TextUtilities.NL2T2;
 import static dutil.string.TextUtilities.TAB;
 import static dutil.string.TextUtilities.TAB2;
 import static dutil.string.TextUtilities.assertNonBlank;
@@ -386,11 +387,10 @@ class BuildList {
    *
    * @return The given {@code mavenCommand}.
    *
-   * @throws MissingExternalValueException If the given {@code mavenCommand} is {@link TextUtilities#isBlankOrTrimmable
-   *                                       blank or trimmable}.<br>
-   *
-   * @throws InvalidExternalValueException If the given {@code mavenCommand} is not {@link TextUtilities#isBlankOrTrimmable
-   *                                       blank or trimmable} but it's not a valid command to invoke Maven.
+   * @throws InvalidExternalValueException <ul><li>If the given {@code mavenCommand} is {@link TextUtilities#isBlankOrTrimmable
+   *                                               blank or trimmable}.</li>
+   *                                           <li>If the given {@code mavenCommand} is not {@link TextUtilities#isBlankOrTrimmable
+   *                                               blank or trimmable} but it's not a valid command to invoke Maven.</li></ul>
    */
   private static String validateMavenCommand(@NotNull LineWithNumber commandLineWithNumber
                                            , @NotNull LineWithNumber pathLineWithNumber,   String buildListFileDescr) {
@@ -399,10 +399,12 @@ class BuildList {
     
     if (isBlankOrTrimmable(mavenCommand)) {
       
-      throw new MissingExternalValueException("Invalid Maven command at line " + commandLineWithNumber.number
-                                            + " for module path at line "      + pathLineWithNumber.number
-                                            + " in file "                      + buildListFileDescr
-                                            + ". Module blocks must be exactly 2 or 3 consecutive non‑empty lines.");
+      throw new InvalidExternalValueException("Invalid Maven command :"       + NL2T2 + dq(mavenCommand) + NL2
+                                            + "in "                           + buildListFileDescr + "," + NL
+                                            + "at line "                      + commandLineWithNumber.number
+                                            + " for the module path at line " + pathLineWithNumber.number + " ." + NL2
+                                            + "Module blocks must be exactly 2 or 3 consecutive non‑empty, non-comment lines," + NL
+                                            + "and none of these lines can start or end with spaces like in this case.");
     }
     final String expectedStartNoCase = "mvn";
     
