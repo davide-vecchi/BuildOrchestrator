@@ -191,9 +191,9 @@ public final class BuildOrchestrator {
 		
 		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
-			final File pomFolder = new File(moduleBlock.modulePath());
+			final File pomFolder = new File(getCanonicalPath(moduleBlock.modulePath()));
 			
-			this.appContext.outUser(NL + DASH80 + NL2 + "Building module in folder " + dq(getCanonicalPath(pomFolder) + " ..."));
+			this.appContext.outUser(NL + DASH80 + NL2 + "Building module in folder " + dq(pomFolder.getPath()) + " ...");
 			
 			final List<String> args = parseNotWithinDelimiters(moduleBlock.mvnCommand(), SPACEChar
 																											                                     , DQChar);
@@ -208,7 +208,7 @@ public final class BuildOrchestrator {
       
       // Calculate the artifact's Maven info (id, group id etc.) :
       
-      final String pomFilepath = assertExistingPath(calcPath(moduleBlock.modulePath(), "pom.xml")
+      final String pomFilepath = assertExistingPath(calcPath(pomFolder.getPath(), "pom.xml")
                                                            , false);
       
       final MavenArtifactInfo mvnArtifactInfo = calcMavenArtifactInfo(pomFilepath, this.appContext.devLog);
@@ -245,7 +245,7 @@ public final class BuildOrchestrator {
           
           // : The module has an executable artifact destination path specified, so move the artifact there) :
             
-          final String msg = NL + "Deployment from " + dq(moduleBlock.modulePath()) + " : ";
+          final String msg = NL + "Deployment from " + dq(pomFolder.getPath()) + " : ";
           
           // Perform the deployment :
           
