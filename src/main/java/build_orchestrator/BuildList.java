@@ -408,8 +408,8 @@ class BuildList {
     }
     final String expectedStartNoCase = "mvn";
     
-    if (! (                          mavenCommand.equalsIgnoreCase(expectedStartNoCase)
-      || Strings.CI.startsWith( mavenCommand,                       expectedStartNoCase + SPACE))) {
+    if (! (                               mavenCommand.equalsIgnoreCase(expectedStartNoCase)
+           || Strings.CI.startsWith( mavenCommand,                       expectedStartNoCase + SPACE))) {
       
       throw new InvalidExternalValueException("Line " + commandLineWithNumber.number + " of " + buildListFileDescr + " :" + NL
                                             + "ERROR: Maven command" + NL + mavenCommand + NL
