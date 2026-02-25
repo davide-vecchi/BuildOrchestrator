@@ -180,7 +180,7 @@ class BuildList {
     
     // Parse Initialization section :
     
-    result.initCommands = extractInitializationSection(buildListFile, sectionLines, initSectionKey);
+    result.initCommands = extractInitializationSection(sectionLines, initSectionKey);
     
     // Parse Options section :
     
@@ -467,7 +467,6 @@ class BuildList {
    * @return TODO @@@@ COMMENT
    */
   private static @NotNull List<String> extractInitializationSection(
-                                                              @NotNull  File                              buildListFile,
                                                               @NotEmpty Map<String, List<LineWithNumber>> sectionLines
                                                             , @NotEmpty String                            initSectionKey) {
     final List<String> result = new ArrayList<>();
