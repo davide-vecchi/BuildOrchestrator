@@ -61,6 +61,6 @@ cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries\DSAX" (RMDIR 
 #
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX
-  mvn clean install
+mvn clean install
 
 # mvn clean install -DskipTests
