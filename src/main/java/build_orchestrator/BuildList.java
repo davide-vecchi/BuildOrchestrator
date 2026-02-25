@@ -450,8 +450,7 @@ class BuildList {
       else {
         
         throw new InvalidExternalValueException("Invalid option '" + trimmed + "' at line " + lineWithNumber.number
-                                              + " in section [" + OPTIONS_SECTION_NAME + "] of file "
-                                              + getCanonicalPathAsDescr(buildListFile)
+                                              + " in section [" + OPTIONS_SECTION_NAME + "] of " + getCanonicalPathAsDescr(buildListFile)
                                               + ". Valid options are: " + NO_PAUSE);
       }
     }
