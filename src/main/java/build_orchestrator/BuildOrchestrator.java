@@ -739,7 +739,7 @@ cmdOutcome != null ? cmdOutcome.commandLine()
     
     if (doPause) {
       
-      doPause(CANCEL_CHARS);
+      this.appContext.doPause(CANCEL_CHARS);
     }
     resultJournalEntry = this.journal.addEntry(Journal.Entry.newInstance(knownCommandLine, folder
                                                                                   , L(timeMs)));
@@ -747,27 +747,6 @@ cmdOutcome != null ? cmdOutcome.commandLine()
 		return new OrchestratorCommandOutcome(knownCommandLine,assertNonNull(resultJournalEntry)
                                         , resultExitValue,              resultException);
 	}
-  
-  /**
-   * @param cancelChars If the entered value is 1-char long and contained in this string, returns {@code null}.<br>Pass
-   *                    an {@link StringUtils#EMPTY empty string} to prevent the user from canceling.
-   *
-   * @throws UserRequestedTermination If the user responds to the pausing question with one of the {@code cancelChars}.
-   */
-  private void doPause(@NotNull String cancelChars) throws UserRequestedTermination {
-    
-    final String in = this.appContext.userIO.in("Press Enter to continue, or " + (cancelChars.length() == ONE_i ?
-                                                        cancelChars : "one of the " + dq(cancelChars) + " characters")
-                                                        + " and then Enter to Abort : ", EMPTY, cancelChars);
-    if (in == null) {
-      
-      // : The user requested to abort :
-      
-      this.appContext.warnUser(NL + "Terminating as requested by the user." + NL);
-      
-      throw new UserRequestedTermination();
-    }
-  }
   
   /**
    * @param path The path of the folder to empty.<br>

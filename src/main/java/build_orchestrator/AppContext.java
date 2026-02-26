@@ -8,12 +8,17 @@ package build_orchestrator;
 
 import dlog.log.Log;
 import duser_input_output.AUserInputOutput;
+import dutil.exception.UserRequestedTermination;
 import dutil.string.TextUtilities;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.StringUtils;
 
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
+import static dutil.list.text.TextListUtilities.assertNoDuplicateChars;
+import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.string.TextUtilities.NL;
+import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.removeEnd;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
@@ -300,6 +305,31 @@ public class AppContext implements AutoCloseable {
     if (this.devLog != null) {
       
       this.devLog.close();
+    }
+  }
+
+
+  /**
+   * @param cancelChars If the entered value is 1-char long and contained in this string, returns {@code null}.<br>Pass
+   *                    an {@link StringUtils#EMPTY empty string} to prevent the user from canceling.
+   *
+   * @throws UserRequestedTermination If the user responds to the pausing question with one of the {@code cancelChars}.
+   */
+  public void doPause(@NotNull String cancelChars) throws UserRequestedTermination {
+    
+    assertNoDuplicateChars(cancelChars);
+    
+    final String in = this.userIO.in("Press Enter to continue, or type " + (cancelChars.length() == ONE_i ?
+                                             "the character " + cancelChars :
+                                             "one of the "    + cancelChars.length() + " characters " + dq(cancelChars))
+                                             + " and then Enter to Abort : ", EMPTY, cancelChars);
+    if (in == null) {
+    
+      // : The user requested to abort :
+    
+      warnUser(NL + "Terminating as requested by the user." + NL);
+      
+      throw new UserRequestedTermination();
     }
   }
 
