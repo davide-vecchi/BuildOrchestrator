@@ -70,7 +70,7 @@ CommandTimeoutMs = 60000
 #
 # Default :  N
 
-# CaptureBuildOutput = Y
+  CaptureBuildOutput = Y
 # CaptureBuildOutput = N
 # CaptureBuildOutput = true
 # CaptureBuildOutput = false
@@ -89,7 +89,7 @@ CommandTimeoutMs = 60000
 
 # ShowCapturedOutput = Y
 # ShowCapturedOutput = N
-# ShowCapturedOutput = true
+  ShowCapturedOutput = true
 # ShowCapturedOutput = false
 
 ################################################################################
