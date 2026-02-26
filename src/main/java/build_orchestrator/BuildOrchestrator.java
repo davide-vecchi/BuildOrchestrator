@@ -670,15 +670,15 @@ public final class BuildOrchestrator {
     RunCommandOutcome cmdOutcome = null;
     
     final Function<String, String> adjustForLog = this.params.captureBuildOutput.value.booleanValue() ?
-                                          text-> this.appContext.userIO.screenToPlain(text) : null;
+                                          text -> this.appContext.userIO.screenToPlain(text) : null;
     
     final Function<String, String> outToUser = this.params.showCapturedOutput.value.booleanValue() ?
-                                          text-> this.appContext.userIO.asIsChars(text + NL) : null;
+                                          text -> this.appContext.userIO.asIsChars(text + NL) : null;
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
-                                         , adjustForLog,                       outToUser
+                    , adjustForLog,                 outToUser
                                 , args);
       
       resultExitValue = cmdOutcome.exitValue();
@@ -724,7 +724,7 @@ cmdOutcome != null ? cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs + " ms"
                                           + (cmdOutcome.processFolder() != null ?
                                              " from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
-                                          : EMPTY) + ".");
+                                                                                : EMPTY) + ".");
     }
     else {
       
@@ -732,8 +732,8 @@ cmdOutcome != null ? cmdOutcome.commandLine()
                                     + NL2 + (cmdOutcome != null ? "executed from folder " + dqStr(cmdOutcome.processFolder())
                                                                 : "which threw the exception" + NL2T + resultException.getLocalizedMessage())
                                     + NL2 + "resulted in an error (process exit value " + resultExitValue + ")"
-                                    + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")" : EMPTY)
-                                    + " in " + timeMs + " ms.");
+                                    + (resultException != null ? " ("  + getShortDescriptionWithRootCause(resultException) + ")"
+                                                               : EMPTY) + " in " + timeMs + " ms.");
     }
     // If required, wait for a key to be pressed :
     
