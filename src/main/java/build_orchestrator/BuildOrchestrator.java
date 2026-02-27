@@ -513,10 +513,10 @@ public final class BuildOrchestrator {
                                                   , moduleBlock.executableDestPath())
                         , null
                     , Journal.Entry.newInstance(
-                      "The built executable artifact" + NL  + dq(runnableJar.getName())
-                                     + " has been moved to folder"   + NL  + dq(moduleBlock.executableDestPath())
-                                     + " and renamed to " +                  dq(destArtifactFile.getName())
-                                     + "."                           + NL2 +           deploymentInfoDescr
+                      "The built executable artifact" + NL2T + dq(runnableJar.getName())
+                             + NL2 + "has been moved to folder"      + NL2T + dq(moduleBlock.executableDestPath())
+                             + NL2 + "and renamed to "               + NL2T + dq(destArtifactFile.getName())
+                             + NL2 + "."                             + NL2  +           deploymentInfoDescr
                     , runnableJar.getParentFile(), null));
           
           this.appContext.outUserLog(result.journalEntry.operationDescr);
