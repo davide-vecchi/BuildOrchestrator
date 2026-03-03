@@ -143,7 +143,7 @@ class BuildList {
    */
   static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AppContext ac) {
     
-    ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ...");
+    ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   loading of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ...");
     
     final BuildList result = new BuildList();
     
@@ -198,7 +198,7 @@ class BuildList {
     
     // : Phase 2 complete - all sections parsed and validated.
     
-    ac.outUser(NL + Instant.now().toString() + TAB + "Terminated creation of Build List from " + getCanonicalPathAsDescr(buildListFile) + ".");
+    ac.outUser(NL + Instant.now().toString() + TAB + "Terminated loading of Build List from " + getCanonicalPathAsDescr(buildListFile) + ".");
     ac.outUser(NL + "The Build List is:" + NL2 + result);
     
     return result;
