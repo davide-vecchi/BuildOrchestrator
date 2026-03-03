@@ -203,9 +203,12 @@ public final class BuildOrchestrator {
       
       final String mvnCmd =      mvnCmds.o1;
       
-			final String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath)
-                                                       , assertNonBlank(mvnCmd));
+			String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath), assertNonBlank(mvnCmd));
       
+      if (SystemUtils.IS_OS_WINDOWS) {
+        
+        mvnCmdWithPath = "CALL " + dq(mvnCmdWithPath);
+      }
       // Calculate the artifact's Maven info (id, group id etc.) :
       
       final String pomFilepath = assertExistingPath(calcPath(pomFolder.getPath(), "pom.xml")
@@ -672,14 +675,18 @@ public final class BuildOrchestrator {
     final Function<String, String> adjustForLog = this.params.captureBuildOutput.value.booleanValue() ?
                                           text -> this.appContext.userIO.screenToPlain(text) : null;
     
-    final Function<String, String> outToUser = this.params.showCapturedOutput.value.booleanValue() ?
-                                          text -> this.appContext.userIO.asIsChars(text + NL) : null;
+    final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
+                                          text -> this.appContext.userIO.asIsChars(text + NL)      : null;
+    
+    final List<String> runAllInScriptIfWin = SystemUtils.IS_OS_WINDOWS ? asList("@ECHO OFF", "CHCP 65001"
+                                                                              , "SET MAVEN_OPTS=-Dfile.encoding=UTF-8")
+                                                                       : null;
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
                     , adjustForLog,                 outToUser
-                                , args);
+                                        , runAllInScriptIfWin,                    args);
       
       resultExitValue = cmdOutcome.exitValue();
       
