@@ -114,6 +114,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
+							<encoding>UTF-8</encoding>
 							<archive>
 								<manifest>
 									<mainClass>
