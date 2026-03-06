@@ -680,11 +680,11 @@ public final class BuildOrchestrator {
     final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
                                           text -> this.appContext.userIO.asIsChars(text + NL)      : null;
     
-    final List<String> runInScriptIfWin = SystemUtils.IS_OS_WINDOWS ? valueIf(
-                                             this.params.runInScriptIfWin.values.stream()
-                                                             .map(e -> e.value)
-                                                             .toList(),Collections.emptyList(), null)
-                                                                       : null;
+    final List<String> runInScriptIfWin = this.params.runInScriptIfWin.values != null && SystemUtils.IS_OS_WINDOWS ?
+      valueIf(this.params.runInScriptIfWin.values.stream()
+                                                            .map(e -> e.value)
+                                                            .toList(),Collections.emptyList(),  null)
+                                                                                                                  : null;
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
