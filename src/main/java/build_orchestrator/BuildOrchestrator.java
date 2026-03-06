@@ -207,10 +207,6 @@ public final class BuildOrchestrator {
       
 			String mvnCmdWithPath = calcPath(assertNonBlank(mvnExecPath), assertNonBlank(mvnCmd));
       
-      if (SystemUtils.IS_OS_WINDOWS) {
-        
-        mvnCmdWithPath = "CALL " + dq(mvnCmdWithPath);
-      }
       // Calculate the artifact's Maven info (id, group id etc.) :
       
       final String pomFilepath = assertExistingPath(calcPath(pomFolder.getPath(), "pom.xml")
