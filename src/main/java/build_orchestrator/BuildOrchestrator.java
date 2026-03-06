@@ -675,10 +675,10 @@ public final class BuildOrchestrator {
     RunCommandOutcome cmdOutcome = null;
     
     final Function<String, String> adjustForLog = this.params.captureBuildOutput.value.booleanValue() ?
-                                          text -> this.appContext.userIO.screenToPlain(text) : null;
+                                           text -> this.appContext.userIO.screenToPlain(text) : null;
     
     final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
-                                          text -> this.appContext.userIO.asIsChars(text + NL)      : null;
+                                           text -> this.appContext.userIO.asIsChars(text + NL)      : null;
     
     final List<String> runInScriptIfWin = this.params.runInScriptIfWin.values != null && SystemUtils.IS_OS_WINDOWS ?
       valueIf(this.params.runInScriptIfWin.values.stream()
