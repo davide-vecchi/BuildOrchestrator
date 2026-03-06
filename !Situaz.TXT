@@ -1,12 +1,5 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
-@ 14:14 2026-02-20
-
-@ Find how to capture mvn's output.
-
-  * Then log it.
-
----------------------------------------------------------------------
 * 12:35 2026-02-21
 
 * Instead of having to put in the Build List the
@@ -22,6 +15,13 @@
   BuildOrchestrator add them to all Initialization commands (regardless of
   whether they are OS commands or programs) and remove them from the Build
   List.
+
+---------------------------------------------------------------------
+- 14:14 2026-02-20
+
+- Find how to capture mvn's output.
+
+  - Then log it.
 
 ---------------------------------------------------------------------
 - 17:14 2026-02-04
