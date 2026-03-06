@@ -123,8 +123,8 @@ CommandTimeoutMs = 60000
 #            Windows or not, because if it's not then the content of this
 #            parameter will be ignored which might be unexpected.
 
-RunInScriptIfWin1 = @ECHO OFF
-RunInScriptIfWin2 = CHCP 65001
-RunInScriptIfWin3 = SET MAVEN_OPTS=-Dfile.encoding=UTF-8
+# RunInScriptIfWin1 = @ECHO OFF
+# RunInScriptIfWin2 = CHCP 65001
+# RunInScriptIfWin3 = SET MAVEN_OPTS=-Dfile.encoding=UTF-8
 
 ################################################################################
