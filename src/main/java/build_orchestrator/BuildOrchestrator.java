@@ -32,6 +32,7 @@ import org.apache.commons.lang3.SystemUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
@@ -59,6 +60,7 @@ import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertDifferentNullness;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertNull;
+import static dutil.object.ObjectUtilities.valueIf;
 import static dutil.string.TextUtilities.DASH;
 import static dutil.string.TextUtilities.DASH80;
 import static dutil.string.TextUtilities.DQChar;
@@ -678,15 +680,17 @@ public final class BuildOrchestrator {
     final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
                                           text -> this.appContext.userIO.asIsChars(text + NL)      : null;
     
-    final List<String> runAllInScriptIfWin = SystemUtils.IS_OS_WINDOWS ? asList("@ECHO OFF", "CHCP 65001"
-                                                                              , "SET MAVEN_OPTS=-Dfile.encoding=UTF-8")
+    final List<String> runInScriptIfWin = SystemUtils.IS_OS_WINDOWS ? valueIf(
+                                             this.params.runInScriptIfWin.values.stream()
+                                                             .map(e -> e.value)
+                                                             .toList(),Collections.emptyList(), null)
                                                                        : null;
     try {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
                     , adjustForLog,                 outToUser
-                                        , runAllInScriptIfWin,                    args);
+                                        , runInScriptIfWin,                    args);
       
       resultExitValue = cmdOutcome.exitValue();
       

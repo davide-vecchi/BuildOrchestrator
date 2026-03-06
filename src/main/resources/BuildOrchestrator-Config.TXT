@@ -94,3 +94,35 @@ CommandTimeoutMs = 60000
 # ShowCapturedOutput = false
 
 ################################################################################
+
+################################################################################
+# Optional : Whether or not, instead of directly executing the OS commands from
+#            the Build List, for each command a temporary .BAT script is created
+#            containing one line per each element of this multiple parameter,
+#            followed by the OS command to execute, then this script is executed
+#            and deleted.
+#            This can be used to run preliminary OS commands that make changes
+#            to the shell environment whose effect must be preserved when the
+#            final OS command runs.
+#
+#            For example, if the command to run is
+#
+#            mvn clean install
+#
+#            and it's desired to change the console's codepage to one that the
+#            OS command will use (65001 in this example, which corresponds to
+#            UTF-8), this parameter can be set to a 2-element list like:
+#
+#            @ECHO OFF
+#            CHCP 65001 >NUL
+#
+#            If the OS is not Windows, an exception is thrown if this parameter
+#            is given. This is to force the caller to check whether the OS is
+#            Windows or not, because if it's not then the content of this
+#            parameter will be ignored which might be unexpected.
+
+RunInScriptIfWin1 = @ECHO OFF
+RunInScriptIfWin2 = CHCP 65001
+RunInScriptIfWin3 = SET MAVEN_OPTS=-Dfile.encoding=UTF-8
+
+################################################################################

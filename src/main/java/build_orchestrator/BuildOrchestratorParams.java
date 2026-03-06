@@ -8,6 +8,7 @@ package build_orchestrator;
 
 import dparam.AParams;
 import dparam.ParamMono;
+import dparam.ParamMulti;
 import dparam.pvdc.AValueChangeInfo;
 import dparam.pvdc.change_loader.AValueChangeTextReader;
 import dparam.pvdc.change_loader.EmptyValueChangeTextReader;
@@ -27,6 +28,7 @@ import static dfile.file.FileUtilities.SEPARATOR_CHAR;
 import static dfile.file.FileUtilities.calcPath;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
 import static dutil.number.NumberUtilities.L;
+import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_l;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -110,6 +112,35 @@ public class BuildOrchestratorParams extends AParams<Object> {
    */
   @Getter
   @NotNull ParamMono<Object, Boolean> showCapturedOutput;
+  
+  /**
+   * Optional: Whether or not, instead of directly executing the OS commands from
+   *           the Build List, for each command a temporary .BAT script is created
+   *           containing one line per each element of this multiple parameter,
+   *           followed by the OS command to execute, then this script is executed
+   *           and deleted.
+   *           This can be used to run preliminary OS commands that make changes
+   *           to the shell environment whose effect must be preserved when the
+   *           final OS command runs.
+   *
+   *           For example, if the command to run is
+   *
+   *           mvn clean install
+   *
+   *           and it's desired to change the console's codepage to one that the
+   *           OS command will use (65001 in this example, which corresponds to
+   *           UTF-8), this parameter can be set to a 2-element list like:
+   *
+   *           @ECHO OFF
+   *           CHCP 65001 >NUL
+   *
+   *           If the OS is not Windows, an exception is thrown if this parameter
+   *           is given. This is to force the caller to check whether the OS is
+   *           Windows or not, because if it's not then the content of this
+   *           parameter will be ignored which might be unexpected.
+   */
+  @Getter
+  @NotNull ParamMulti<Object, String> runInScriptIfWin;
 	
 	
 	/**
@@ -154,6 +185,10 @@ public class BuildOrchestratorParams extends AParams<Object> {
     // Param ShowCapturedOutput :
     
     this.showCapturedOutput =  new ParamMono<>(this, "ShowCapturedOutput");
+    
+    // Param RunInScriptIfWin :
+    
+    this.runInScriptIfWin = new ParamMulti<>(this, "RunInScriptIfWin", ONE_i);
   }
 	
 	@Override
@@ -189,7 +224,11 @@ public class BuildOrchestratorParams extends AParams<Object> {
     // Param ShowCapturedOutput :
     
     this.showCapturedOutput.setValueParser(new BooleanStringParser()).loadOptionalValue(FALSE);
-	}
+    
+    // Param RunInScriptIfWin :
+    
+    this.runInScriptIfWin.setValueParser(new NeutralStringParser()).loadOptionalValues(null);
+  }
 	
 	@Override
 	public void validate() {
@@ -231,6 +270,10 @@ public class BuildOrchestratorParams extends AParams<Object> {
                      , booleanValue == FALSE || this.captureBuildOutput.value == TRUE
                   , "false otherwise " + this.captureBuildOutput.name + " must be true"
                 , this.sourceDescr);
+    
+    // Param RunInScriptIfWin :
+    
+    /** Already validated at loading time, see {@link ParamMulti#validateCounters()} . */
   }
 	
 	/**

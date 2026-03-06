@@ -1,3 +1,50 @@
+ @@ TODO 10:23 2024-10-21 FIXME ! SEE {@code  FileUtilities_Test.hasPathTEST()} FAILURE !  @@
+
+':', '\\' ,'/'
+
+
+
+	/**
+   * @return {@link #ILLEGAL_FILENAME_Chars}.
+   */
+	public static char[] getILLEGAL_FILENAME_Chars() {
+		
+		return ILLEGAL_FILENAME_Chars;
+	}
+	
+	/**
+	 * @return {@link #ILLEGAL_FILENAME_CHARACTERS}.
+	 */
+	public static Character[] getILLEGAL_FILENAME_CHARACTERS() {
+		
+		return ILLEGAL_FILENAME_CHARACTERS;
+	}
+
+
+  
+  @Test
+  public void testCheckIsValidPath() {
+  
+  }
+
+
+
+
+# Parametri relativi alla connessione a un server SMTP per invio di email.
+# Di parametri "TO", "CC" e "BCC" ce ne possono essere quanti si vuole, ma
+# devono essere tutti seguiti da un numero progressivo. Esempio:
+# TO1 = Loris Batacchi <loris@gino.com>
+# TO2 = luca@sauro.it
+# TO3 = ...
+# CC1 = ...
+# BCC1 = ...
+# BCC2 = ...
+# ...
+# 
+
+
+
+
 Log command output ?
 
 	Y
