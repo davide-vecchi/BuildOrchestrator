@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,6 +38,7 @@ import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertTrue;
 import static dutil.properties.PropertiesUtilities.readProperties;
 import static dutil.properties.PropertiesUtilities.toMap;
+import static dutil.string.TextUtilities.CHARSET_UTF_8;
 import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
@@ -92,9 +94,13 @@ public class BuildOrchestratorMain {
       final Log userLog =   new Log(APP_DESCR + " - user log",      APP_NAME + "_user-log.LOG",   true);
       
       final Log devLog =    new Log(APP_DESCR + " - developer log", APP_NAME + "_dev-log.LOG",    true);
-    
-			final AppContext ac = newAppContext(
-				ColorConsoleUserIO.newInstance1(System.in,         System.out,         System.err
+      
+      final PrintStream out = new PrintStream(     System.out, true, CHARSET_UTF_8);
+      
+      final PrintStream err = new PrintStream(System.err, true, CHARSET_UTF_8);
+      
+      final AppContext ac = newAppContext(
+				ColorConsoleUserIO.newInstance1(System.in,         out,                 err
                                             , CYAN,   BLACK,   RED
                                             , BLACK, YELLOW, BLACK)
 																						           , screenLog,          userLog,            devLog))
