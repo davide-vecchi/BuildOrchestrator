@@ -6,25 +6,6 @@
 
 [Initialization]
 
-# Empty the whole libraries' parent target folders
-# in the local Maven repo
-# (WARNING: this will remove from the local repo
-# ALL the DJavaLibraries that are there, regardless
-# of whether all of them or only some of them will
-# be rebuilt now) :
-
-# For Windows :
-
-# cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\DJavaLibraries")
-
-# cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat" (RMDIR /S /Q "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\ThreadSafeNumberFormat")
-
-# For Unix :
-
-# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/DJavaLibraries"'
-
-# /bin/sh -c 'rm -rf "/home/davide/.m2/repository/JavaLibraries3rdParty/ThreadSafeNumberFormat"'
-
 
 
 [Options]
@@ -32,8 +13,6 @@
 # This section may contain or not the following line (case-insensitive) :
 #
 # NoPause
-
-NoPause
 
 
 

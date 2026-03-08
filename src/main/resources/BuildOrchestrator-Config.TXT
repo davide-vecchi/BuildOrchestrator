@@ -26,13 +26,13 @@
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader only.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG {NO PAUSE}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources/Build List BuildOrchestrator.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator {NO PAUSE}.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY {NO PAUSE}.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT
 
 ################################################################################
 
