@@ -229,7 +229,7 @@ public final class BuildOrchestrator {
       // Run the command to build :
       
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
-                                                           pomFolder, mvnCmdWithPath
+                                                           pomFolder, mvnCmdWithPath, true
                                                 , this.buildList.getDoPause().booleanValue()
                                                 , args.subList(ONE_i, args.size()).toArray(new String[ZERO_i]));
       if (cmdResult.exitValue == ZERO_i) {
@@ -613,8 +613,9 @@ public final class BuildOrchestrator {
       final List<String> commandWithArgs = parseNotWithinDelimiters(initCommand, SPACEChar, DQChar);
       
       final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
-          null, commandWithArgs.getFirst(), this.buildList.getDoPause().booleanValue()
-        , commandWithArgs.subList(ONE_i, commandWithArgs.size()).toArray(new String[ZERO_i]));
+                             null, commandWithArgs.getFirst(), false
+                          , this.buildList.getDoPause().booleanValue()
+                          , commandWithArgs.subList(ONE_i, commandWithArgs.size()).toArray(new String[ZERO_i]));
 			
 			if (cmdResult.exitValue != ZERO_i) {
 				
@@ -636,15 +637,20 @@ public final class BuildOrchestrator {
 	}
 	
 	/**
-	 * {@link OSUtilities#runCommand(File, String, long, Log, String...) Runs} the given shell command as per the given
-   * params.<br>
+	 * {@link OSUtilities#runCommand(File, String, long, Log, Function, Function, List, String...) Runs} the given shell
+   * command as per the given params.<br>
 	 * When the command returns, {@link AppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
 	 * a <i>KO</i> {@link AppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
 	 *
-	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand(File, String, long, Log, String...)}.<br><br>
+	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand(File, String, long, Log, Function, Function, List, String...)}.<br><br>
    *
    * When this method returns, no matter the command's outcome, a new {@link Journal.Entry} has been {@link Journal#addEntry
    * added} to the {@link #journal}.
+   *
+   * @param canRunInScript This method can decide to run the {@code command} in a created temporary shell script,
+   *                       together with possible {@link BuildOrchestratorParams#runInScriptIfWin preliminary commands},
+   *                       but if this param is {@code false} that is not allowed and the {@code command} will be run
+   *                       normally, that is not in a script, no matter what.<br>
    *
    * @param doPause If {@code true}, after {@link OSUtilities#runCommand executing} the {@code command}, {@link IOUtilities#askValue
    *                waits} for the Enter key to be pressed.
@@ -656,6 +662,7 @@ public final class BuildOrchestrator {
 	 */
 	private @NotNull OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
+                                                                             , boolean    canRunInScript
                                                                              , boolean    doPause
                                                                              , String ... args) throws InterruptedException, UserRequestedTermination {
     final Journal.Entry resultJournalEntry;
@@ -676,7 +683,8 @@ public final class BuildOrchestrator {
     final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
                                            text -> this.appContext.userIO.asIsChars(text + NL)      : null;
     
-    final List<String> runInScriptIfWin = this.params.runInScriptIfWin.values != null && SystemUtils.IS_OS_WINDOWS ?
+    final List<String> runInScriptIfWin =  canRunInScript && SystemUtils.IS_OS_WINDOWS
+                                                                   && this.params.runInScriptIfWin.values != null ?
       valueIf(this.params.runInScriptIfWin.values.stream()
                                                             .map(e -> e.value)
                                                             .toList(),Collections.emptyList(),  null)
@@ -686,7 +694,7 @@ public final class BuildOrchestrator {
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
                     , adjustForLog,                 outToUser
-                                        , runInScriptIfWin,                    args);
+                                        , runInScriptIfWin,                       args);
       
       resultExitValue = cmdOutcome.exitValue();
       

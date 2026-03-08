@@ -24,6 +24,7 @@
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO PAUSE}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO TESTS}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader only.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG.TXT

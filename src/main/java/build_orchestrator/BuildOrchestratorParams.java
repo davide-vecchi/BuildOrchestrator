@@ -129,10 +129,10 @@ public class BuildOrchestratorParams extends AParams<Object> {
    *
    *           and it's desired to change the console's codepage to one that the
    *           OS command will use (65001 in this example, which corresponds to
-   *           UTF-8), this parameter can be set to a 2-element list like:
+   *           UTF-8), this parameter can be set to a 2-element list like:<br><br>
    *
-   *           @ECHO OFF
-   *           CHCP 65001 >NUL
+   *           ECHO OFF<br>
+   *           CHCP 65001 >NUL<br><br>
    *
    *           If the OS is not Windows, an exception is thrown if this parameter
    *           is given. This is to force the caller to check whether the OS is
