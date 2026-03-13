@@ -30,7 +30,7 @@
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG {NO PAUSE}.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources/Build List BuildOrchestrator.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator {NO PAUSE}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT
 
