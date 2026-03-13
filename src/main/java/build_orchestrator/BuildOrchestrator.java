@@ -571,7 +571,7 @@ public final class BuildOrchestrator {
    *             args to the OS command (e.g. {@code clean} {@code install} {@code -D skipTests}).
    *
    * @return In {@link TwoObjects#o1 o1} the complete Maven command to issue (including all its args), in the form
-   *         required by the current OS.<br>
+   *         required by the current OS.<br><br>
    *         In {@link TwoObjects#o2 o2} the path to the folder where the Maven executable is. This path is already
    *         included in {@link TwoObjects#o1 o1}.
    */
