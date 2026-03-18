@@ -100,10 +100,10 @@ public class BuildOrchestratorMain {
       final PrintStream err = new PrintStream(System.err, true, CHARSET_UTF_8);
       
       final AppContext ac = newAppContext(
-				ColorConsoleUserIO.newInstance1(System.in,         out,                 err
-                                            , CYAN,   BLACK,   RED
-                                            , BLACK, YELLOW, BLACK)
-																						           , screenLog,          userLog,            devLog))
+                         ColorConsoleUserIO.newInstance1(System.in,         out,                 err
+                                                             , CYAN,   BLACK,   RED
+                                                             , BLACK, YELLOW, BLACK)
+                                                                        , screenLog,          userLog,            devLog))
 		{
 			assertTrue(ac.screenLog.logBare, "The Screen Log must have logBare true. It can be set here instead of asserting, but why is it not true already ?");
 			
