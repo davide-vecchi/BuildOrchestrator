@@ -34,9 +34,9 @@
 
     - No, remove it.
 
-@ Test the Orchestrator when some module fails to build.
+- Test the Orchestrator when some module fails to build.
 
-  * Because of code errors.
+  - Because of code errors.
 
   - Because of failing tests.
 
