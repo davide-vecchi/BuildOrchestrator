@@ -750,7 +750,7 @@ class BuildList {
     final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2T);
     
     sb.append("initCommands=").append(listToString(this.initCommands, null, TAB2
-                                        , EMPTY,            NL));
+                                        , EMPTY,            NL)).append(NL2);
     
     sb.append(TAB).append("doPause=").append(this.doPause).append(NL2);
     
