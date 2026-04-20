@@ -308,7 +308,7 @@ public final class BuildOrchestrator {
   @NotNull BuiltArtifactDeploymentResult deployBuiltModule(@NotNull BuildList.ModuleBlock moduleBlock
                                                          , @NotNull MavenArtifactInfo     mvnArtifactInfo) {
     
-    this.appContext.outUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.executableDestPath())) + " ...");
+    this.appContext.warnUser(  NL + "Starting deployment to folder " + dq(getCanonicalPath(moduleBlock.executableDestPath())) + " ...");
     
     final BuiltArtifactDeploymentResult deploymentResult = moveBuiltArtifact(mvnArtifactInfo, moduleBlock);
     
@@ -318,7 +318,7 @@ public final class BuildOrchestrator {
       
       // : The deployment succeeded.
       
-      this.appContext.outUser(NL + "Deployment successful.");
+      this.appContext.warnUser(NL + "Deployment successful.");
     }
     else {
       
@@ -487,7 +487,7 @@ public final class BuildOrchestrator {
                                                                               runnableJar.getName()));
           if (oldRunnableJar.exists()) {
           
-            this.appContext.outUser(NL + "Overwriting old non-renamed runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
+            this.appContext.warnUser(NL + "Overwriting old non-renamed runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
             
             FileUtils.delete(oldRunnableJar);
           }
@@ -503,7 +503,7 @@ public final class BuildOrchestrator {
                                                                               , destArtifactFileName));
           if (destArtifactFile.exists()) {
             
-            this.appContext.outUser(NL + "Overwriting old renamed runnable jar " + getCanonicalPathAsDescr(destArtifactFile) + " .");
+            this.appContext.warnUser(NL + "Overwriting old runnable jar " + getCanonicalPathAsDescr(destArtifactFile) + " .");
             
             FileUtils.delete(destArtifactFile);
           }

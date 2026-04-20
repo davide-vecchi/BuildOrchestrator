@@ -327,7 +327,7 @@ public class AppContext implements AutoCloseable {
     
       // : The user requested to abort :
     
-      warnUser(NL + "Terminating as requested by the user." + NL);
+      warnUser(NL + "Terminating as requested by the user.");
       
       throw new UserRequestedTermination();
     }

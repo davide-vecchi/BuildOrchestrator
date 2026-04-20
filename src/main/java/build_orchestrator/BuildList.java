@@ -52,6 +52,7 @@ import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.isBlankOrTrimmable;
+import static dutil.string.TextUtilities.removeEndAll;
 import static dutil.string.TextUtilities.surround;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -749,8 +750,9 @@ class BuildList {
   
     final StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append(" {").append(NL2T);
     
-    sb.append("initCommands=").append(listToString(this.initCommands, null, TAB2
-                                        , EMPTY,            NL)).append(NL2);
+    sb.append("initCommands=").append(removeEndAll(listToString(this.initCommands, null
+                                                      , TAB2,         EMPTY
+                                                          , NL),               NL)).append(NL2);
     
     sb.append(TAB).append("doPause=").append(this.doPause).append(NL2);
     
