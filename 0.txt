@@ -1,3 +1,5 @@
+The command line arg now represents the Build List, not the cfg file, which is now inferred from the JAR name and must be in the same folder as it.
+
 RunInScriptIfWin4 = EXIT /B %ERRORLEVEL%
 
 

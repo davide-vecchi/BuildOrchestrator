@@ -1,5 +1,5 @@
 
-REM BuildOrchestrator launch script.
+REM Beginning of BuildOrchestrator launch script.
 
 @ECHO OFF
 
@@ -10,19 +10,17 @@ CHCP 65001 >NUL
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
 
-SET BasePath=H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList01-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList02-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList03-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList04-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList05a-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList05b-BuildList.TXT"
+REM
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
-java -jar BuildOrchestrator.jar "%BasePath%\src\main\resources\BuildOrchestrator-Config.TXT"
+java -jar BuildOrchestrator.jar
 
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList01.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList02.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList03.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList04.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05a.TXT
-                             REM %BasePath%\src\test\resources\BuildOrchestrator-Config_TestBuildList05b.TXT
-                             REM %BasePath%\src\main\resources\BuildOrchestrator-Config.TXT
-                             REM C:\BuildOrchestrator\BuildOrchestrator-Config.TXT
 PAUSE
 
 GOTO SkipComment
@@ -45,19 +43,12 @@ In order to start the BuildOrchestrator program:
 4) The program will show messages to inform about the progress.
    One of the last lines shown should read "... Executed successfully.".
 
-   If instead errors are shown, please preserve the log file. It is in the
-   same folder as the SOURCE file, and its name is the same as the SOURCE
-   file (first argument, see below) followed by the extension ".LOG"; so if
-   the SOURCE file was "C:\AAA\BBB\MySource.epx" then the log file will be
-   "MySource.epx.LOG".
-
 ----------------------------------------------------
 
 How to adjust the arguments of the command "java -jar BuildOrchestrator.jar ..." :
 
-The program must be started with exactly 1 arguments, in this order:
-
-1) The configuration file.
+The program must be started with either 0 or 1 arguments.
+If started with 1 argument, that argument must be the path to the Build List to use.
 
 ----------------------------------------------------
 
@@ -66,9 +57,6 @@ enclosed in double-quotes ("), but this is not mandatory when the argument
 value does not contain any space characters. It's recommended to take the
 habit of using the double-quotes for all arguments anyway, in order to avoid
 having to remember this.
-
-Each argument must be on a different row; each of these rows must end with
-a space followed by a caret (^) except the row with the last argument.
 
 ----------------------------------------------------
 
@@ -84,3 +72,5 @@ same folder as this "BuildOrchestrator.BAT" file.
 ====================================================
 
 SkipComment:
+
+REM End of BuildOrchestrator launch script.

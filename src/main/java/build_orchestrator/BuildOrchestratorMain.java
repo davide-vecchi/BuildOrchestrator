@@ -10,19 +10,24 @@ import dparam.AParams;
 import duser_input_output.impl.consoleUserIO.ColorConsoleUserIO;
 import dutil.exception.UserRequestedTermination;
 import dutil.exception.exceptions.InvalidExternalValueException;
+import dutil.exception.exceptions.MissingValueException;
 import dutil.exception.exceptions.NonUniqueExternalValueException;
+import dutil.jar.JARUtilities;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.io.UncheckedIOException;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static build_orchestrator.AppContext.newAppContext;
+import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.getCurrentFolder;
@@ -30,9 +35,11 @@ import static dfile.file.FileUtilities.newValidatedFile;
 import static dlog.log.Log.writeLogsHeaders;
 import static dutil.date.DateTimeUtilities.waitMillis;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
+import static dutil.jar.JARUtilities.calcJARPath;
 import static dutil.map.MapUtilities.assertNonEmpty;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.TEN_i;
+import static dutil.number.NumberUtilities.TWO_i;
 import static dutil.number.NumberUtilities.ZERO_i;
 import static dutil.object.ObjectUtilities.assertNonNull;
 import static dutil.object.ObjectUtilities.assertTrue;
@@ -46,7 +53,12 @@ import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.assertNonBlank;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static java.util.Arrays.asList;
+import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
+import static org.apache.commons.io.FilenameUtils.removeExtension;
+import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.fusesource.jansi.Ansi.Color.BLACK;
 import static org.fusesource.jansi.Ansi.Color.CYAN;
 import static org.fusesource.jansi.Ansi.Color.RED;
@@ -112,9 +124,21 @@ public class BuildOrchestratorMain {
 				writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
 				
 				showStartupMessages(ac);
-				
-				orchestrator = newBuildOrchestrator(args, ac);
-				
+        
+        if (isNotEmpty(args) && args.length > ONE_i) {
+          
+          throw new IllegalArgumentException("The program must be started with either 0 or 1 arguments (if started with 1 argument, that argument must be the path to the Build List to use). Instead, the program has been started with " + args.length + " arguments, which are the following:" + NL + Arrays.toString(args));
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        orchestrator = newBuildOrchestrator(isNotEmpty(args) ? args[ZERO_i] : null
+                                       , null, ac);
 				orchestrator.run();
 			}
 			catch (InterruptedException ie) { // Compliant; the interrupted state is restored
@@ -143,26 +167,37 @@ public class BuildOrchestratorMain {
 	}
 	
 	/**
-   * @param args Array of 1 element, which is the path to the configuration file.
+   * @param buildListPath The path to the Build List to process, if that was given to the program, e.g. as a startup arg.<br>
+   *                      Otherwise {@code null}, meaning that the {@link BuildOrchestratorParams#buildListFilepath
+   *                      BuildListFile parameter} specifying the Build list to process is expected to be in the
+   *                      configuration file.<br>
+   *
+   * @param testCfgFileSuffix {@code null} if the instance to return is not meant to be used from tests.<br>Otherwise,
+   *                          suffix to append to the regular name of the configuration file to use, just before the
+   *                          extension.<br>E.g., if the regular name of the configuration file is "{@code
+   *                          BuildOrchestrator-Config.TXT}" and this param is given as "{@code _TestBuildList01}", the
+   *                          configuration file name will be "{@code BuildOrchestrator-Config_TestBuildList01.TXT}".
    *
    * @return A new {@link BuildOrchestrator} instance constructed from the given {@code args} and ready to {@link BuildOrchestrator#run()
 	 *         run}.
 	 *
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
    */
-	static @NotNull BuildOrchestrator newBuildOrchestrator(@NotNull String[] args, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
+	static @NotNull BuildOrchestrator newBuildOrchestrator(String buildListPath, String testCfgFileSuffix, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
 		
-		if (args.length != ONE_i) {
-			
-			throw new IllegalArgumentException("The program must be started with exactly 1 arguments (the path to the configuration file). Instead, the program has been started with the following " + args.length + " arguments:" + NL + Arrays.toString(args));
-		}
 		assertNonNull(ac);
 		
-		// Process first and only arg (the configuration file) :
+		// Determine the configuration file :
 		
-		final File configurationFile = processArg_ConfigurationFile(args[ZERO_i].trim());
-		
-		// Setup all the configuration params :
+		final File configurationFile = calcConfigurationFile("-Config" + defaultString(testCfgFileSuffix)
+                                                                          + EXTENSION_SEPARATOR + "TXT"
+                                                , asList("src"
+                                                                             , testCfgFileSuffix != null ? "test"
+                                                                                                         : "main"
+                                                                             , "resources")
+                                                                  , ac);
+    
+		// Setup all the configuration params from the configuration file :
 		
 		final BuildOrchestratorParams params = newBuildOrchestratorParams(readConfigurationMap(configurationFile
 			                                                                       , ac)
@@ -170,14 +205,15 @@ public class BuildOrchestratorMain {
 																							                 getCanonicalPath(configurationFile))
 																									       , ac);
 		
-		// Initialize the instance of the BuildOrchestrator application, using the configuration params :
+		// Initialize the instance of the BuildOrchestrator application :
     
     final String buildListFilepath = assertNonBlankNorTrimmable(
-                        params.getBuildListFilepath().value == null ?
-                                  askBuildListFilepath("Build List file name not found in configuration "
-                                                                  + getCanonicalPathAsDescr(configurationFile) + "."
-                                                    , CANCEL_CHARS, ac)
-                                : params.getBuildListFilepath().value);
+      
+      buildListPath                       != null ? buildListPath :                       // : The Build List was given as arg.
+      
+              params.getBuildListFilepath().value != null ? params.getBuildListFilepath().value : // : The Build List was specified in the configuration file.
+              
+              askBuildListFilepath("Build List file name not specified, enter it :", CANCEL_CHARS, ac));
     
 		final File buildListFile = newValidatedFile(assertNonBlank(buildListFilepath)
 																						 , true,       TEN_i);
@@ -216,7 +252,7 @@ public class BuildOrchestratorMain {
         
         // : The user requested to abort :
         
-        ac.warnUser(NL + "Terminating as requested by the user." + NL);
+        ac.warnUser(NL + "Terminating as requested by the user.");
         
         throw new UserRequestedTermination();
       }
@@ -224,7 +260,7 @@ public class BuildOrchestratorMain {
       
       if (! done) {
         
-        ac.userIO.warnChars("The specified file does not exist." + NL);
+        ac.userIO.warnChars("The specified file does not exist.");
         
         final InterruptedException ie = waitMillis(500);
         
@@ -272,19 +308,86 @@ public class BuildOrchestratorMain {
 	}
 	
 	/**
-	 * @param argCfgFilePath The argument of the command line that represents the path to the configuration file.
-	 *
-	 * @return The {@link DFile file} instantiated from the given path string.
-	 *
-	 * @throws InvalidExternalValueException <ul><li>If {@code arg} does not {@link File#exists() exist} as a file path.</li>
-	 *                                           <li>If {@code arg} is a file path that exists but {@link File#isFile() is}
-	 *                                               not a file.</li>
-	 *                                           <li>If {@code arg} exists as a non-empty file but is too short to be a
-	 *                                               configuration file.</li></ul>
-	 */
-	private static File processArg_ConfigurationFile(String argCfgFilePath) {
-		
-		return newValidatedFile(argCfgFilePath, true, 3);
+   * @param filenameSuffix The text to append to the filepath of the {@link JARUtilities#calcJARPath(Class) running JAR}
+   *                       (without its extension) to obtain the filepath of the configuration file.<br>E.g. if the
+   *                       running JAR is<br><br>{@code C:\The\filepath\of\theJAR.jar}<br><br>and this param is "{@code
+   *                       -Config.TXT}" then the calculated filepath of the configuration file will be<br><br>{@code
+   *                       C:\The\filepath\of\theJAR-Config.TXT}.<br>
+   *
+   * @param resourcesFolderFromIDE Each element is a single component of the path to the {@code resources} folder from
+   *                               which the resources (e.g. configuration file, {@link BuildList} files etc.) must be
+   *                               read <b>when running from the IDE</b>. Will be ignored if not running from the IDE.
+   *                               May be {@code null}, but if running from the IDE this will throw {@link
+   *                               MissingValueException}.<br><br>Typical contents are:<ul>
+   *                                 <li>{@code "src"}, {@code "main"}, {@code "resources"}</li>for when running as Java
+   *                                     application from the IDE.<br><br>
+   *                                 <li>{@code "src"}, {@code "test"}, {@code "resources"}</li>for when running as unit
+   *                                     test from the IDE.</li></ul>
+   *
+   * @return The existing {@link File} corresponding to the calculated filepath.
+   *
+   * @throws InvalidExternalValueException <ul>
+   *                                       <li>If the calculated filepath does not {@link File#exists() exist}.</li>
+   *                                       <li>If the calculated filepath exists but {@link File#isFile() is} not a file.</li>
+   *                                       <li>If the calculated filepath exists as a non-empty file but is too small to
+   *                                           be a configuration file.</li></ul>
+   *
+   * @throws MissingValueException If running from the IDE and {@code resourcesFolderFromIDE} is {@code null}.
+   */
+	private static File calcConfigurationFile(         String     filenameSuffix, List<String> resourcesFolderFromIDE
+                                          , @NotNull AppContext ac) {
+    String jarPath, cfgFilepath;
+    
+    try {
+      
+      jarPath = calcJARPath(BuildOrchestratorMain.class);
+      
+      // Hack for when the program is executed within the IDE :
+      
+      final String suffixFromIDE = File.separator + "target" + File.separator + "classes";
+      
+      if (Strings.CI.endsWith(jarPath, suffixFromIDE)) {
+        
+        // E.g. "C:\whatever\BuildOrchestrator\target\classes".
+        
+        // : The program is executed within the IDE.
+        
+        assertNonNull(resourcesFolderFromIDE, "It is detected that the program is being executed within the IDE, so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
+        
+        ac.warnUser(NL + "Detected that the program is being executed from within the IDE.");
+        
+        ac.outUserLog(NLT + "Original path of executable : " + dq(jarPath) + ".");
+        
+        final List<String> pathElements = new ArrayList<>(TWO_i + resourcesFolderFromIDE.size());
+        
+        pathElements.add(Strings.CI.removeEnd(jarPath, suffixFromIDE));
+        
+        pathElements.addAll(resourcesFolderFromIDE);
+        
+        pathElements.add(BuildOrchestrator.class.getSimpleName() + EXTENSION_SEPARATOR + "jar");
+        
+        jarPath = calcPath(pathElements.toArray(new String[ZERO_i]));
+        
+        ac.outUserLog(NL2T + "Adjusted path of executable : " + dq(jarPath) + ".");
+      }
+      else {
+        
+        ac.outUserLog("Detected that the program is being executed from a JAR file." + NL2T + "Path of executable : " + dq(jarPath) + ".");
+      }
+      cfgFilepath = removeExtension(jarPath) + filenameSuffix;
+    }
+    catch (Exception e) {
+      
+      final String msg = "Error " + e.getClass().getSimpleName() + " trying to determine the path of the running JAR to retrieve the configuration file.";
+      
+      ac.outUserLog(msg + NL2T + getFullDescriptionWithRootCause(e));
+      
+      cfgFilepath = calcPath(getCurrentFolder()
+                                       , BuildOrchestrator.class.getSimpleName() + EXTENSION_SEPARATOR + filenameSuffix);
+      
+      ac.warnUser(msg + NL2 + "Falling back to configuration file location " + dq(cfgFilepath) + ".");
+    }
+		return newValidatedFile(cfgFilepath, true, 3);
 	}
 	
 	/**

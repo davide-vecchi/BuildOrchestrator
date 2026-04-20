@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 
 import static build_orchestrator.AppContext.newAppContext;
 import static build_orchestrator.BuildOrchestratorMain.newBuildOrchestrator;
-import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.newValidatedFile;
 import static dfile.file.FileUtilities.write;
@@ -164,8 +163,8 @@ public class BuildOrchestratorTest {
   
   /**
    * {@link #newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance
-   *        according to the BuildOrchestrator configuration file identified by the given {@code testID}, and if the
-   *        generated Build List files are different from their "OK" file fails the test.
+   *        loading a Build List identified through the given {@code testID}, saves it to file, and if that file is
+   *        different from the corresponding "OK" file fails the test.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
@@ -181,16 +180,11 @@ public class BuildOrchestratorTest {
       
       final String testDataPath = calcPath("src", "test", "resources");
       
-      final BuildOrchestrator orchestrator = newBuildOrchestrator(
-                new String[] {
-                                      assertExistingPath(
-                                        calcPath(
-                                     testDataPath, "BuildOrchestrator-Config_TestBuildList" + testID + ".TXT")
-                           , false)
-                                    }
-                , ac);
+      final BuildOrchestrator orchestrator = newBuildOrchestrator(null
+                                                            , "_TestBuildList" + testID, ac);
       
-      // 'orchestrator.run()' not called, because this test doesn't test the whole build process but just the Build List.
+      // 'orchestrator.run()' not called, because this test doesn't test the whole build process but just the loading of
+      // the Build List.
       
       // Create a Build List, save it to file and compare the file with the expected one :
       
