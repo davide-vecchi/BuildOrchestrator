@@ -388,7 +388,7 @@ public final class BuildOrchestrator {
       
       if (! createIfMissing) {
       
-        throw new MissingExternalValueException("The path" + NL2T + getCanonicalPath(result.object) + NL2 + " does not exist.");
+        throw new MissingExternalValueException("The path" + NL2T +   getCanonicalPath(result.object) + NL2 + " does not exist.");
       }
       try {
         
@@ -397,7 +397,7 @@ public final class BuildOrchestrator {
         result.description = "Created non-existing path " + dq(getCanonicalPath(result.object));
       }
       catch (IOException e) {
-  
+        
         throw calcUnchecked(e);
       }
     }

@@ -129,14 +129,6 @@ public class BuildOrchestratorMain {
           
           throw new IllegalArgumentException("The program must be started with either 0 or 1 arguments (if started with 1 argument, that argument must be the path to the Build List to use). Instead, the program has been started with " + args.length + " arguments, which are the following:" + NL + Arrays.toString(args));
         }
-        
-        
-        
-        
-        
-        
-        
-        
         orchestrator = newBuildOrchestrator(isNotEmpty(args) ? args[ZERO_i] : null
                                        , null, ac);
 				orchestrator.run();
