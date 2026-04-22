@@ -503,7 +503,7 @@ public final class BuildOrchestrator {
                                                                               , destArtifactFileName));
           if (destArtifactFile.exists()) {
             
-            this.appContext.warnUser(NL + "Overwriting old runnable jar " + getCanonicalPathAsDescr(destArtifactFile) + " .");
+            this.appContext.warnUser(NL + "Overwriting old runnable jar " + getCanonicalPathAsDescr(destArtifactFile) + ".");
             
             FileUtils.delete(destArtifactFile);
           }
