@@ -660,7 +660,8 @@ public final class BuildOrchestrator {
    * @throws UserRequestedTermination If {@code doPause} is {@code true} and the user responds to the pausing question
    *                                  with {@code A} (for Abort).
 	 */
-	private @NotNull OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
+	@SuppressWarnings("MagicNumber")
+  private @NotNull OrchestratorCommandOutcome runOrchestratorCommand(          File       folder
                                                                    , @NotBlank String     command
                                                                              , boolean    canRunInScript
                                                                              , boolean    doPause
