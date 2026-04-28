@@ -1,3 +1,9 @@
+H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader ONLY.TXT
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile\Build List DFile.TXT
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam\Build List DParam.TXT
+
+
+
 The command line arg now represents the Build List, not the cfg file, which is now inferred from the JAR name and must be in the same folder as it.
 
 RunInScriptIfWin4 = EXIT /B %ERRORLEVEL%

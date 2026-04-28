@@ -10,7 +10,7 @@
 
   /bin/sh -c
 
-  (if Unix) to run OS commands (e.g. RMDIR) vs. programs (e.g. FORMAT.COM),
+  (if Unix) to run OS commands (e.g. RMDIR) vs. programs (e.g. notepad.exe),
   verify if they work for both commands and programs, and if yes, have the
   BuildOrchestrator add them to all Initialization commands (regardless of
   whether they are OS commands or programs) and remove them from the Build
