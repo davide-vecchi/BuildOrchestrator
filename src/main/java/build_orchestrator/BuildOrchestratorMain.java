@@ -344,7 +344,7 @@ public class BuildOrchestratorMain {
         
         // : The program is executed within the IDE.
         
-        assertNonNull(resourcesFolderFromIDE, "It is detected that the program is being executed within the IDE, so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
+        assertNonNull(resourcesFolderFromIDE, "It is detected that the program is being executed from within the IDE, so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
         
         ac.warnUser(NL + "Detected that the program is being executed from within the IDE.");
         
