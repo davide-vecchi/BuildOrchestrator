@@ -342,7 +342,7 @@ public class BuildOrchestratorMain {
         
         // E.g. "C:\whatever\BuildOrchestrator\target\classes".
         
-        // : The program is executed within the IDE.
+        // : The program is executed within the IDE. TODO @@@ ... or executed from a test during the build process.
         
         assertNonNull(resourcesFolderFromIDE, "It is detected that the program is being executed from within the IDE, so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
         
