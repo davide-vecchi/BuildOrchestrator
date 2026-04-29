@@ -1,5 +1,39 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+* 13:12 2026-04-29
+
+* It seems that when run *from a JAR* it fails to detect the JAR's
+  folder (to look for the cfg file in that folder) and instead it
+  uses the *current* folder.
+
+  * E.g., if the JAR is in "C:\BuildOrchestrator\" and I launch it
+    from a Windows shortcut that has "H:\xyz\" in the "Start in"
+    field, the BO will detect "H:\xyz\" as the folder where to look
+    for the cfg file, instead it should detect "C:\BuildOrchestrator\".
+
+---------------------------------------------------------------------
+* 10:36 2026-04-29
+
+* Find the 1 occurrence of
+
+  "TODO @@@ ... or executed from a test during the build process."
+
+  and act on that TODO.
+
+  The matter is that - for sure when BO (BuildOrchestrator) is built,
+  even from a build script outside of the IDE - that code erroneously
+  detects that it's ran inside the IDE.
+
+  * So it considers "target\classes\" to be the path of the "executable".
+
+    * But that's probably what needs to happen, figure out if that's so.
+
+      * If yes, the solution might be to change not the code but the
+        concept of "from inside the IDE", to make it become something
+        like "from inside the IDE or from a test during the build process".
+
+---------------------------------------------------------------------
 * 12:35 2026-02-21
 
 * Instead of having to put in the Build List the
