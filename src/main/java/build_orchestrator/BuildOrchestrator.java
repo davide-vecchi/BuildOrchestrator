@@ -687,8 +687,8 @@ public final class BuildOrchestrator {
     final List<String> runInScriptIfWin =  canRunInScript && SystemUtils.IS_OS_WINDOWS
                                                                    && this.params.runInScriptIfWin.values != null ?
       valueIf(this.params.runInScriptIfWin.values.stream()
-                                                            .map(e -> e.value)
-                                                            .toList(),Collections.emptyList(),  null)
+                                                      .map(e -> e.value)
+                                                      .toList(),Collections.emptyList(),  null)
                                                                                                                   : null;
     try {
       
@@ -739,7 +739,8 @@ cmdOutcome != null ? cmdOutcome.commandLine()
       this.appContext.outUser(NL  + "The command" + NL2T + cmdOutcome.commandLine()
                                     + NL2 + "executed successfully in " + timeMs + " ms"
                                           + (cmdOutcome.processFolder() != null ?
-                                             " from folder " + dq(getCanonicalPath(cmdOutcome.processFolder()))
+                                             " from folder " + dq(getCanonicalPath(
+                                                                             cmdOutcome.processFolder()))
                                                                                 : EMPTY) + ".");
     }
     else {
