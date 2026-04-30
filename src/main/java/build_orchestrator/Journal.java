@@ -40,11 +40,10 @@ public class Journal {
    * Each entry represents an {@link BuildOrchestrator#issueInitCommands() issued Initialization Command} and its
    * outcome.
    * <ul>    <li>{@link TwoObjects#o1 o1} is the full text of the issued command.</li>
-   *         <li>{@link TwoObjects#o2 o2} is a {@link TwoObjects} where:
+   *         <li>{@link TwoObjects#o2 o2} is a {@link TwoObjects} where:</li>
    *     <ul><li>{@link TwoObjects#o1 o1} is the exit code of the OS process executed for the command (0 means success).</li>
    *         <li>{@link TwoObjects#o2 o2} is {@code null} if the command either succeeded or failed but not with an
-   *                                      exception. Otherwise it's that exception.</li>
-   * </ul>
+   *                                      exception. Otherwise it's that exception.</li></ul></ul>
    */
   @Getter
   private final List<@NotNull TwoObjects<@NotBlank String, @NotNull OrchestratorCommandOutcome>> issuedInitCommands;

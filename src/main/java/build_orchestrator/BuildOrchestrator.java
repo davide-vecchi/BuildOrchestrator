@@ -650,7 +650,8 @@ public final class BuildOrchestrator {
    * @param canRunInScript This method can decide to run the {@code command} in a created temporary shell script,
    *                       together with possible {@link BuildOrchestratorParams#runInScriptIfWin preliminary commands},
    *                       but if this param is {@code false} that is not allowed and the {@code command} will be run
-   *                       normally, that is not in a script, no matter what.<br>
+   *                       normally (that is not in a script but through {@link ProcessBuilder ProcessBuilder}), no
+   *                       matter what.<br>
    *
    * @param doPause If {@code true}, after {@link OSUtilities#runCommand executing} the {@code command}, {@link IOUtilities#askValue
    *                waits} for the Enter key to be pressed.
