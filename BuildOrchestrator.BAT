@@ -19,7 +19,7 @@ REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Acces
 REM
 REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
-java -jar BuildOrchestrator.jar
+    java -jar BuildOrchestrator.jar
 
 PAUSE
 
