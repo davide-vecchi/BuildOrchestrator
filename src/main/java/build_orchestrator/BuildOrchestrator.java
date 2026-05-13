@@ -214,6 +214,8 @@ public final class BuildOrchestrator {
       
       final MavenArtifactInfo mvnArtifactInfo = calcMavenArtifactInfo(pomFilepath, this.appContext.devLog);
       
+      // TODO If the Build List specifies a deployment path, validate that the Maven artifact info contain the executable artifact name.
+      
       // Empty the folder in the local Maven repo where the build will create the jar (e.g.
       // ".m2\repository\DJavaLibraries\DTestNG\") :
       
