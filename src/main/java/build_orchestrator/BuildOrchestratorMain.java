@@ -33,6 +33,7 @@ import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
 import static dlog.log.Log.writeLogsHeaders;
+import static duser_input_output.AUserInputOutput.calcCancelCharsPrompt;
 import static dutil.date.DateTimeUtilities.waitMillis;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
 import static dutil.jar.JARUtilities.calcJARPath;
@@ -87,7 +88,7 @@ public class BuildOrchestratorMain {
    * Each of these characters, if entered alone by the user as the answer to a question, means that the user is
    * requesting to terminate the program.
    */
-  static final String CANCEL_CHARS = "Aa/";
+  static final String CANCEL_CHARS = "Cc/";
 	
 	
 	/**
@@ -230,8 +231,7 @@ public class BuildOrchestratorMain {
     ac.warnUser(NL + prePrompt);
     
     final String prompt = "Enter the Build List file name, with or without path (the current folder is " + dq(getCurrentFolder())
-                          + "), or " + (cancelChars.length() == ONE_i ? cancelChars : "one of the " + dq(cancelChars) + " characters")
-                          + " and then Enter to Abort : ";
+                          + "), or " + calcCancelCharsPrompt(cancelChars);
     String result;
     
     boolean done;
