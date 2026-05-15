@@ -1,7 +1,5 @@
 /**
  * Created by Davide on 2026-01-29 .
- *
- * @formatter:off
  */
 package build_orchestrator;
 
@@ -64,6 +62,9 @@ import static org.fusesource.jansi.Ansi.Color.BLACK;
 import static org.fusesource.jansi.Ansi.Color.CYAN;
 import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
+
+
+// @formatter:off
 
 
 /**
