@@ -5,6 +5,7 @@ package build_orchestrator;
 
 import dlog.log.Log;
 import dparam.AParams;
+import duser_input_output.ConditionallyCloseablePrintStream;
 import duser_input_output.impl.consoleUserIO.ColorConsoleUserIO;
 import dutil.exception.UserRequestedTermination;
 import dutil.exception.exceptions.InvalidExternalValueException;
@@ -17,10 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.Arrays;import java.util.Date;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -109,9 +110,11 @@ public class BuildOrchestratorMain {
       
       final Log devLog =    new Log(APP_DESCR + " - developer log", APP_NAME + "_dev-log.LOG",    true);
       
-      final PrintStream out = new PrintStream(     System.out, true, CHARSET_UTF_8);
+      final ConditionallyCloseablePrintStream out = new ConditionallyCloseablePrintStream(
+                                                              System.out, true, CHARSET_UTF_8, false);
       
-      final PrintStream err = new PrintStream(System.err, true, CHARSET_UTF_8);
+      final ConditionallyCloseablePrintStream err = new ConditionallyCloseablePrintStream(
+                                                 System.err, true, CHARSET_UTF_8, false);
       
       final AppContext ac = newAppContext(
                          ColorConsoleUserIO.newInstance1(System.in,         out,                 err
