@@ -1,7 +1,5 @@
 /**
  * Created by Davide on 2026-02-01 .
- *
- * @formatter:off
  */
 package build_orchestrator;
 
@@ -44,6 +42,9 @@ import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+
+
+// @formatter:off
 
 
 public class BuildOrchestratorTest {
