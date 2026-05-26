@@ -1,7 +1,5 @@
 /**
  * Created by Davide on 2026-01-27 .
- *
- * @formatter:off
  */
 package build_orchestrator;
 
@@ -83,6 +81,9 @@ import static org.apache.commons.io.FilenameUtils.getExtension;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+
+
+// @formatter:off
 
 
 /**

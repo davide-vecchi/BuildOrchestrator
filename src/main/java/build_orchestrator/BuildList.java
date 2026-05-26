@@ -1,7 +1,5 @@
 /**
  * Created by Davide on 2026-01-29 .
- *
- * @formatter:off
  */
 package build_orchestrator;
 
@@ -60,6 +58,10 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
+
+// @formatter:off
+
 
 /**
  * Represents a Build List, see for example {@code Build List BuildOrchestrator.TXT} which is the Build List to build
