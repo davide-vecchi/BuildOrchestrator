@@ -14,9 +14,9 @@ PAUSE
 
 @ECHO ON
 
-DEL %MavenRepoFolder%\DAccessori\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT.jar
+DEL %MavenRepoFolder%\DBuildTools\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT.jar
 
-MOVE %MavenRepoFolder%\DAccessori\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT-jar-with-dependencies.jar ^
+MOVE %MavenRepoFolder%\DBuildTools\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT-jar-with-dependencies.jar ^
      C:\BuildOrchestrator\BuildOrchestrator.jar
 
 @ECHO OFF

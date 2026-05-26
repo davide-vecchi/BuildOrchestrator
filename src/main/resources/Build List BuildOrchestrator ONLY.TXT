@@ -1,6 +1,6 @@
 
 # BuildOrchestrator artifact Build List.
-# (REPOS subfolder : "Accessori\BuildOrchestrator\").
+# (REPOS subfolder : "BuildTools\BuildOrchestrator\").
 
 
 
@@ -38,6 +38,6 @@ NoPause
 #   There must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\
+H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\
 mvn clean install
 C:\BuildOrchestrator

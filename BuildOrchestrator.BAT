@@ -10,14 +10,14 @@ CHCP 65001 >NUL
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
 
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList01-BuildList.TXT"
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList02-BuildList.TXT"
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList03-BuildList.TXT"
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList04-BuildList.TXT"
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList05a-BuildList.TXT"
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList05b-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList01-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList02-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList03-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList04-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList05a-BuildList.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList05b-BuildList.TXT"
 REM
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
+REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
     java -jar BuildOrchestrator.jar
 

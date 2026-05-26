@@ -30,7 +30,7 @@ CD /D "%SafetyPathC%"
 ECHO.
 ECHO Build BuildOrchestrator module :
 
-CD /D "%REPOSFolder%\Accessori\BuildOrchestrator\"
+CD /D "%REPOSFolder%\BuildTools\BuildOrchestrator\"
 
 ECHO.
 ECHO Module folder :

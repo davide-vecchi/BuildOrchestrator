@@ -445,7 +445,7 @@ public final class BuildOrchestrator {
     final String builtArtifactExtension = FileUtilities.getExtension(nonRunnableJar.getName());
     
     final String runnableJarFilepath = removeEnd(getCanonicalPath(nonRunnableJar)
-                                             , builtArtifactExtension)  // %MavenRepoFolder%\DAccessori\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT
+                                             , builtArtifactExtension)  // %MavenRepoFolder%\DBuildTools\BuildOrchestrator\1.0-SNAPSHOT\BuildOrchestrator-1.0-SNAPSHOT
                                        + DASH + mvnInfo.executableArtifactName()  // -jar-with-dependencies
                                        + builtArtifactExtension;                  // .jar
     

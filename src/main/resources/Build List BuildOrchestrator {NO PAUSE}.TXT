@@ -1,6 +1,6 @@
 
 # BuildOrchestrator artifact Build List.
-# (REPOS subfolder : "Accessori\BuildOrchestrator\").
+# (REPOS subfolder : "BuildTools\BuildOrchestrator\").
 
 
 
@@ -93,6 +93,6 @@ H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMaven
 mvn clean install
 
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\
+H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\
 mvn clean install
 C:\BuildOrchestrator

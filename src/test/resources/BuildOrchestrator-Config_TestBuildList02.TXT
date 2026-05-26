@@ -16,7 +16,7 @@
 # Required : Path of the Build List file, which is the text file containing the
 #            list of modules to build and the build settings of each of them :
 
-BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList02-BuildList.TXT
+BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList02-BuildList.TXT
 
 ################################################################################
 

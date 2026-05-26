@@ -18,8 +18,8 @@
 #
 # Default : If missing, it will be asked to the user at runtime.
 
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList-DFile.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\test\resources\TestBuildList-DSAX.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList-DFile.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\test\resources\TestBuildList-DSAX.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO PAUSE}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO TESTS}.TXT
@@ -31,9 +31,9 @@
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Core\Build List IPSG {NO PAUSE}.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator {NO PAUSE}.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator {NO PAUSE}.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT
 
 ################################################################################
 

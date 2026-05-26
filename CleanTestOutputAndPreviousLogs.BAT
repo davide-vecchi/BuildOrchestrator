@@ -6,7 +6,7 @@ CHCP 65001 >NUL
 
 @ECHO ON
 
-CD /D "H:\Users\Davide\Davide\Sviluppo\REPOS\Accessori\BuildOrchestrator\"
+CD /D "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\"
 
 DEL /S /Q "Build*-log*.LOG.2*"
 
