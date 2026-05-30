@@ -675,7 +675,7 @@ public final class BuildOrchestrator {
     Exception           resultException;
 		
 		this.appContext.outUser(NL + "Command: " + dq(command) + "; args: " + asList(args) + NL);
-			
+    
     // : Run the command :
     
     long timeMs = System.currentTimeMillis();
@@ -699,7 +699,8 @@ public final class BuildOrchestrator {
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
                     , adjustForLog,                 outToUser
-                                        , runInScriptIfWin,                       args);
+                                        , runInScriptIfWin,                  null
+                               , args);
       
       resultExitValue = cmdOutcome.exitValue();
       
