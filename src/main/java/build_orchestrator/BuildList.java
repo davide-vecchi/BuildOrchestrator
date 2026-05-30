@@ -402,9 +402,9 @@ class BuildList {
     
     if (isBlankOrTrimmable(mavenCommand)) {
       
-      throw new InvalidExternalValueException("Invalid Maven command :"       + NL2T2 + dq(mavenCommand) + NL2
-                                            + "in "                           + buildListFileDescr + "," + NL
-                                            + "at line "                      + commandLineWithNumber.number
+      throw new InvalidExternalValueException("Invalid Maven command :"        + NL2T2 + dq(mavenCommand) + NL2
+                                            + "in "                            + buildListFileDescr + "," + NL
+                                            + "at line "                       + commandLineWithNumber.number
                                             + ", for the module path at line " + pathLineWithNumber.number + " ." + NL2
                                             + "Module blocks must be exactly 2 or 3 consecutive non‑empty, non-comment lines," + NL
                                             + "and none of these lines can start or end with spaces like in this case.");
