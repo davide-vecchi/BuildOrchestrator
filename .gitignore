@@ -2,3 +2,5 @@
 /test-output/
 /target/
 *.bak
+*.DUMP
+*.LOG
