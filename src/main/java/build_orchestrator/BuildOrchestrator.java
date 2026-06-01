@@ -75,6 +75,7 @@ import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.dqStr;
 import static dutil.string.TextUtilities.parseNotWithinDelimiters;
 import static dutil.string.TextUtilities.removeEnd;
+import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
 import static org.apache.commons.io.FilenameUtils.getExtension;
@@ -383,7 +384,7 @@ public final class BuildOrchestrator {
       
       // : The path to return already exists.
       
-      assertExistingFile(result.object, true);
+      assertExistingFile(result.object, TRUE);
     }
     else {
       
