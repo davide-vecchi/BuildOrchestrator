@@ -37,7 +37,6 @@ import java.util.function.Function;
 
 import static build_orchestrator.BuildList.newBuildList;
 import static build_orchestrator.BuildOrchestratorMain.CANCEL_CHARS;
-import static dfile.file.FileUtilities.assertExistingFile;
 import static dfile.file.FileUtilities.assertExistingPath;
 import static dfile.file.FileUtilities.assertNonEmpty;
 import static dfile.file.FileUtilities.calcPath;
@@ -384,7 +383,7 @@ public final class BuildOrchestrator {
       
       // : The path to return already exists.
       
-      assertExistingFile(result.object, TRUE);
+      FileUtilities.assertExistingPath(result.object, TRUE);
     }
     else {
       
