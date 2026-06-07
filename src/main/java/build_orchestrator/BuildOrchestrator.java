@@ -243,7 +243,7 @@ public final class BuildOrchestrator {
         
         this.appContext.outUser(  NL + "Build successful.");
         
-        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + mvnCmdWithPath + NL2 + cmdResult.commandLine + " was " + cmdResult.exitValue + " .");
+        this.appContext.outDevLog(NL + "The exit code of command :" + NL2T + cmdResult.commandLine + NL + "was " + cmdResult.exitValue + " .");
 				
 				if (moduleBlock.executableDestPath() != null) {
           
