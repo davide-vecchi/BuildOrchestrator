@@ -38,7 +38,7 @@
 #   There must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTestNG
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\ThreadSafeNumberFormat
