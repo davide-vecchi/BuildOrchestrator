@@ -60,7 +60,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\ThreadSafeNumberFormat
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DLog
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil
