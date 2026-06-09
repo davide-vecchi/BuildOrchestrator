@@ -7,7 +7,7 @@ BuildList {
 	moduleBlocks=ArrayList:
 
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat, mvnCommand=mvn clean install, executableDestPath=null]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\ThreadSafeNumberFormat, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUtil, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput, mvnCommand=mvn clean install, executableDestPath=null]

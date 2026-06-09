@@ -38,7 +38,7 @@
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTestNG
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\3rdParty\ThreadSafeNumberFormat
+H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\ThreadSafeNumberFormat
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog
