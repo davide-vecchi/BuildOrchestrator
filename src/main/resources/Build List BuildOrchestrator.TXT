@@ -57,7 +57,7 @@ cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\JavaLibraries3rdParty\Thread
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTestNG
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\ThreadSafeNumberFormat
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\ThreadSafeNumberFormat
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DLog
