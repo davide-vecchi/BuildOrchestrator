@@ -89,7 +89,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DEmail
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DEmail
 mvn clean install
 
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DApplication
