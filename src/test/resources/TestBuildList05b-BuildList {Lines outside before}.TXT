@@ -53,7 +53,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTest
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX
