@@ -62,7 +62,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMSOffice
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DMSOffice
 mvn clean install
 
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI

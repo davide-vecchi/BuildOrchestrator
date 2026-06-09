@@ -15,7 +15,7 @@ BuildList {
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTest, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DMSOffice, mvnCommand=mvn clean install, executableDestPath=null]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DMSOffice, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI_OLD, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DDb, mvnCommand=mvn clean install, executableDestPath=null]
