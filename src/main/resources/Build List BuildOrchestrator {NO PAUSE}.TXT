@@ -74,7 +74,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUserInputOutput
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest

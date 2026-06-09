@@ -1,7 +1,7 @@
 
 # DFile artifact Build List
 # (from DJavaLibraries artifact group).
-# (REPOS subfolder : "JavaLibraries\DFile").
+# (REPOS subfolder : "DLibs\DFile").
 #
 # This Build List expects that the other libraries
 # needed by the DFile module are already built.
@@ -60,7 +60,7 @@ cmd.exe /c IF EXIST "C:\Users\Davide\.m2\repository\DJavaLibraries\DFile" (RMDIR
 #   There must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile
 mvn clean install
 
 # mvn clean install -DskipTests

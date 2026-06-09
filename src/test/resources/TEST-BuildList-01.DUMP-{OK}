@@ -11,7 +11,7 @@ BuildList {
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DLog, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUtil, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUserInputOutput, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile, mvnCommand=mvn clean install, executableDestPath=null]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DTest, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA, mvnCommand=mvn clean install, executableDestPath=null]
