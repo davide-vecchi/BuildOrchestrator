@@ -48,7 +48,7 @@ H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUtil
 mvn clean install
 
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DUserInputOutput
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUserInputOutput
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DFile
