@@ -23,7 +23,7 @@
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO PAUSE}.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\Build List JavaLibraries {NO TESTS}.TXT
-# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam\Build List DParam.TXT
+# BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam\Build List DParam.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common\Build List IPSG-Common ONLY.TXT
 # BuildListFile = H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader.TXT

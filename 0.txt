@@ -21,7 +21,7 @@ Il File Origine "maresca ortostasi.mdx"  stato spostato
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader\Build List IPSG-DataReader ONLY.TXT
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile\Build List DFile.TXT
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam\Build List DParam.TXT
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam\Build List DParam.TXT
 
 
 

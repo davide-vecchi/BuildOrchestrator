@@ -80,7 +80,7 @@ mvn clean install
 H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTest
 mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DParam
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML
