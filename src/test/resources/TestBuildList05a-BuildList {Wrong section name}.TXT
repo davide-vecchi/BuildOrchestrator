@@ -96,7 +96,7 @@ mvn clean install
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DCMS
 # mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML
+H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DXML
 mvn clean install
 
 H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX

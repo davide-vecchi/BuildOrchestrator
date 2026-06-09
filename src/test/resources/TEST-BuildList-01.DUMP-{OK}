@@ -22,7 +22,7 @@ BuildList {
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DEmail, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DXML, mvnCommand=mvn clean install, executableDestPath=null]
+		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DXML, mvnCommand=mvn clean install, executableDestPath=null]
 		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSAX, mvnCommand=mvn clean install, executableDestPath=null]
 
 }
