@@ -23,50 +23,50 @@
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DUtil</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DLog</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DUserInputOutput</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DTest</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DFile</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DParam</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DMaven</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>DJavaLibraries</groupId>
 			<artifactId>DTestNG</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		
