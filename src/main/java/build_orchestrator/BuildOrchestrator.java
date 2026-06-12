@@ -74,6 +74,7 @@ import static dutil.string.TextUtilities.dq;
 import static dutil.string.TextUtilities.dqStr;
 import static dutil.string.TextUtilities.parseNotWithinDelimiters;
 import static dutil.string.TextUtilities.removeEnd;
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
@@ -211,7 +212,7 @@ public final class BuildOrchestrator {
       // Calculate the artifact's Maven info (id, group id etc.) :
       
       final String pomFilepath = assertExistingPath(calcPath(pomFolder.getPath(), "pom.xml")
-                                                           , false);
+                                                           , FALSE);
       
       final MavenArtifactInfo mvnArtifactInfo = calcMavenArtifactInfo(pomFilepath, this.appContext.devLog);
       
