@@ -182,7 +182,7 @@ public final class BuildOrchestrator {
 		
 		// Loop over the entries in the Modules section of the Build List, and for each one execute its Maven command :
 		
-		buildAndDeployModules();
+		buildAndDeployModules(false);
 		
 		this.appContext.outUserLog(NL2 + DASH80 + NL2 + "Execution journal:" + NL2 + this.journal + NL2 + DASH80);
 	}
@@ -190,8 +190,10 @@ public final class BuildOrchestrator {
 	/**
 	 * Loops over the entries in the {@link BuildList#getModuleBlocks() Modules section} of the {@link #buildList Build
 	 * List}, and for each one executes its {@link BuildList.ModuleBlock#mvnCommand Maven command}.
+   *
+   * @param emptyArtifactRepoFolder Whether the artifact's Maven repo folder must be emptied before writing it.
 	 */
-	private void buildAndDeployModules() throws InterruptedException, UserRequestedTermination {
+	private void buildAndDeployModules(boolean emptyArtifactRepoFolder) throws InterruptedException, UserRequestedTermination {
 		
 		for (final BuildList.ModuleBlock moduleBlock : this.buildList.getModuleBlocks()) {
 			
@@ -228,8 +230,10 @@ public final class BuildOrchestrator {
       
         this.appContext.warnUser(NL + mvnRepoArtifactFolder.description);
       }
-      emptyFolder(getCanonicalPath(mvnRepoArtifactFolder.object), NL + "Emptying artifact's Maven repo folder ");
+      if (emptyArtifactRepoFolder) {
       
+        emptyFolder(getCanonicalPath(mvnRepoArtifactFolder.object), NL + "Emptying artifact's Maven repo folder ");
+      }
       // Run the command to build :
       
 			final OrchestratorCommandOutcome cmdResult = runOrchestratorCommand(
