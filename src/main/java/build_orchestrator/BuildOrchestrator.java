@@ -782,7 +782,7 @@ cmdOutcome != null ? cmdOutcome.commandLine()
     
     try {
       
-      final File folder = new File(assertExistingPath(path, true));
+      final File folder = new File(assertExistingPath(path, TRUE));
       
       FileUtils.cleanDirectory(folder);
       
