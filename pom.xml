@@ -21,50 +21,50 @@
 		<!-- Beginning of DJavaLibraries . -->
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DUtil</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
-			<artifactId>DLog</artifactId>
-			<version>1.0.0</version>
+			<groupId>djavalibraries</groupId>
+			<artifactId>dlog</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DUserInputOutput</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DTest</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
-			<artifactId>DFile</artifactId>
-			<version>1.0.0</version>
+			<groupId>djavalibraries</groupId>
+			<artifactId>dfile</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DParam</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DMaven</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>DJavaLibraries</groupId>
+			<groupId>djavalibraries</groupId>
 			<artifactId>DTestNG</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
