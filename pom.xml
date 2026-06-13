@@ -40,8 +40,8 @@
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
-			<artifactId>DTest</artifactId>
-			<version>1.0.0</version>
+			<artifactId>dtest</artifactId>
+			<version>2.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -65,8 +65,8 @@
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
-			<artifactId>DTestNG</artifactId>
-			<version>1.0.0</version>
+			<artifactId>dtestng</artifactId>
+			<version>2.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		
