@@ -53,14 +53,14 @@
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
-			<artifactId>DParam</artifactId>
-			<version>1.0.0</version>
+			<artifactId>dparam</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
-			<artifactId>DMaven</artifactId>
-			<version>1.0.0</version>
+			<artifactId>dmaven</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 		
 		<dependency>
