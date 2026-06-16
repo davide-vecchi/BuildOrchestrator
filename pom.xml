@@ -20,6 +20,12 @@
 		
 		<repository>
 			<id>github</id>
+			<url>https://maven.pkg.github.com/davide-vecchi/*</url>
+		</repository>
+		
+		<!-- @@@@@@@@@@@@@
+		<repository>
+			<id>github</id>
 			<url>https://maven.pkg.github.com/davide-vecchi/DUtil</url>
 		</repository>
 		
@@ -57,6 +63,10 @@
 			<id>github</id>
 			<url>https://maven.pkg.github.com/davide-vecchi/DTestNG</url>
 		</repository>
+		
+		
+		@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+		
 		
 	</repositories>
 	
