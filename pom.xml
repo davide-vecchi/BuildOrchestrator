@@ -20,42 +20,7 @@
 		
 		<repository>
 			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DUtil</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DLog</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DUserInputOutput</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DFile</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DParam</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DMaven</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DTest</url>
-		</repository>
-		
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/davide-vecchi/DTestNG</url>
+			<url>https://maven.pkg.github.com/davide-vecchi/*</url>
 		</repository>
 		
 	</repositories>
