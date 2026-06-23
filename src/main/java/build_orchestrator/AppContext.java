@@ -18,20 +18,33 @@ import static dutil.string.TextUtilities.NL;
 
 
 public class AppContext extends AAppContext {
-
-
+  
+  
+  /**
+   * Private constructor. Sets {@link #currentVerbosity} to {@link AAppContext#MAX_VERBOSITY max}.
+   *
+   * @param userIO    {@link AAppContext#userIO userIO}.
+   * @param screenLog {@link AAppContext#userIO screenLog}.
+   * @param userLog   {@link AAppContext#userIO userLog}.
+   * @param devLog    {@link AAppContext#userIO devLog}.
+   */
   private AppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
-                                        , @NotNull Log userLog, @NotNull Log devLog) {
-
+                                                     , @NotNull Log userLog, @NotNull Log devLog) {
     super(userIO, screenLog, userLog, devLog);
-
+    
     this.currentVerbosity = MAX_VERBOSITY;
   }
-
-
+  
+  /**
+   * Factory method. Sets {@link #currentVerbosity} to {@link AAppContext#MAX_VERBOSITY max}.
+   *
+   * @param userIO    {@link AAppContext#userIO userIO}.
+   * @param screenLog {@link AAppContext#userIO screenLog}.
+   * @param userLog   {@link AAppContext#userIO userLog}.
+   * @param devLog    {@link AAppContext#userIO devLog}.
+   */
   public static AppContext newAppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
-                                                                       , @NotNull Log userLog, @NotNull Log devLog) {
-
+                                                                         , @NotNull Log userLog, @NotNull Log devLog) {
     return new AppContext(userIO, screenLog, userLog, devLog);
   }
 
