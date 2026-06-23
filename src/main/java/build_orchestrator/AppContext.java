@@ -17,6 +17,9 @@ import static dutil.string.TextUtilities.NL;
 // @formatter:off
 
 
+/**
+ * Implementation of {@link AAppContext} for {@link BuildOrchestrator}.
+ */
 public class AppContext extends AAppContext {
   
   
