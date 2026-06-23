@@ -27,9 +27,15 @@
 	
 	<dependencies>
 		
-		<!-- Beginning of DJavaLibraries . -->
-		
-		<dependency>
+        <!-- Beginning of DJavaLibraries . -->
+
+        <dependency>
+            <groupId>djavalibraries</groupId>
+            <artifactId>dapplication</artifactId>
+            <version>2.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dutil</artifactId>
 			<version>2.1.0-SNAPSHOT</version>
