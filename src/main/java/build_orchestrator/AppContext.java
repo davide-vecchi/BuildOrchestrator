@@ -54,13 +54,13 @@ public class AppContext extends AAppContext {
 
   @Override
   public void showLogInfo(int verbosity) {
-
+    
     outUser(verbosity, NL + "Il file di log di questa esecuzione per lo SCHERMO è :       "
                                                               + getCanonicalPathAsDescr(this.screenLog.logFile) + ".");
-
+    
     outUser(verbosity,     "Il file di log di questa esecuzione per l'UTENTE è :         "
                                                               + getCanonicalPathAsDescr(this.userLog  .logFile) + ".");
-
+    
     outUser(verbosity,     "Il file di log di questa esecuzione per il PROGRAMMATORE è : "
                                                               + getCanonicalPathAsDescr(this.devLog   .logFile) + ".");
   }
