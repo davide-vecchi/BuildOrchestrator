@@ -417,7 +417,7 @@ public class BuildOrchestratorMain {
 	private static void showStartupMessages(@NotNull AppContext ac) {
 		
 		ac.outUser();
-		ac.outUser("Avvio "    + dq(APP_DESCR) + " il " + new Date() + NL);
+		ac.outUser("Avvio " + dq(APP_DESCR) + " il " + new Date() + NL);
 		
     ac.showLogInfo();
 	}
