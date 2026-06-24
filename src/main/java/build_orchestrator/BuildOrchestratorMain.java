@@ -28,7 +28,6 @@ import java.util.Map;
 import static build_orchestrator.AppContext.newAppContext;
 import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.getCanonicalPath;
-import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
 import static dlog.log.Log.writeLogsHeaders;
@@ -420,11 +419,7 @@ public class BuildOrchestratorMain {
 		ac.outUser();
 		ac.outUser("Avvio "    + dq(APP_DESCR) + " il " + new Date() + NL);
 		
-		ac.outUser("Screen log: " + getCanonicalPathAsDescr(ac.screenLog.logFile));
-		
-		ac.outUser("  User log: " + getCanonicalPathAsDescr(ac.userLog.logFile));
-		
-		ac.outUser("   Dev log: " + getCanonicalPathAsDescr(ac.devLog.logFile));
+    ac.showLogInfo();
 	}
 	
 }
