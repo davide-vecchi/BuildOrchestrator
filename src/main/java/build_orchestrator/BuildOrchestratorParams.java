@@ -20,11 +20,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.File;
 import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 
-import static dfile.file.FileUtilities.SEPARATOR_CHAR;
 import static dfile.file.FileUtilities.calcPath;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
 import static dutil.number.NumberUtilities.L;
@@ -206,7 +206,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		this.mavenFolder.setValueParser(new NeutralStringParser()).loadOptionalValue(
 														defaultIfBlank(System.getenv(mvnHomeEnvVarName)
-																										, SEPARATOR_CHAR + "Maven"));
+																										, File.separator + "Maven"));
     
     // Param MavenRepoFolder :
     
