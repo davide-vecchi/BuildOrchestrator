@@ -10,9 +10,9 @@ CHCP 65001 >NUL
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
 
-REM java -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
+REM java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
-    java -jar BuildOrchestrator.jar
+    java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar
 
 PAUSE
 
@@ -25,7 +25,7 @@ User guide:
 
 In order to start the BuildOrchestrator program:
 
-1) Adjust the arguments of the command "java -jar BuildOrchestrator.jar ..." above in
+1) Adjust the arguments of the command "java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar ..." above in
    this file, as described in the section below.
 
 2) Save the file (with the same name or with any other name).
@@ -38,14 +38,14 @@ In order to start the BuildOrchestrator program:
 
 ----------------------------------------------------
 
-How to adjust the arguments of the command "java -jar BuildOrchestrator.jar ..." :
+How to adjust the arguments of the command "java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar ..." :
 
 The program must be started with either 0 or 1 arguments.
 If started with 1 argument, that argument must be the path to the Build List to use.
 
 ----------------------------------------------------
 
-All the arguments of the command "java -jar BuildOrchestrator.jar ..." above must be
+All the arguments of the command "java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar ..." above must be
 enclosed in double-quotes ("), but this is not mandatory when the argument
 value does not contain any space characters. It's recommended to take the
 habit of using the double-quotes for all arguments anyway, in order to avoid
