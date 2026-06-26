@@ -98,7 +98,9 @@ public class BuildOrchestratorMain {
 	 * @param args The command line args.
 	 */
 	public static void main(String[] args) throws Exception {
-		
+    
+    System.setProperty("file.encoding", CHARSET_UTF_8.name());
+    
 		final BuildOrchestrator orchestrator;
 		
 		try (
