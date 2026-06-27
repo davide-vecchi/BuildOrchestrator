@@ -196,7 +196,8 @@ public class BuildOrchestratorTest {
       
       write(fileTest, buildList.toString(), null);
       
-      final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}"), true, TEN_i);
+      final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}")
+                                        , true, TEN_i);
       
       assertFilesEqual(fileTest, fileOK, L(10));
       
