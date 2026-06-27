@@ -199,7 +199,7 @@ public class BuildOrchestratorMain {
 		
 		final BuildOrchestratorParams params = newBuildOrchestratorParams(readConfigurationMap(configurationFile
 			                                                                       , ac)
-																											 , "Configuration file "+  dq(
+																											 , "Configuration file " +  dq(
 																							                 getCanonicalPath(configurationFile))
 																									       , ac);
 		
@@ -288,7 +288,6 @@ public class BuildOrchestratorMain {
 		final BuildOrchestratorParams allParams =  new BuildOrchestratorParams(
 																													assertNonEmpty(configurationMap), sourceDescr
 																																												, appContext);
-		
 		// Create all the existing params, as empty :
 		
 		allParams.addAllParams();
