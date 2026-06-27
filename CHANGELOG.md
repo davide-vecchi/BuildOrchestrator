@@ -24,3 +24,5 @@
 
 
 ### Fixed
+
+- Make test resources paths relative in test configuration files, were absolute.
