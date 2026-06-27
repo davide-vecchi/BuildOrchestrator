@@ -26,10 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 import static build_orchestrator.AppContext.newAppContext;
+import static dfile.file.FileUtilities.assertValidPath;
 import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
+import static dfile.file.FileUtilities.normalizePathForOS;
 import static dlog.log.Log.writeLogsHeaders;
 import static duser_input_output.AUserInputOutput.calcCancelCharsPrompt;
 import static dutil.date.DateTimeUtilities.waitMillis;
@@ -49,9 +51,8 @@ import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
-import static dutil.string.TextUtilities.assertNonBlank;
-import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static java.lang.Boolean.FALSE;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
 import static org.apache.commons.io.FilenameUtils.removeExtension;
@@ -205,20 +206,24 @@ public class BuildOrchestratorMain {
 		
 		// Initialize the instance of the BuildOrchestrator application :
     
-    final String buildListFilepath = assertNonBlankNorTrimmable(
+    final String buildListFilepath = assertValidPath(normalizePathForOS(
       
-      buildListPath                       != null ?
+        buildListPath                       != null ?
       
-              buildListPath :                               // : The Build List was given as arg.
+              buildListPath :                               // : The Build List path was given as arg.
       
               params.getBuildListFilepath().value != null ?
               
-              params.getBuildListFilepath().value :         // : The Build List was specified in the configuration file.
+              params.getBuildListFilepath().value :         // : The Build List path was specified in the configuration file.
+                                                            //   TODO  @@@ So with which name-separator ?? "/" or "\" ? Must probably adjust it based on whether running on Win or *nix !!
+                                                            //             Or is it handled automatically by Java ?
+                                                            //   FIXME @@@ So with which name-separator ?? "/" or "\" ? Must probably adjust it based on whether running on Win or *nix !!
+                                                            //             Or is it handled automatically by Java ?
               
-              askBuildListFilepath("Build List file name not specified, enter it :", CANCEL_CHARS, ac));
+              askBuildListFilepath("Build List file name not specified, enter it :", CANCEL_CHARS, ac))
+                                        , FALSE);
     
-		final File buildListFile = newValidatedFile(assertNonBlank(buildListFilepath)
-																						 , true,       TEN_i);
+		final File buildListFile = newValidatedFile(buildListFilepath, true, TEN_i);
 		
 		return BuildOrchestrator.newInstance(params, buildListFile);
 	}
