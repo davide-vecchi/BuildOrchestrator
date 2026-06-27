@@ -207,9 +207,13 @@ public class BuildOrchestratorMain {
     
     final String buildListFilepath = assertNonBlankNorTrimmable(
       
-      buildListPath                       != null ? buildListPath :                       // : The Build List was given as arg.
+      buildListPath                       != null ?
       
-              params.getBuildListFilepath().value != null ? params.getBuildListFilepath().value : // : The Build List was specified in the configuration file.
+              buildListPath :                               // : The Build List was given as arg.
+      
+              params.getBuildListFilepath().value != null ?
+              
+              params.getBuildListFilepath().value :         // : The Build List was specified in the configuration file.
               
               askBuildListFilepath("Build List file name not specified, enter it :", CANCEL_CHARS, ac));
     
