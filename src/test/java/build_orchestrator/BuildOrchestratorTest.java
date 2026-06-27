@@ -163,9 +163,9 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * {@link #newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link BuildOrchestrator} instance
-   *        loading a Build List identified through the given {@code testID}, saves it to file, and if that file is
-   *        different from the corresponding "OK" file fails the test.
+   * {@link BuildOrchestratorMain#newBuildOrchestrator Creates} and {@link BuildOrchestrator#run() run}s a {@link
+   *        BuildOrchestrator} instance loading a Build List identified through the given {@code testID}, saves it to
+   *        file, and if that file is different from the corresponding "OK" file fails the test.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
    *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
