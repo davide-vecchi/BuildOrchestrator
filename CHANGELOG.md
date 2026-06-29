@@ -8,6 +8,8 @@
 
 ### Added
 
+- Always show whether the program is being executed from within the IDE / build test vs. JAR.
+
 - Set system property "file.encoding" to UTF-8.
 
 - **Breaking:**

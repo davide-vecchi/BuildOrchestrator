@@ -343,6 +343,8 @@ public class BuildOrchestratorMain {
                                           , @NotNull AppContext ac) {
     String jarPath, cfgFilepath;
     
+    String envDetectionMsg = null;
+    
     try {
       
       jarPath = calcJARPath(BuildOrchestratorMain.class);
@@ -355,11 +357,14 @@ public class BuildOrchestratorMain {
         
         // E.g. "C:\whatever\BuildOrchestrator\target\classes".
         
-        // : The program is executed within the IDE. TODO @@@ ... or executed from a test during the build process.
+        // : The program is executed within the IDE.
         
-        assertNonNull(resourcesFolderFromIDE, "It is detected that the program is being executed from within the IDE, so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
+        envDetectionMsg = "It is detected that the program is being executed from within the IDE"
+                        + " or from a test during the build process";
         
-        ac.warnUser(NL + "Detected that the program is being executed from within the IDE.");
+        assertNonNull(resourcesFolderFromIDE, envDetectionMsg + ", so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
+        
+        ac.warnUser(NL + envDetectionMsg + ".");
         
         ac.outUserLog(NLT + "Original path of executable : " + dq(jarPath) + ".");
         
@@ -377,7 +382,9 @@ public class BuildOrchestratorMain {
       }
       else {
         
-        ac.outUserLog("Detected that the program is being executed from a JAR file." + NL2T + "Path of executable : " + dq(jarPath) + ".");
+        envDetectionMsg = "Detected that the program is being executed from a JAR file";
+        
+        ac.outUserLog(NL2T + envDetectionMsg + "." + NL2T + "Path of executable : " + dq(jarPath) + ".");
       }
       cfgFilepath = removeExtension(jarPath) + filenameSuffix;
     }
@@ -385,7 +392,9 @@ public class BuildOrchestratorMain {
       
       final String msg = "Error " + e.getClass().getSimpleName() + " trying to determine the path of the running JAR to retrieve the configuration file.";
       
-      ac.outUserLog(msg + NL2T + getFullDescriptionWithRootCause(e));
+      ac.outUserLog(NL2T + msg + NL2T + getFullDescriptionWithRootCause(e));
+      
+      ac.outUserLog(NL2T + envDetectionMsg);
       
       cfgFilepath = calcPath(getCurrentFolder()
                                        , BuildOrchestrator.class.getSimpleName() + EXTENSION_SEPARATOR + filenameSuffix);
