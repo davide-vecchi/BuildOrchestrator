@@ -181,6 +181,8 @@ public class BuildOrchestratorTest {
       
       final String testDataPath = calcPath("src", "test", "resources");
       
+      ac.outUser(NL + "testDataPath calculated as " + dq(testDataPath) + "." + NL);
+      
       final BuildOrchestrator orchestrator = newBuildOrchestrator(null
                                                             , "_TestBuildList" + testID, ac);
       
