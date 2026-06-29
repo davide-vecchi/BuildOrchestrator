@@ -175,6 +175,8 @@ public class BuildOrchestratorTest {
     
     ac.outUser(NL2 + DASH80 + NL + "Method testBuildList with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     
+    ac.showLogInfo();
+    
     try {
       
       writeLogsHeaders(ac.screenLog, ac.userLog, ac.devLog, APP_NAME, APP_DESCR);
