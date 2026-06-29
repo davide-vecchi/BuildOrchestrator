@@ -31,7 +31,7 @@ import static dfile.file.FileUtilities.calcPath;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
-import static dfile.file.FileUtilities.normalizePathForOS;
+import static dfile.file.FileUtilities.normalizeNameSepsForOS;
 import static dlog.log.Log.writeLogsHeaders;
 import static duser_input_output.AUserInputOutput.calcCancelCharsPrompt;
 import static dutil.date.DateTimeUtilities.waitMillis;
@@ -206,7 +206,7 @@ public class BuildOrchestratorMain {
 		
 		// Initialize the instance of the BuildOrchestrator application :
     
-    final String buildListFilepath = assertValidPath(normalizePathForOS(
+    final String buildListFilepath = assertValidPath(normalizeNameSepsForOS(
       
         buildListPath                       != null ?
       
