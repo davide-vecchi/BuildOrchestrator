@@ -1,7 +1,5 @@
 /**
  * Created by Davide on 2026-01-28 .
- *
- * @formatter:off
  */
 package build_orchestrator;
 
