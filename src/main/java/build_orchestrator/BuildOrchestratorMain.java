@@ -182,8 +182,8 @@ public class BuildOrchestratorMain {
 	 *
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
    */
-	static @NotNull BuildOrchestrator newBuildOrchestrator(String buildListPath, String testCfgFileSuffix, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
-		
+	static @NotNull BuildOrchestrator newBuildOrchestrator(String     buildListPath, String testCfgFileSuffix
+                                              , @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
 		assertNonNull(ac);
 		
 		// Determine the configuration file :
