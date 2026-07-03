@@ -4,6 +4,7 @@
 package build_orchestrator;
 
 
+import application.AAppContext;
 import dutil.exception.exceptions.InvalidExternalValueException;
 import dutil.exception.exceptions.InvalidValueException;
 import dutil.exception.exceptions.MissingExternalValueException;
@@ -144,7 +145,7 @@ class BuildList {
    *
    * @return A new {@link BuildList} populated by reading the given {@code buildListFile}.
    */
-  static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AppContext ac) {
+  static @NotNull BuildList newBuildList(@NotNull File buildListFile, @NotNull AAppContext ac) {
     
     ac.outUser(NL2 + Instant.now().toString() + TAB + "Starting   loading of Build List from " + getCanonicalPathAsDescr(buildListFile) + " ...");
     

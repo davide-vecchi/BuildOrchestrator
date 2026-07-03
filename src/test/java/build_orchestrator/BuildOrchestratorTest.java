@@ -3,6 +3,7 @@
  */
 package build_orchestrator;
 
+import application.AAppContext;
 import dutil.exception.UserRequestedTermination;
 import dutil.exception.exceptions.InternalErrorException;
 import dutil.exception.exceptions.InvalidExternalValueException;
@@ -47,7 +48,7 @@ public class BuildOrchestratorTest {
   
   private static final String APP_DESCR = BuildOrchestratorTest.class.getName();
   
-  private AppContext appContext;
+  private AAppContext appContext;
   
   
   @BeforeClass
@@ -76,7 +77,7 @@ public class BuildOrchestratorTest {
   
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "01".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "01".
    */
   @Test
   public void buildListTest01() throws Exception {
@@ -85,7 +86,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "02".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "02".
    */
   @Test
   public void buildListTest02() throws Exception {
@@ -94,7 +95,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "03".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "03".
    */
   @Test
   public void buildListTest03() throws Exception {
@@ -103,7 +104,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "04".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "04".
    */
   @Test
   public void buildListTest04() throws Exception {
@@ -112,7 +113,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "05a".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "05a".
    */
   @Test()
   public void buildListTest05a() throws Exception {
@@ -134,7 +135,7 @@ public class BuildOrchestratorTest {
   }
   
   /**
-   * Calls {@link #testBuildList(String, AppContext) testBuildList(*)} passing to it the test ID "05b".
+   * Calls {@link #testBuildList(String, AAppContext) testBuildList(*)} passing to it the test ID "05b".
    */
   @Test()
   public void buildListTest05b() throws Exception {
@@ -161,10 +162,10 @@ public class BuildOrchestratorTest {
    *        file, and if that file is different from the corresponding "OK" file fails the test.
    *
    * @param testID Identifies the set of data used by a specific test ran by this method. E.g. "{@code 01}".<br>Used to:<ul>
-   *               <li>{@link AppContext#outUser show} it in the console to indicate which test method is running.</li>
+   *               <li>{@link AAppContext#outUser show} it in the console to indicate which test method is running.</li>
    *               <li>Choose the BuildOrchestrator config file to use to run the test.</li></ul>
    */
-  private static void testBuildList(@NotBlank String testID, @NotNull AppContext ac) throws Exception {
+  private static void testBuildList(@NotBlank String testID, @NotNull AAppContext ac) throws Exception {
     
     ac.outUser(NL2 + DASH80 + NL + "Method testBuildList with ID " + dq(assertNonBlankNorTrimmable(testID)) + " :" + NL);
     

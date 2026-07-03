@@ -3,6 +3,7 @@
  */
 package build_orchestrator;
 
+import application.AAppContext;
 import dlog.log.Log;
 import dparam.AParams;
 import duser_input_output.impl.consoleUserIO.ColorConsoleUserIO;
@@ -118,7 +119,7 @@ public class BuildOrchestratorMain {
       final ConditionallyCloseablePrintStream err = new ConditionallyCloseablePrintStream(
                                                  System.err, true, CHARSET_UTF_8, false);
       
-      final AppContext ac = newAppContext(
+      final AAppContext ac = newAppContext(
                          ColorConsoleUserIO.newInstance1(System.in,         out,                 err
                                                              , CYAN,   BLACK,   RED
                                                              , BLACK, YELLOW, BLACK)
@@ -183,7 +184,7 @@ public class BuildOrchestratorMain {
 	 * @throws UserRequestedTermination If the user requested to terminate the program, e.g. by answering so to a question.
    */
 	static @NotNull BuildOrchestrator newBuildOrchestrator(String     buildListPath, String testCfgFileSuffix
-                                              , @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
+                                              , @NotNull AAppContext ac) throws UserRequestedTermination, InterruptedException {
 		assertNonNull(ac);
 		
 		// Determine the configuration file :
@@ -240,7 +241,7 @@ public class BuildOrchestratorMain {
    *
    * @throws UserRequestedTermination If the user responds to the question with one of the {@code cancelChars}.
    */
-  private static String askBuildListFilepath(String prePrompt, @NotNull String cancelChars, @NotNull AppContext ac) throws UserRequestedTermination, InterruptedException {
+  private static String askBuildListFilepath(String prePrompt, @NotNull String cancelChars, @NotNull AAppContext ac) throws UserRequestedTermination, InterruptedException {
     
     ac.warnUser(NL + prePrompt);
     
@@ -292,7 +293,7 @@ public class BuildOrchestratorMain {
 	 */
 	static BuildOrchestratorParams newBuildOrchestratorParams(@NotNull  Map<String, String> configurationMap
 																													, @NotBlank String              sourceDescr
-																													, @NotNull  AppContext          appContext) {
+																													, @NotNull  AAppContext          appContext) {
 		
 		final BuildOrchestratorParams allParams =  new BuildOrchestratorParams(
 																													assertNonEmpty(configurationMap), sourceDescr
@@ -340,7 +341,7 @@ public class BuildOrchestratorMain {
    * @throws MissingValueException If running from the IDE and {@code resourcesFolderFromIDE} is {@code null}.
    */
 	private static File calcConfigurationFile(         String     filenameSuffix, List<String> resourcesFolderFromIDE
-                                          , @NotNull AppContext ac) {
+                                          , @NotNull AAppContext ac) {
     String jarPath, cfgFilepath;
     
     String envDetectionMsg = null;
@@ -415,7 +416,7 @@ public class BuildOrchestratorMain {
 	 * @throws NonUniqueExternalValueException If the given configuration file contains duplicate keys.
 	 */
 	private static Map<String, String> readConfigurationMap(@NotNull File       configurationFile
-																												, @NotNull AppContext appContext) {
+																												, @NotNull AAppContext appContext) {
 		
 		final String cfgFileCanonicalName = getCanonicalPath(configurationFile);
 		
@@ -433,7 +434,7 @@ public class BuildOrchestratorMain {
 	 *
 	 * @throws UncheckedIOException If there is an I/O error.
 	 */
-	private static void showStartupMessages(@NotNull AppContext ac) {
+	private static void showStartupMessages(@NotNull AAppContext ac) {
 		
 		ac.outUser();
 		ac.outUser("Avvio " + dq(APP_DESCR) + " il " + new Date() + NL);

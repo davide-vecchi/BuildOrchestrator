@@ -130,7 +130,7 @@ public final class BuildOrchestrator {
   private Journal journal;
 	
 	/**
-	 * The {@link AppContext application context}.
+	 * The {@link AAppContext application context}.
 	 */
 	@Getter
 	@EqualsAndHashCode.Exclude
@@ -170,7 +170,7 @@ public final class BuildOrchestrator {
 		
     this.journal = Journal.newInstance();
     
-		this.buildList = newBuildList(this.buildListFile, (AppContext) this.appContext);
+		this.buildList = newBuildList(this.buildListFile, (AAppContext) this.appContext);
 		
     this.journal.setBuildListFile(this.buildListFile);
     
@@ -648,8 +648,8 @@ public final class BuildOrchestrator {
 	/**
 	 * {@link OSUtilities#runCommand(File, String, long, Log, Function, Function, List, String...) Runs} the given shell
    * command as per the given params.<br>
-	 * When the command returns, {@link AppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
-	 * a <i>KO</i> {@link AppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
+	 * When the command returns, {@link AAppContext#outUser shows} an <i>OK</i> message if the command succeded, otherwise
+	 * a <i>KO</i> {@link AAppContext#errUser message} with the command's {@link Process#exitValue() error code}.<br><br>
 	 *
 	 * The params of this method are the same as the corresponding ones of {@link OSUtilities#runCommand(File, String, long, Log, Function, Function, List, String...)}.<br><br>
    *
@@ -779,7 +779,7 @@ cmdOutcome != null ? cmdOutcome.commandLine()
   /**
    * @param path The path of the folder to empty.<br>
    *
-   * @param msg  Text to {@link AppContext#outUser show} to the user before the path. May be {@link StringUtils#isEmpty
+   * @param msg  Text to {@link AAppContext#outUser show} to the user before the path. May be {@link StringUtils#isEmpty
    *             empty}.
    */
   private void emptyFolder(@NotBlank String path, @NotNull String msg) {

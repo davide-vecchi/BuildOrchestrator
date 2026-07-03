@@ -44,8 +44,8 @@ public class AppContext extends AAppContext {
    * @param userLog   {@link AAppContext#userIO userLog}.
    * @param devLog    {@link AAppContext#userIO devLog}.
    */
-  public static AppContext newAppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
-                                                                         , @NotNull Log userLog, @NotNull Log devLog) {
+  public static AAppContext newAppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
+                                                                          , @NotNull Log userLog, @NotNull Log devLog) {
     return new AppContext(userIO, screenLog, userLog, devLog);
   }
 

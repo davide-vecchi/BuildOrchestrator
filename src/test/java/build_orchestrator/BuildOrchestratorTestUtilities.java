@@ -3,6 +3,7 @@
  */
 package build_orchestrator;
 
+import application.AAppContext;
 import dlog.log.Log;
 import duser_input_output.AUserInputOutput;
 import duser_input_output.impl.consoleUserIO.ConsoleUserIO;
@@ -27,16 +28,16 @@ public abstract class BuildOrchestratorTestUtilities {
   
   
   /**
-   * @return A new {@link AppContext} to be used from tests.<br>Its {@link AppContext#userIO userIO} is an instance of
+   * @return A new {@link AppContext} to be used from tests.<br>Its {@link AAppContext#userIO userIO} is an instance of
    *         type of the given {@code userIOClass} {@link Class} and has {@link AUserInputOutput#muted muted} {@code
    *         true}.
    */
-  public static AppContext newAppContextForTests(@NotBlank String appName, @NotBlank String  appDescr
+  public static AAppContext newAppContextForTests(@NotBlank String appName, @NotBlank String  appDescr
                                                , @NotNull  Class<? extends AUserInputOutput> userIOClass) {
     
     assertNoneBlank(appName, appDescr);
     
-    final AppContext appContext = newAppContext(newUserIOForTests(userIOClass)
+    final AAppContext appContext = newAppContext(newUserIOForTests(userIOClass)
                                                , new Log(appDescr + " - screen log",   appName + "_screen-log.LOG"
                                                   , true)
                                                  , new Log(appDescr + " - user log",     appName + "_user-log.LOG"
@@ -52,10 +53,10 @@ public abstract class BuildOrchestratorTestUtilities {
   }
   
   /**
-   * @return A new {@link AppContext} to be used from tests.<br>Its {@link AppContext#userIO userIO} is an instance of {@link
+   * @return A new {@link AppContext} to be used from tests.<br>Its {@link AAppContext#userIO userIO} is an instance of {@link
   ConsoleUserIO} and has {@link AUserInputOutput#muted muted} = {@code true}.
    */
-  public static AppContext newAppContextForTests(@NotBlank String appName, @NotBlank String appDescr) {
+  public static AAppContext newAppContextForTests(@NotBlank String appName, @NotBlank String appDescr) {
     
     return newAppContextForTests(appName, appDescr, ConsoleUserIO.class);
   }

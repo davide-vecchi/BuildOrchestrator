@@ -6,7 +6,7 @@
 
 package build_orchestrator;
 
-import dparam.AParams;
+import application.AAppContext;import dparam.AParams;
 import dparam.ParamMono;
 import dparam.ParamMulti;
 import dparam.pvdc.AValueChangeInfo;
@@ -61,12 +61,12 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	private static final List<String> MAVEN_HOME_ENV_VAR_NAMES = asList("MAVEN_HOME", "M2_HOME");
 	
 	/**
-	 * The {@link AppContext application context}. This is not a param.
+	 * The {@link AAppContext application context}. This is not a param.
 	 */
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
 	@Getter
-	protected final @NotNull AppContext appContext;
+	protected final @NotNull AAppContext appContext;
 	
 	/**
 	 * Mandatory : The filesystem path to the <i>Build List file</i>.
@@ -149,7 +149,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * @param configurationMap {@link #configurationMap}.
 	 * @param sourceDescr      {@link #sourceDescr}.
 	 */
-	BuildOrchestratorParams(Map<String, String> configurationMap, String sourceDescr, @NotNull AppContext appContext) {
+	BuildOrchestratorParams(Map<String, String> configurationMap, String sourceDescr, @NotNull AAppContext appContext) {
 		
 		super(configurationMap, null, sourceDescr, appContext.userLog);
 		
