@@ -3,6 +3,7 @@
  */
 package build_orchestrator;
 
+import application.AAppContext;
 import dfile.file.FileUtilities;
 import dlog.log.Log;
 import dmaven.MavenArtifactInfo;
@@ -134,7 +135,7 @@ public final class BuildOrchestrator {
 	@Getter
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	private final @NotNull AppContext appContext;
+	private final @NotNull AAppContext appContext;
   
   
   /**
@@ -169,7 +170,7 @@ public final class BuildOrchestrator {
 		
     this.journal = Journal.newInstance();
     
-		this.buildList = newBuildList(this.buildListFile, this.appContext);
+		this.buildList = newBuildList(this.buildListFile, (AppContext) this.appContext);
 		
     this.journal.setBuildListFile(this.buildListFile);
     
