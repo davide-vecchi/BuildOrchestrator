@@ -340,7 +340,7 @@ public class BuildOrchestratorMain {
    *
    * @throws MissingValueException If running from the IDE and {@code resourcesFolderFromIDE} is {@code null}.
    */
-	private static File calcConfigurationFile(         String     filenameSuffix, List<String> resourcesFolderFromIDE
+	private static File calcConfigurationFile(         String      filenameSuffix, List<String> resourcesFolderFromIDE
                                           , @NotNull AAppContext ac) {
     String jarPath, cfgFilepath;
     
