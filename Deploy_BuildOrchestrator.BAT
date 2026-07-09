@@ -9,7 +9,7 @@ SET VERSION=2.1.0-SNAPSHOT
 SET MavenRepoFolder=C:\Users\Davide\.m2\repository
 
 ECHO.
-ECHO Make a backup copy of the JAR before overwriting it :
+ECHO Now will make a backup copy of the JAR before overwriting it;
 ECHO.
 PAUSE
 
