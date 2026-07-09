@@ -155,7 +155,7 @@ public class BuildOrchestratorMain {
 			}
 			catch (Exception e) {
 				
-				ac.errUser(NL2 + "Terminated due to an error : " + e.getClass().getSimpleName() + " :" + NL2T + e.getLocalizedMessage().trim() + NL2);
+				ac.errUser(NL2 + "Terminated due to an error : " + e.getClass().getSimpleName() + " :" + NL2T + e.getLocalizedMessage() + NL2);
 				
 				ac.outUserLog(getFullDescriptionWithRootCause(e));
 			}
