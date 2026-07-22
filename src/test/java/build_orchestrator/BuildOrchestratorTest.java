@@ -36,6 +36,7 @@ import static dutil.string.TextUtilities.NL;
 import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.assertNonBlankNorTrimmable;
 import static dutil.string.TextUtilities.dq;
+import static dutil.system.OSUtilities.setSystemEncodingUTF8;
 
 
 // @formatter:off
@@ -53,6 +54,8 @@ public class BuildOrchestratorTest {
   
   @BeforeClass
   public void beforeClass() {
+    
+    setSystemEncodingUTF8();
     
     assertNull(this.appContext);
     
