@@ -53,6 +53,7 @@ import static dutil.string.TextUtilities.NL2;
 import static dutil.string.TextUtilities.NL2T;
 import static dutil.string.TextUtilities.NLT;
 import static dutil.string.TextUtilities.dq;
+import static dutil.system.OSUtilities.setSystemEncodingUTF8;
 import static java.lang.Boolean.FALSE;
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FilenameUtils.EXTENSION_SEPARATOR;
@@ -101,7 +102,7 @@ public class BuildOrchestratorMain {
 	 */
 	public static void main(String[] args) throws Exception {
     
-    System.setProperty("file.encoding", CHARSET_UTF_8.name());
+    setSystemEncodingUTF8();
     
 		final BuildOrchestrator orchestrator;
 		
