@@ -648,7 +648,7 @@ class BuildList {
     
     final List<LineWithNumber> result = new ArrayList<>();
     
-    assertExistingPath(buildListFile.getAbsolutePath(), false);
+    assertExistingPath(buildListFile.getAbsolutePath(), FALSE);
     
     final List<String> rawLines;
     
@@ -738,11 +738,11 @@ class BuildList {
      */
     ModuleBlock(String modulePath, String mvnCommand, String executableDestPath) {
       
-      this.modulePath = assertExistingPath(modulePath, true);
+      this.modulePath = assertExistingPath(modulePath, TRUE);
       
       this.mvnCommand = assertNonBlankNorTrimmable(mvnCommand);
       
-      this.executableDestPath = executableDestPath != null ? assertExistingPath(executableDestPath, true) : null;
+      this.executableDestPath = executableDestPath != null ? assertExistingPath(executableDestPath, TRUE) : null;
     }
     
   }
