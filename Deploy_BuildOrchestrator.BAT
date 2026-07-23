@@ -4,7 +4,7 @@ REM Set codepage to UTF-8 (CHCP 65001) :
 CHCP 65001 >NUL
 
 REM Define the version as a variable :
-SET VERSION=2.1.0-SNAPSHOT
+SET VERSION=2.1.0
 
 SET MavenRepoFolder=C:\Users\Davide\.m2\repository
 
