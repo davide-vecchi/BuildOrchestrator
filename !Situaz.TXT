@@ -1,5 +1,17 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
+* 17:09 2026-07-25
+
+* Implement the functionality of building multiple Build Lists in one
+  program launch.
+
+  * Including executing the commands in the [Initialization] section
+    of the Build Lists.
+
+  * IMPORTANT : If one build fails, from any of the Build Lists, the
+    program must terminate right away, not continue from the next
+    Build List.
+
 ---------------------------------------------------------------------
 * 13:12 2026-04-29
 
@@ -11,27 +23,6 @@
     from a Windows shortcut that has "H:\xyz\" in the "Start in"
     field, the BO will detect "H:\xyz\" as the folder where to look
     for the cfg file, instead it should detect "C:\BuildOrchestrator\".
-
----------------------------------------------------------------------
-* 10:36 2026-04-29
-
-* Find the 1 occurrence of
-
-  "TODO @@@ ... or executed from a test during the build process."
-
-  and act on that TODO.
-
-  The matter is that - for sure when BO (BuildOrchestrator) is built,
-  even from a build script outside of the IDE - that code erroneously
-  detects that it's ran inside the IDE.
-
-  * So it considers "target\classes\" to be the path of the "executable".
-
-    * But that's probably what needs to happen, figure out if that's so.
-
-      * If yes, the solution might be to change not the code but the
-        concept of "from inside the IDE", to make it become something
-        like "from inside the IDE or from a test during the build process".
 
 ---------------------------------------------------------------------
 * 12:35 2026-02-21
@@ -49,6 +40,29 @@
   BuildOrchestrator add them to all Initialization commands (regardless of
   whether they are OS commands or programs) and remove them from the Build
   List.
+
+---------------------------------------------------------------------
+- 10:36 2026-04-29
+
+- Find the 1 occurrence of
+
+  "TODO @@@ ... or executed from a test during the build process."
+
+  and act on that TODO.
+
+  The matter is that - for sure when BO (BuildOrchestrator) is built,
+  even from a build script outside of the IDE - that code erroneously
+  detects that it's ran inside the IDE.
+
+  - So it considers "target\classes\" to be the path of the "executable".
+
+    - But that's probably what needs to happen, figure out if that's so.
+
+      - If yes, the solution might be to change not the code but the
+        concept of "from inside the IDE", to make it become something
+        like "from inside the IDE or from a test during the build process".
+
+        = Done this.
 
 ---------------------------------------------------------------------
 - 14:14 2026-02-20
