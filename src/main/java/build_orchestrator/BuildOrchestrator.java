@@ -730,7 +730,7 @@ public final class BuildOrchestrator {
     }
     assertDifferentNullness(cmdOutcome, resultException
                              , "Either runCommand(*) returns (in which case cmdOutcome will be not null and resultException null),"
-                                             + NL + "or it throws (in which case cmdOutcome will be null and resultException not null).");
+                                             , NL , "or it throws (in which case cmdOutcome will be null and resultException not null).");
     
     final String knownCommandLine = assertNonBlank(
 cmdOutcome != null ? cmdOutcome.commandLine()
