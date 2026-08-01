@@ -1,5 +1,8 @@
-@ECHO OFF
 REM 20:51 2026-02-04
+
+@ECHO OFF
+
+CD /D "%~dp0"
 
 REM Set codepage to UTF-8 (CHCP 65001) :
 CHCP 65001 >NUL
