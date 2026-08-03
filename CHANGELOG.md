@@ -17,6 +17,8 @@
 
 - Update DUserInputOutput dependency to 2.2.0 .<br><br>
 
+- Update all the 3rd party dependencies that have new stable versions.<br><br>
+
 
 ### Added
 
