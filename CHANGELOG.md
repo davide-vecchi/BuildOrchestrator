@@ -7,17 +7,9 @@
 
 ### Changed
 
-- Bump version to 2.2.0 .<br><br>
+- Bump version to 2.2.1 .<br><br>
 
-- Update DApplication dependency to 2.2.0 .<br><br>
-
-- Update DUtil dependency to 2.2.0 .<br><br>
-
-- Update DLog dependency to 2.2.0 .<br><br>
-
-- Update DUserInputOutput dependency to 2.2.0 .<br><br>
-
-- Update all the 3rd party dependencies that have new stable versions.<br><br>
+- Update all DLibs dependencies to their latest versions.<br><br>
 
 
 ### Added
