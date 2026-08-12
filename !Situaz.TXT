@@ -1,5 +1,25 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+* 16:47 2026-08-12
+
+* During the BO build, don't temporarily install BO in the local Maven
+  repo to then deploy it. Instead, let it get built in the project
+  folder and deploy it from there :
+
+  * In Build_BuildOrchestrator.BAT use 'mvn clean package' instead of
+    'mvn clean install'. It will create the exe JAR in the 'target'
+    subfolder of the project.
+
+  * In Deploy_BuildOrchestrator.BAT expect the JAR to move to be in
+    the 'target' subfolder of the project and not in the local Maven
+    repo.
+
+  * In the local Maven repo, fully delete the whole
+    ".m2\repository\DBuildTools\BuildOrchestrator\" folder.
+
+---------------------------------------------------------------------
 * 17:09 2026-07-25
 
 * Implement the functionality of building multiple Build Lists in one
