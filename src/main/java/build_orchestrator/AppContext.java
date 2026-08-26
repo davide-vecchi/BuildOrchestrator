@@ -29,8 +29,8 @@ public class AppContext extends AAppContext {
    * @param userLog   {@link AAppContext#userIO userLog}.
    * @param devLog    {@link AAppContext#userIO devLog}.
    */
-  private AppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
-                                                     , @NotNull Log userLog, @NotNull Log devLog) {
+  protected AppContext(@NotNull AUserInputOutput userIO, @NotNull Log screenLog
+                                                       , @NotNull Log userLog, @NotNull Log devLog) {
     super(userIO, screenLog, userLog, devLog);
     
     this.currentVerbosity = MAX_VERBOSITY;
