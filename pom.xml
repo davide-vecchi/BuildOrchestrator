@@ -6,7 +6,7 @@
 	
 	<groupId>DBuildTools</groupId>
 	<artifactId>BuildOrchestrator</artifactId>
-	<version>2.2.1</version>
+	<version>2.2.1</version>    <!-- @@@@@@@@@@@@@@@@@@@@@ AFTER 2.2.1 @@@@@@@@@@@@@@@@@@@@@ -->
 	
 	<properties>
 		<maven.compiler.release>21</maven.compiler.release>
