@@ -408,9 +408,7 @@ public class BuildOrchestratorMain {
 	
 	/**
 	 * Returns a new {@link Map} populated by reading the configuration params from the given {@code configurationFile}.<br>
-	 * It is guaranteed that each parameter appeared only once in the whole configuration file.<br>Assumes that {@link
-	 * #initLogger(String)} and {@link #initUserIO()} have already been called, and uses their output objects to write
-	 * status messages about this operation.
+	 * It is guaranteed that each parameter appeared only once in the whole configuration file.
 	 *
 	 * @param configurationFile The existing file from which to read to fill the configuration map to return.
 	 *
