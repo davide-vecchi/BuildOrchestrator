@@ -149,7 +149,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * @param configurationMap {@link #configurationMap}.
 	 * @param sourceDescr      {@link #sourceDescr}.
 	 */
-	BuildOrchestratorParams(Map<String, String> configurationMap, String sourceDescr, @NotNull AAppContext appContext) {
+	BuildOrchestratorParams(@NotNull Map<String, String> configurationMap, String sourceDescr, @NotNull AAppContext appContext) {
 		
 		super(configurationMap, null, sourceDescr, appContext.userLog);
 		
