@@ -294,11 +294,11 @@ public class BuildOrchestratorMain {
 	 */
 	static BuildOrchestratorParams newBuildOrchestratorParams(@NotNull  Map<String, String> configurationMap
 																													, @NotBlank String              sourceDescr
-																													, @NotNull  AAppContext          appContext) {
+																													, @NotNull  AAppContext         appContext) {
 		
 		final BuildOrchestratorParams allParams =  new BuildOrchestratorParams(
 																													assertNonEmpty(configurationMap), sourceDescr
-																																												, appContext);
+                                                                         , appContext);
 		// Create all the existing params, as empty :
 		
 		allParams.addAllParams();
