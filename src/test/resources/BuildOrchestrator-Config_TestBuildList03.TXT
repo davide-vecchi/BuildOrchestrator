@@ -23,6 +23,6 @@ BuildListFile = src\test\resources\TestBuildList03-BuildList.TXT
 ################################################################################
 # Required : Maven installation folder.
 
-MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
+# MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 
 ################################################################################
