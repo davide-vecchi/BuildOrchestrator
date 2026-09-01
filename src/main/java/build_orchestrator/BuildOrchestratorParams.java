@@ -6,7 +6,9 @@
 
 package build_orchestrator;
 
-import application.AAppContext;import dparam.AParams;
+import application.AAppContext;
+import dfile.value_parser.FilesystemPathParser;
+import dparam.AParams;
 import dparam.ParamMono;
 import dparam.ParamMulti;
 import dparam.pvdc.AValueChangeInfo;
@@ -196,7 +198,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		this.buildListFilepath.setValueParser(new NeutralStringParser()).loadOptionalValue(null);
+		this.buildListFilepath.setValueParser(new FilesystemPathParser()).loadOptionalValue(null);
 		
 		// Param MavenFolder :
 		
@@ -204,13 +206,13 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	                                                  .filter(n -> isNotBlank(System.getenv(n)))
 		                                                .findFirst().orElse("Maven");
 		
-		this.mavenFolder.setValueParser(new NeutralStringParser()).loadOptionalValue(
+		this.mavenFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(
 														defaultIfBlank(System.getenv(mvnHomeEnvVarName)
 																										, File.separator + "Maven"));
     
     // Param MavenRepoFolder :
     
-    this.mavenRepoFolder.setValueParser(new NeutralStringParser()).loadOptionalValue(calcPath(
+    this.mavenRepoFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(calcPath(
                                 defaultIfBlank(System.getProperty("user.home"), EMPTY)
                                           , ".m2", "repository"));
 		// Param CommandTimeoutMs :

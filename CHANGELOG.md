@@ -2,10 +2,12 @@
 
 # Changelog
 
-## [@@@@@@@@@@@@@@@@@@@@ AFTER 2.2.1 @@@@@@@@@@@@@@@@@@@@]
+## [@@@@@@@@@@@@@@@@@@@@ 2.3.0 @@@@@@@@@@@@@@@@@@@@]
 
 
 ### Changed
+
+@ Improve discovery of Maven installation folder if config param not given.
 
 
 ### Added
@@ -16,6 +18,8 @@
 
 ### Fixed
 
+- Use DFile 2.4.0 for its new FilesystemPathParser class, to convert paths to have the name separator ("\" vs. "/") of
+  the current OS.
 
 ### Internal changes
 
