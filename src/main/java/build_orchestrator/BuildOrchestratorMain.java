@@ -361,7 +361,7 @@ public class BuildOrchestratorMain {
         
         // : The program is executed within the IDE, or from a test during the build process.
         
-        envDetectionMsg = "It is detected that the program is being executed from within the IDE"
+        envDetectionMsg = "It is detected that the program is being executed from within the IDE,"
                         + " or from a test during the build process";
         
         assertNonNull(resourcesFolderFromIDE, envDetectionMsg + ", so the parameter 'resourcesFolderFromIDE' must be given. Instead, it's null.");
