@@ -359,7 +359,7 @@ public class BuildOrchestratorMain {
         
         // E.g. "C:\whatever\BuildOrchestrator\target\classes".
         
-        // : The program is executed within the IDE.
+        // : The program is executed within the IDE, or from a test during the build process.
         
         envDetectionMsg = "It is detected that the program is being executed from within the IDE"
                         + " or from a test during the build process";
