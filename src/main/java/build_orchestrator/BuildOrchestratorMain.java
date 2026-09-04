@@ -74,7 +74,7 @@ import static org.fusesource.jansi.Ansi.Color.YELLOW;
  * The startup class of the {@code BuildOrchestrator} application. That is a Maven build orchestrator, to replace Batch /
  * Bash Maven build scripts.
  */
-@SuppressWarnings("PublicConstructor")
+@SuppressWarnings({"PublicConstructor", "NonFinalUtilityClass", "UtilityClassWithoutPrivateConstructor"})
 public class BuildOrchestratorMain {
 	
 	
