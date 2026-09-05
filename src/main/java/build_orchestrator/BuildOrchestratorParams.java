@@ -276,7 +276,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
     
     // Param RunInScriptIfWin :
     
-    /** Already validated at loading time, see {@link ParamMulti#validateCounters()} . */
+    /* Already validated at loading time, see {@link ParamMulti#validateCounters()} . */
   }
 	
 	/**
