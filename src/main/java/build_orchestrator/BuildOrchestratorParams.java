@@ -286,7 +286,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * @see AParams#getDefaultValueChangeReader()
 	 */
 	@Override
-	protected AValueChangeTextReader<Object, ?> getDefaultValueChangeReader() {
+	protected @NotNull AValueChangeTextReader<Object, ?> getDefaultValueChangeReader() {
 		
 		return new EmptyValueChangeTextReader<>(this.log);
 	}
