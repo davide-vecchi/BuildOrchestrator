@@ -169,9 +169,10 @@ public class BuildOrchestratorMain {
 	
 	/**
    * @param buildListPath The path to the Build List to process, if that was given to the program, e.g. as a startup arg.<br>
-   *                      Otherwise {@code null}, meaning that the {@link BuildOrchestratorParams#buildListFilepath
-   *                      BuildListFile parameter} specifying the Build list to process is expected to be in the
-   *                      configuration file.<br>
+   *                      Otherwise {@code null}, meaning that the value specifying the Build list to process will be
+   *                      read from the configuration file (optional {@link BuildOrchestratorParams#buildListFilepath
+   *                      BuildListFile} parameter), and if not found there either it will be {@link BuildOrchestratorMain#askBuildListFilepath(String, String, AAppContext)
+   *                      asked in console}.<br>
    *
    * @param testCfgFileSuffix {@code null} if the instance to return is not meant to be used from tests.<br>Otherwise,
    *                          suffix to append to the regular name of the configuration file to use, just before the
@@ -210,20 +211,21 @@ public class BuildOrchestratorMain {
     
     final String buildListFilepath = assertValidPath(normalizeNameSepsForOS(
       
-        buildListPath                       != null ?
-      
-              buildListPath :                               // : The Build List path was given as arg.
-      
-              params.getBuildListFilepath().value != null ?
+                buildListPath                       != null ?
               
-              params.getBuildListFilepath().value :         // : The Build List path was specified in the configuration file.
-                                                            //   TODO  @@@ So with which name-separator ?? "/" or "\" ? Must probably adjust it based on whether running on Win or *nix !!
-                                                            //             Or is it handled automatically by Java ?
-                                                            //   FIXME @@@ So with which name-separator ?? "/" or "\" ? Must probably adjust it based on whether running on Win or *nix !!
-                                                            //             Or is it handled automatically by Java ?
+                      buildListPath :                               // : The Build List path was given as arg.
               
-              askBuildListFilepath("Build List file name not specified, enter it :", CANCEL_CHARS, ac))
-                                        , FALSE);
+                      params.getBuildListFilepath().value != null ?
+                      
+                      params.getBuildListFilepath().value :         // : The Build List path, which was not given as arg,
+                                                                    //   was specified in the configuration file.
+                      
+                      askBuildListFilepath("Build List file name not specified, enter it :"
+                                        , CANCEL_CHARS
+                                                , ac))         // : The Build List path, which was not given as arg
+                                                                   //   and was not specified in the configuration file,
+                                                                   //   was asked to the user in console.
+        , FALSE);
     
 		final File buildListFile = newValidatedFile(buildListFilepath, true, TEN_i);
 		

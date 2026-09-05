@@ -72,15 +72,21 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	protected final @NotNull AAppContext appContext;
 	
 	/**
-	 * Mandatory : The filesystem path to the <i>Build List file</i>.
+	 * Optional : The filesystem path to the <i>Build List file</i>. This param is used only if the Build List path was
+   *            not provided as a launch arg.<br><br>
+   *
+   * Default  : {@link BuildOrchestratorMain#askBuildListFilepath(String, String, AAppContext) Asked in console}.
 	 */
 	@Getter
   ParamMono<Object, String> buildListFilepath;
 	
 	/**
-	 * Optional : The filesystem path to the Maven installation folder (not the Maven repository folder).<br><br>
+	 * Optional : The filesystem path to the Maven installation folder, AKA "Maven home" (not the Maven repository folder).<br><br>
 	 *
-	 * Default  : The value of environment variable {@code MAVEN_HOME}.
+	 * Default  : Attempts to discover the Maven installation folder, based on :<ul>
+   *              <li>Environment variables (e.g. {@code PATH}, {@code MAVEN_HOME}, {@code M2_HOME}).</li>
+   *              <li>System Properties (e.g. {@code maven.home}).</li>
+   *              <li>Some standard installation paths.</li></ul>
 	 */
 	@Getter
   ParamMono<Object, String> mavenFolder;
