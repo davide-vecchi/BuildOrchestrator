@@ -17,6 +17,8 @@ import dparam.pvdc.change_loader.EmptyValueChangeTextReader;
 import dutil.string.value_parser.BooleanStringParser;
 import dutil.string.value_parser.LongStringParser;
 import dutil.string.value_parser.NeutralStringParser;
+import dutil.value_holder.ObjectAndDescr;
+import dutil.value_holder.TwoObjects;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,20 +26,24 @@ import lombok.ToString;
 
 import java.io.File;
 import java.io.Serial;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
 import static dfile.file.FileUtilities.calcPath;
+import static dmaven.MavenUtilities.findMavenHome;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
+import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_l;
+import static dutil.string.TextUtilities.NL;
+import static dutil.string.TextUtilities.NLT;
+import static dutil.string.TextUtilities.dqStr;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Class containing the fields that represent the user-controlled parameters (AKA "inputs") of a {@link
@@ -56,11 +62,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 	 * Default for optional param {@link #commandTimeoutMs}, 1 h (3,600,000 ms).
 	 */
 	private static final long DEFAULT_COMMAND_TIMEOUT_MS = MS_IN_HOUR;
-	
-	/**
-	 * The possible names of the environment variable representing the Maven installation folder.
-	 */
-	private static final List<String> MAVEN_HOME_ENV_VAR_NAMES = asList("MAVEN_HOME", "M2_HOME");
 	
 	/**
 	 * The {@link AAppContext application context}. This is not a param.
@@ -202,13 +203,34 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param MavenFolder :
 		
-		final String mvnHomeEnvVarName = MAVEN_HOME_ENV_VAR_NAMES.stream()
-	                                                  .filter(n -> isNotBlank(System.getenv(n)))
-		                                                .findFirst().orElse("Maven");
-		
+  
+  
+//		@@@@@@@ final String mvnHomeEnvVarName = MAVEN_HOME_ENV_VAR_NAMES.stream()
+//	                                                  .filter(n -> isNotBlank(System.getenv(n)))
+//		                                                .findFirst().orElse("Maven");
+
+    final TwoObjects<ObjectAndDescr<Path>, List<ObjectAndDescr<String>>> mvnHomeDiscovery = findMavenHome(
+                                                                                                     this.appContext);
+    
+    this.appContext.outUserLog("Maven home Discovery : found : " + dqStr(mvnHomeDiscovery.o1) + NL + "Checked and discarded :" + NLT + listToString(mvnHomeDiscovery.o2, EMPTY, EMPTY, EMPTY, NLT));
+    
 		this.mavenFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(
-														defaultIfBlank(System.getenv(mvnHomeEnvVarName)
-																										, File.separator + "Maven"));
+                                                                 mvnHomeDiscovery.o1 != null    ?
+                                                                                  mvnHomeDiscovery.o1.toString() :
+                                                                                  File.separator + "Maven");
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Param MavenRepoFolder :
     
