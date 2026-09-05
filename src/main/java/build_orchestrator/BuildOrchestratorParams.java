@@ -218,7 +218,7 @@ public class BuildOrchestratorParams extends AParams<Object> {
     
 		this.mavenFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(
                                                                  mvnHomeDiscovery.o1 != null    ?
-                                                                                  mvnHomeDiscovery.o1.toString() :
+                                                                                  mvnHomeDiscovery.o1.object.toString() :
                                                                                   File.separator + "Maven");
     // Param MavenRepoFolder :
     
