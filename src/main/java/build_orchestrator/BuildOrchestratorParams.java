@@ -209,12 +209,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param MavenFolder :
 		
-  
-  
-//		@@@@@@@ final String mvnHomeEnvVarName = MAVEN_HOME_ENV_VAR_NAMES.stream()
-//	                                                  .filter(n -> isNotBlank(System.getenv(n)))
-//		                                                .findFirst().orElse("Maven");
-
     final TwoObjects<ObjectAndDescr<Path>, List<ObjectAndDescr<String>>> mvnHomeDiscovery = findMavenHome(
                                                                                                      this.appContext);
     
