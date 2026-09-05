@@ -33,13 +33,9 @@ import java.util.Map;
 import static dfile.file.FileUtilities.calcPath;
 import static dmaven.MavenUtilities.findMavenHome;
 import static dutil.date.DateTimeUtilities.MS_IN_HOUR;
-import static dutil.list.text.TextListUtilities.listToString;
 import static dutil.number.NumberUtilities.L;
 import static dutil.number.NumberUtilities.ONE_i;
 import static dutil.number.NumberUtilities.ZERO_l;
-import static dutil.string.TextUtilities.NL;
-import static dutil.string.TextUtilities.NLT;
-import static dutil.string.TextUtilities.dqStr;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -211,11 +207,6 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
     final TwoObjects<ObjectAndDescr<Path>, List<ObjectAndDescr<String>>> mvnHomeDiscovery = findMavenHome(
                                                                                                      this.appContext);
-    
-    this.appContext.outUserLog("Maven home Discovery :"
-                                        + NL + "Found :" + NLT           + dqStr(mvnHomeDiscovery.o1)
-                                        + NL + "Checked and discarded :" + NLT + listToString(mvnHomeDiscovery.o2, EMPTY, EMPTY, EMPTY, NLT));
-    
 		this.mavenFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(
                                                                  mvnHomeDiscovery.o1 != null    ?
                                                                                   mvnHomeDiscovery.o1.object.toString() :
