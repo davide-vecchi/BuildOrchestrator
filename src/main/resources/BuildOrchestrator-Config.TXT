@@ -40,7 +40,9 @@
 ################################################################################
 # Optional : Maven installation folder (not the Maven repository folder).
 #
-# Default : The value of the environment variable MAVEN_HOME or M2_HOME.
+# Default : Attempt to discover the Maven installation folder, only if this param is missing.
+#           The attempts are based on environment variables like PATH, MAVEN_HOME, M2_HOME,
+#           System Properties like "maven.home", and some standard installation paths.
 
 MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 
