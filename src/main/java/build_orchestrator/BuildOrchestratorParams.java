@@ -218,7 +218,9 @@ public class BuildOrchestratorParams extends AParams<Object> {
     final TwoObjects<ObjectAndDescr<Path>, List<ObjectAndDescr<String>>> mvnHomeDiscovery = findMavenHome(
                                                                                                      this.appContext);
     
-    this.appContext.outUserLog("Maven home Discovery : found : " + dqStr(mvnHomeDiscovery.o1) + NL + "Checked and discarded :" + NLT + listToString(mvnHomeDiscovery.o2, EMPTY, EMPTY, EMPTY, NLT));
+    this.appContext.outUserLog("Maven home Discovery :"
+                                        + NL + "Found :" + NLT           + dqStr(mvnHomeDiscovery.o1)
+                                        + NL + "Checked and discarded :" + NLT + listToString(mvnHomeDiscovery.o2, EMPTY, EMPTY, EMPTY, NLT));
     
 		this.mavenFolder.setValueParser(new FilesystemPathParser()).loadOptionalValue(
                                                                  mvnHomeDiscovery.o1 != null    ?

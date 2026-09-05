@@ -29,6 +29,7 @@ import java.util.Map;
 import static build_orchestrator.AppContext.newAppContext;
 import static dfile.file.FileUtilities.assertValidPath;
 import static dfile.file.FileUtilities.calcPath;
+import static dfile.file.FileUtilities.checkIsExistingFile;
 import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCurrentFolder;
 import static dfile.file.FileUtilities.newValidatedFile;
@@ -266,11 +267,13 @@ public class BuildOrchestratorMain {
         
         throw new UserRequestedTermination();
       }
-      done = new File(result).exists();
+      final String notExisting = checkIsExistingFile(result);
+      
+      done = notExisting == null;
       
       if (! done) {
         
-        ac.userIO.warnChars("The specified file does not exist.");
+        ac.userIO.warnChars(notExisting);
         
         final InterruptedException ie = waitMillis(500);
         
