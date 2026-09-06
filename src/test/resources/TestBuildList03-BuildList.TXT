@@ -37,8 +37,5 @@
 #   There must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-Common
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\IPSG\IPSG-DataReader
+.
 mvn clean install

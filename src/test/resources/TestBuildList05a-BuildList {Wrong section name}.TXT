@@ -35,69 +35,14 @@
 #   There must be at least one empty line between blocks.
 #
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTestNG
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\ThreadSafeNumberFormat
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DLog
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUtil
-mvn clean install
-
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUserInputOutput
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTest
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DMSOffice
-mvn clean install
-
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI
 # mvn clean install
 
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI_OLD
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI
-mvn clean install
-
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI_Swing
 # mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DDb
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DEmail
-mvn clean install
 
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DApplication
 # mvn clean install
 
 # H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DCMS
 # mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DXML
-mvn clean install
-
-H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DSAX
-mvn clean install

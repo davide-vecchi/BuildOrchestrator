@@ -6,23 +6,6 @@ BuildList {
 
 	moduleBlocks=ArrayList:
 
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTestNG, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\ThreadSafeNumberFormat, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DLog, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUtil, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DUserInputOutput, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DFile, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DTest, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSimpleXLSX, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DJNA, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DMSOffice, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DInteractiveBrokersAPI_OLD, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DGUI, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DDb, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DParam, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\JavaLibraries\DSQLite, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DEmail, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DXML, mvnCommand=mvn clean install, executableDestPath=null]
-		ModuleBlock[modulePath=H:\Users\Davide\Davide\Sviluppo\REPOS\DLibs\DSAX, mvnCommand=mvn clean install, executableDestPath=null]
+		ModuleBlock[modulePath=., mvnCommand=mvn clean install, executableDestPath=null]
 
 }
