@@ -2,12 +2,12 @@
 
 # Changelog
 
-## [@@@@@@@@@@@@@@@@@@@@ 2.3.0 @@@@@@@@@@@@@@@@@@@@]
+## [2.3.0-SNAPSHOT]
 
 
 ### Changed
 
-@ Use DMaven 2.3.0 for its new findMavenHome() method, that makes attempts at discovering the Maven installation folder.
+- Use DMaven 2.3.0 for its new findMavenHome() method, that makes attempts at discovering the Maven installation folder.
   Will be used if the Maven installation folder is not given as a config param.
 
 ### Added
