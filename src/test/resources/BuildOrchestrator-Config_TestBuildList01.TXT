@@ -12,7 +12,7 @@
 ################################################################################
 
 ################################################################################
-# Required : Maven installation folder.
+# Optional : Maven installation folder.
 
 # MavenFolder = C:\Apache\Maven\apache-maven-3.9.9
 
@@ -20,7 +20,7 @@
 
 
 ################################################################################
-# Required : Path of the Build List file, which is the text file containing the
+# Optional : Path of the Build List file, which is the text file containing the
 #            list of modules to build and the build settings of each of them :
 
 BuildListFile = src\test\resources\TestBuildList01-BuildList.TXT
