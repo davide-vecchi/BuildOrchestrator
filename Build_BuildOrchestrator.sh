@@ -47,4 +47,7 @@ if [ $mvnExitCode -ne 0 ]; then
     exit $mvnExitCode
 fi
 
-./Deploy_BuildOrchestrator.sh
+# Determine the version from the pom.xml, to pass it to the deploy script
+VERSION=$(mvn -q help:evaluate -Dexpression=project.version -DforceStdout)
+
+./Deploy_BuildOrchestrator.sh "$VERSION"

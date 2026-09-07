@@ -1,7 +1,15 @@
 #!/bin/bash
 
-# Define the version as a variable
-VERSION="2.0.0"
+# Default version of BuildOrchestrator to deploy, used as the fallback when prompting the user
+VERSION="2.3.0-SNAPSHOT"
+
+# If a version was passed as an argument, use it; otherwise prompt the user
+if [ -n "${1:-}" ]; then
+    VERSION="$1"
+else
+    read -r -p "Version of BuildOrchestrator to deploy [ press Enter for the default $VERSION ]: " answer
+    VERSION="${answer:-$VERSION}"
+fi
 
 MavenRepoFolder="$HOME/.m2/repository"
 
