@@ -8,7 +8,7 @@ if [ $startExitCode -ne 0 ]; then
     echo "CRITICAL ERROR; not executing the script because exit code"
     echo "was already $startExitCode instead of 0 when the script started."
     echo ""
-    read -p "Press Enter to exit..."
+    read -r -p "Press Enter to exit..."
     exit $startExitCode
 fi
 
@@ -28,7 +28,7 @@ echo "Module folder :"
 pwd
 echo ""
 
-read -p "Press Enter to start Maven build..."
+read -r -p "Press Enter to start Maven build..."
 
 mvn clean install
 mvnExitCode=$?
@@ -38,7 +38,7 @@ if [ $mvnExitCode -ne 0 ]; then
     echo "CRITICAL ERROR; not executing the deployment script because exit code"
     echo "was $mvnExitCode instead of 0 when the Maven build command returned."
     echo ""
-    read -p "Press Enter to exit..."
+    read -r -p "Press Enter to exit..."
     exit $mvnExitCode
 fi
 

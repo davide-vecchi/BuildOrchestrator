@@ -7,7 +7,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 echo "SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator."
-read -p "Press Enter to continue..."
+read -r -p "Press Enter to continue..."
 
 # Note: On macOS, the JAR name is case-sensitive. Ensure BuildOrchestrator.jar exists.
 # Examples :
@@ -16,7 +16,7 @@ read -p "Press Enter to continue..."
 
 java -jar BuildOrchestrator.jar
 
-read -p "Press Enter to exit..."
+read -r -p "Press Enter to exit..."
 
 # The comment block below is for reference. It will not be executed.
 # ====================================================

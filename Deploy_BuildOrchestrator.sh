@@ -8,7 +8,7 @@ MavenRepoFolder="$HOME/.m2/repository"
 echo ""
 echo "Now will move BuildOrchestrator artifact from Maven repo to BuildOrchestrator installation folder;"
 echo ""
-read -p "Press Enter to continue..."
+read -r -p "Press Enter to continue..."
 
 set -x  # Echo commands (equivalent to @ECHO ON)
 
@@ -19,4 +19,4 @@ mv "$MavenRepoFolder/DBuildTools/BuildOrchestrator/$VERSION/BuildOrchestrator-$V
 
 set +x  # Turn off command echoing
 
-read -p "Press Enter to exit..."
+read -r -p "Press Enter to exit..."
