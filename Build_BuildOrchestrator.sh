@@ -14,10 +14,6 @@ fi
 
 REPOSFolder="/Users/pino/Documents/Progetti software/REPOS"
 
-SafetyPathC="/tmp"
-mkdir -p "$SafetyPathC"
-cd "$SafetyPathC" || exit
-
 echo ""
 echo "Build BuildOrchestrator module :"
 
