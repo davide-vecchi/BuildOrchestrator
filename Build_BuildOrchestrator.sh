@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # Ensure the execution starts on a clean exit code
-if [ $? -ne 0 ]; then
+startExitCode=$?
+
+if [ $startExitCode -ne 0 ]; then
     echo ""
     echo "CRITICAL ERROR; not executing the script because exit code"
-    echo "was already $? instead of 0 when the script started."
+    echo "was already $startExitCode instead of 0 when the script started."
     echo ""
     read -p "Press Enter to exit..."
-    exit $?
+    exit $startExitCode
 fi
 
 REPOSFolder="/Users/pino/Documents/Progetti software/REPOS"
@@ -29,14 +31,15 @@ echo ""
 read -p "Press Enter to start Maven build..."
 
 mvn clean install
+mvnExitCode=$?
 
-if [ $? -ne 0 ]; then
+if [ $mvnExitCode -ne 0 ]; then
     echo ""
     echo "CRITICAL ERROR; not executing the deployment script because exit code"
-    echo "was $? when the Maven build command returned."
+    echo "was $mvnExitCode instead of 0 when the Maven build command returned."
     echo ""
     read -p "Press Enter to exit..."
-    exit $?
+    exit $mvnExitCode
 fi
 
 ./Deploy_BuildOrchestrator.sh
