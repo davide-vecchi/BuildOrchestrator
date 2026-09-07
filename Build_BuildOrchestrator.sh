@@ -21,7 +21,16 @@ cd "$SafetyPathC" || exit
 echo ""
 echo "Build BuildOrchestrator module :"
 
-cd "$REPOSFolder/BuildTools/BuildOrchestrator" || exit
+moduleFolder="$REPOSFolder/BuildTools/BuildOrchestrator"
+
+cd "$moduleFolder" 2>/dev/null || {
+    echo ""
+    echo "CRITICAL ERROR; the module folder was not found :"
+    echo "$moduleFolder"
+    echo ""
+    read -r -p "Press Enter to exit..."
+    exit 1
+}
 
 echo ""
 echo "Module folder :"
