@@ -56,13 +56,19 @@ if [ -z "$INSTALL_FOLDER" ]; then
     exit 1
 fi
 
+# Create the install folder if it does not exist yet.
+INSTALL_FOLDER_CREATED="no"
+
 if [ ! -d "$INSTALL_FOLDER" ]; then
-    echo ""
-    echo "CRITICAL ERROR; the install folder does not exist :"
-    echo "$INSTALL_FOLDER"
-    echo ""
-    read -r -p "Press Enter to exit..."
-    exit 1
+    mkdir -p "$INSTALL_FOLDER" 2>/dev/null || {
+        echo ""
+        echo "CRITICAL ERROR; could not create the install folder :"
+        echo "$INSTALL_FOLDER"
+        echo ""
+        read -r -p "Press Enter to exit..."
+        exit 1
+    }
+    INSTALL_FOLDER_CREATED="yes"
 fi
 
 # -----------------------------------------------------------------------------
@@ -130,6 +136,11 @@ echo ""
 echo "Done. Moved :"
 echo "  From : $SOURCE_JAR"
 echo "  To   : $DEST_JAR"
+if [ "$INSTALL_FOLDER_CREATED" = "yes" ]; then
+    echo ""
+    echo "Note : the install folder did not exist and was created :"
+    echo "  $INSTALL_FOLDER"
+fi
 echo ""
 
 read -r -p "Press Enter to exit..."
