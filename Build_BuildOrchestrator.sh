@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# =============================================================================
+# NOTE : This script must be located in the Maven module folder, that is, the
+#        folder that contains this module's pom.xml (and the sibling deploy
+#        script). The script changes to its own directory before doing anything,
+#        so do NOT move or copy this script out of the module folder.
+# =============================================================================
+
 # Ensure the execution starts on a clean exit code
 startExitCode=$?
 
@@ -12,21 +19,20 @@ if [ $startExitCode -ne 0 ]; then
     exit $startExitCode
 fi
 
-REPOSFolder="/Users/pino/Documents/Progetti software/REPOS"
+# Change to the folder this script is located in (the module folder, containing pom.xml)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo ""
-echo "Build BuildOrchestrator module :"
-
-moduleFolder="$REPOSFolder/BuildTools/BuildOrchestrator"
-
-cd "$moduleFolder" 2>/dev/null || {
+cd "$SCRIPT_DIR" 2>/dev/null || {
     echo ""
-    echo "CRITICAL ERROR; the module folder was not found :"
-    echo "$moduleFolder"
+    echo "CRITICAL ERROR; could not change to this script's folder :"
+    echo "$SCRIPT_DIR"
     echo ""
     read -r -p "Press Enter to exit..."
     exit 1
 }
+
+echo ""
+echo "Build BuildOrchestrator module :"
 
 echo ""
 echo "Module folder :"
