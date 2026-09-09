@@ -75,7 +75,7 @@ A Build List file is made of sections introduced by headers in square brackets:
   2. the build command to run for it (with any arguments),
   3. *optional* — the destination folder where the module's built artifact must be moved (omit to not move it).
 
-Blank lines may separate blocks, but not appear inside a block. Lines starting with `#` are comments.
+Blocks are separated by at least one blank line. Lines starting with `#` are comments.
 
 See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example (it builds BuildOrchestrator itself).
 
@@ -87,4 +87,5 @@ See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example 
 | `Build_BuildOrchestrator.sh` / `.BAT` | Build this module (`mvn clean install`) then deploy it | Linux/macOS / Windows |
 | `Deploy_BuildOrchestrator.sh` / `.BAT` | Move the built jar from the Maven repo to the install folder | Linux/macOS / Windows |
 
-The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk. The only machine-specific value is the install folder, configured through `BO-Installation-folder.txt`.
+The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk.
+The only machine-specific value is the install folder, configured through `BO-Installation-folder.txt`.
