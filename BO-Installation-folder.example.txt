@@ -7,5 +7,5 @@
 # must be installed.
 # Lines after the first are ignored.
 #
-# To use : copy this file to 'BO-Installation-folder.txt' (which is git-ignored) and
-# replace the first line above with the actual path on your machine.
+# To use : copy this file to 'BO-Installation-folder.txt' (which is git-ignored)
+# and replace the first line above with the actual path on your machine.
