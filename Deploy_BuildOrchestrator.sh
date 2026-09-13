@@ -15,6 +15,11 @@
 #          'BO-Installation-folder.txt' (in this same folder).
 # =============================================================================
 
+
+JAR_NAME="BuildOrchestrator.jar"
+
+MavenRepoFolder="$HOME/.m2/repository"
+
 # Change to the folder this script is located in (the module folder, containing pom.xml)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -30,27 +35,30 @@ cd "$SCRIPT_DIR" 2>/dev/null || {
 # -----------------------------------------------------------------------------
 # Read the install folder from 'BO-Installation-folder.txt'.
 # -----------------------------------------------------------------------------
-INSTALL_FOLDER_FILE="$SCRIPT_DIR/BO-Installation-folder.txt"
 
-if [ ! -f "$INSTALL_FOLDER_FILE" ]; then
+INSTALL_FOLDER_FILE_NAME="BO-Installation-folder.txt"
+
+INSTALL_FOLDER_FILE_PATH="$SCRIPT_DIR/$INSTALL_FOLDER_FILE_NAME"
+
+if [ ! -f "$INSTALL_FOLDER_FILE_PATH" ]; then
     echo ""
     echo "CRITICAL ERROR; the following file is missing :"
-    echo "$INSTALL_FOLDER_FILE"
+    echo "$INSTALL_FOLDER_FILE_PATH"
     echo "It must contain, on its first line, the absolute path of the folder where the"
-    echo "built and renamed BuildOrchestrator.jar must be installed."
+    echo "built and renamed $JAR_NAME must be installed."
     echo ""
     read -r -p "Press Enter to exit..."
     exit 1
 fi
 
-INSTALL_FOLDER=$(head -n 1 "$INSTALL_FOLDER_FILE" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+INSTALL_FOLDER=$(head -n 1 "$INSTALL_FOLDER_FILE_PATH" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
 if [ -z "$INSTALL_FOLDER" ]; then
     echo ""
     echo "CRITICAL ERROR; the first line of the following file is blank :"
-    echo "$INSTALL_FOLDER_FILE"
+    echo "$INSTALL_FOLDER_FILE_PATH"
     echo "It must contain, on its first line, the absolute path of the folder where the"
-    echo "built and renamed BuildOrchestrator.jar must be installed."
+    echo "built and renamed $JAR_NAME must be installed."
     echo ""
     read -r -p "Press Enter to exit..."
     exit 1
@@ -107,13 +115,11 @@ if [ -z "$VERSION" ]; then
     exit 1
 fi
 
-MavenRepoFolder="$HOME/.m2/repository"
-
 # Full paths used by the deploy, defined once so they stay consistent.
 ARTIFACT_DIR="$MavenRepoFolder/$GROUP_ID_PATH/$ARTIFACT_ID/$VERSION"
 PLAIN_JAR="$ARTIFACT_DIR/$ARTIFACT_ID-$VERSION.jar"
 SOURCE_JAR="$ARTIFACT_DIR/$ARTIFACT_ID-$VERSION-jar-with-dependencies.jar"
-DEST_JAR="$INSTALL_FOLDER/BuildOrchestrator.jar"
+DEST_JAR="$INSTALL_FOLDER/$JAR_NAME"
 
 echo ""
 echo "Will deploy version : $VERSION"
