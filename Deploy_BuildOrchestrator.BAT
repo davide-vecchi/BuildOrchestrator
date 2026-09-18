@@ -53,6 +53,23 @@ IF "%INSTALL_FOLDER%"=="" (
 	EXIT /B 1
 )
 
+REM Create the install folder if it does not exist yet :
+SET INSTALL_FOLDER_CREATED=no
+
+IF NOT EXIST "%INSTALL_FOLDER%\" (
+	MKDIR "%INSTALL_FOLDER%"
+	IF !ERRORLEVEL! NEQ 0 (
+		ECHO.
+		ECHO CRITICAL ERROR; could not create the install folder :
+		ECHO %INSTALL_FOLDER%
+		ECHO ERRORLEVEL was !ERRORLEVEL!.
+		ECHO.
+		PAUSE
+		EXIT /B !ERRORLEVEL!
+	)
+	SET INSTALL_FOLDER_CREATED=yes
+)
+
 REM Derive this module's Maven coordinates (groupId, artifactId) from its pom.xml :
 FOR /F "usebackq delims=" %%g IN (`mvn -q help:evaluate "-Dexpression=project.groupId" -DforceStdout`) DO SET GROUP_ID=%%g
 
@@ -95,29 +112,53 @@ IF "!VERSION!"=="" (
 	EXIT /B 1
 )
 
-ECHO.
-ECHO Now will make a backup copy of the JAR before overwriting it;
-ECHO.
-PAUSE
+REM Full paths used by the deploy, defined once so they stay consistent :
+SET ARTIFACT_DIR=%MavenRepoFolder%\%GROUP_ID_PATH%\%ARTIFACT_ID%\%VERSION%
+SET PLAIN_JAR=%ARTIFACT_DIR%\%ARTIFACT_ID%-%VERSION%.jar
+SET SOURCE_JAR=%ARTIFACT_DIR%\%ARTIFACT_ID%-%VERSION%-jar-with-dependencies.jar
+SET DEST_JAR=%INSTALL_FOLDER%\%JAR_NAME%
 
-pwsh -Command "Copy-Item '%INSTALL_FOLDER%\%JAR_NAME%' ('%INSTALL_FOLDER%\%JAR_NAME%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
+IF EXIST "%DEST_JAR%" (
+	ECHO.
+	ECHO Now will make a backup copy of the JAR before overwriting it;
+	ECHO.
+	PAUSE
 
-DIR "%INSTALL_FOLDER%\%JAR_NAME%*" /O-D
+	pwsh -Command "Copy-Item '%DEST_JAR%' ('%DEST_JAR%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
+
+	DIR "%DEST_JAR%*" /O-D
+) ELSE (
+	ECHO.
+	ECHO No existing %JAR_NAME% to back up; skipping.
+)
 
 
 ECHO.
-ECHO.
-ECHO Now will move BuildOrchestrator artifact from Maven repo to BuildOrchestrator installation folder;
+ECHO Will deploy version : %VERSION%
+ECHO Source (Maven repo) :
+ECHO   %SOURCE_JAR%
+ECHO Destination (install folder) :
+ECHO   %DEST_JAR%
 ECHO.
 PAUSE
 
 @ECHO ON
 
-DEL %MavenRepoFolder%\%GROUP_ID_PATH%\%ARTIFACT_ID%\%VERSION%\BuildOrchestrator-%VERSION%.jar
+DEL "%PLAIN_JAR%"
 
-MOVE %MavenRepoFolder%\%GROUP_ID_PATH%\%ARTIFACT_ID%\%VERSION%\BuildOrchestrator-%VERSION%-jar-with-dependencies.jar ^
-     "%INSTALL_FOLDER%\%JAR_NAME%"
+MOVE "%SOURCE_JAR%" "%DEST_JAR%"
 
 @ECHO OFF
+
+ECHO.
+ECHO Done. Moved :
+ECHO   From : %SOURCE_JAR%
+ECHO   To   : %DEST_JAR%
+IF "%INSTALL_FOLDER_CREATED%"=="yes" (
+	ECHO.
+	ECHO Note : the install folder did not exist and was created :
+	ECHO   %INSTALL_FOLDER%
+)
+ECHO.
 
 PAUSE
