@@ -1,5 +1,20 @@
 @ECHO OFF
 
+REM =============================================================================
+REM NOTE : This script must be located in the Maven module folder, that is, the
+REM        folder that contains this module's pom.xml (and its sibling build
+REM        script). The script changes to its own directory before doing anything.
+REM
+REM        This script deploys the built BuildOrchestrator artifact (the
+REM        "-jar-with-dependencies" jar) from the local Maven repo to an
+REM        installation folder.
+REM
+REM        - The Maven coordinates (groupId / artifactId / version) are read from
+REM          'pom.xml'.
+REM        - The installation folder is read from the first line of
+REM          'BO-Installation-folder.txt' (in this same folder).
+REM =============================================================================
+
 REM Set codepage to UTF-8 (CHCP 65001) :
 CHCP 65001 >NUL
 
@@ -118,6 +133,7 @@ SET PLAIN_JAR=%ARTIFACT_DIR%\%ARTIFACT_ID%-%VERSION%.jar
 SET SOURCE_JAR=%ARTIFACT_DIR%\%ARTIFACT_ID%-%VERSION%-jar-with-dependencies.jar
 SET DEST_JAR=%INSTALL_FOLDER%\%JAR_NAME%
 
+REM Back up the existing JAR before overwriting it (if there is one) :
 IF EXIST "%DEST_JAR%" (
 	ECHO.
 	ECHO Now will make a backup copy of the JAR before overwriting it;
@@ -131,7 +147,6 @@ IF EXIST "%DEST_JAR%" (
 	ECHO.
 	ECHO No existing %JAR_NAME% to back up; skipping.
 )
-
 
 ECHO.
 ECHO Will deploy version : %VERSION%

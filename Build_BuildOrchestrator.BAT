@@ -1,5 +1,11 @@
-
 @ECHO OFF
+
+REM =============================================================================
+REM NOTE : This script must be located in the Maven module folder, that is, the
+REM        folder that contains this module's pom.xml (and the sibling deploy
+REM        script). The script changes to its own directory before doing anything,
+REM        so do NOT move or copy this script out of the module folder.
+REM =============================================================================
 
 REM Set codepage to UTF-8 (CHCP 65001) :
 
@@ -23,6 +29,7 @@ IF !ERRORLEVEL! NEQ 0 (
 ECHO.
 ECHO Build BuildOrchestrator module :
 
+REM Change to the folder this script is located in (the module folder, containing pom.xml) :
 CD /D "%~dp0"
 IF !ERRORLEVEL! NEQ 0 (
 	ECHO.
