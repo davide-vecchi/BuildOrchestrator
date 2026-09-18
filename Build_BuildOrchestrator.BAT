@@ -7,6 +7,10 @@ REM        script). The script changes to its own directory before doing anythin
 REM        so do NOT move or copy this script out of the module folder.
 REM =============================================================================
 
+REM Ensure the execution starts on a clean ERRORLEVEL :
+REM Capture it before CHCP / SETLOCAL, which both reset ERRORLEVEL to 0.
+SET START_ERRORLEVEL=%ERRORLEVEL%
+
 REM Set codepage to UTF-8 (CHCP 65001) :
 
 CHCP 65001 >NUL
@@ -15,15 +19,13 @@ REM Enable Delayed Expansion :
 
 SETLOCAL EnableDelayedExpansion
 
-REM Ensure the execution starts on a clean ERRORLEVEL :
-
-IF !ERRORLEVEL! NEQ 0 (
+IF !START_ERRORLEVEL! NEQ 0 (
 	ECHO.
 	ECHO CRITICAL ERROR; not executing the script because ERRORLEVEL
-	ECHO was already !ERRORLEVEL! instead of 0 when the script started.
+	ECHO was already !START_ERRORLEVEL! instead of 0 when the script started.
 	ECHO.
 	PAUSE
-	EXIT !ERRORLEVEL!
+	EXIT !START_ERRORLEVEL!
 )
 
 ECHO.
