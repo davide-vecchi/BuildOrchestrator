@@ -16,6 +16,8 @@
 # =============================================================================
 
 
+INSTALL_FOLDER_FILE_NAME="BO-Installation-folder.txt"
+
 JAR_NAME="BuildOrchestrator.jar"
 
 MavenRepoFolder="$HOME/.m2/repository"
@@ -35,8 +37,6 @@ cd "$SCRIPT_DIR" 2>/dev/null || {
 # -----------------------------------------------------------------------------
 # Read the install folder from 'BO-Installation-folder.txt'.
 # -----------------------------------------------------------------------------
-
-INSTALL_FOLDER_FILE_NAME="BO-Installation-folder.txt"
 
 INSTALL_FOLDER_FILE_PATH="$SCRIPT_DIR/$INSTALL_FOLDER_FILE_NAME"
 
