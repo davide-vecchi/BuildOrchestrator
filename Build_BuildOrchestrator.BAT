@@ -20,9 +20,6 @@ IF !ERRORLEVEL! NEQ 0 (
 	EXIT !ERRORLEVEL!
 )
 
-SET REPOSFolder=H:\Users\Davide\Davide\Sviluppo\REPOS
-
-
 SET SafetyPathC=C:\TEMP
 IF NOT EXIST "%SafetyPathC%" MKDIR "%SafetyPathC%"
 CD /D "%SafetyPathC%"
@@ -30,7 +27,16 @@ CD /D "%SafetyPathC%"
 ECHO.
 ECHO Build BuildOrchestrator module :
 
-CD /D "%REPOSFolder%\BuildTools\BuildOrchestrator\"
+CD /D "%~dp0"
+IF !ERRORLEVEL! NEQ 0 (
+	ECHO.
+	ECHO CRITICAL ERROR; could not change to this script's folder :
+	ECHO %~dp0
+	ECHO ERRORLEVEL was !ERRORLEVEL!.
+	ECHO.
+	PAUSE
+	EXIT /B !ERRORLEVEL!
+)
 
 ECHO.
 ECHO Module folder :
