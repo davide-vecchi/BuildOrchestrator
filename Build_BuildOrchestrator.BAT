@@ -25,7 +25,7 @@ IF !START_ERRORLEVEL! NEQ 0 (
 	ECHO was already !START_ERRORLEVEL! instead of 0 when the script started.
 	ECHO.
 	PAUSE
-	EXIT !START_ERRORLEVEL!
+	EXIT /B !START_ERRORLEVEL!
 )
 
 ECHO.
@@ -59,7 +59,7 @@ IF !ERRORLEVEL! NEQ 0 (
 	ECHO was !ERRORLEVEL! when the Maven build command returned.
 	ECHO.
 	PAUSE
-	EXIT !ERRORLEVEL!
+	EXIT /B !ERRORLEVEL!
 )
 
 REM Determine the version from the pom.xml, to pass it to the deploy script :
