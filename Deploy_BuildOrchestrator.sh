@@ -121,6 +121,21 @@ PLAIN_JAR="$ARTIFACT_DIR/$ARTIFACT_ID-$VERSION.jar"
 SOURCE_JAR="$ARTIFACT_DIR/$ARTIFACT_ID-$VERSION-jar-with-dependencies.jar"
 DEST_JAR="$INSTALL_FOLDER/$JAR_NAME"
 
+# Back up the existing JAR before overwriting it (if there is one).
+if [ -f "$DEST_JAR" ]; then
+    echo ""
+    echo "Now will make a backup copy of the JAR before overwriting it;"
+    echo ""
+    read -r -p "Press Enter to continue..."
+
+    cp "$DEST_JAR" "$DEST_JAR-$(date +%Y-%m-%d_%H-%M-%S).jar"
+
+    ls -lt -- "$DEST_JAR"*
+else
+    echo ""
+    echo "No existing $JAR_NAME to back up; skipping."
+fi
+
 echo ""
 echo "Will deploy version : $VERSION"
 echo "Source (Maven repo) :"
