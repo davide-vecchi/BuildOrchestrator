@@ -53,4 +53,7 @@ IF !ERRORLEVEL! NEQ 0 (
 	EXIT !ERRORLEVEL!
 )
 
-CALL Deploy_BuildOrchestrator.BAT
+REM Determine the version from the pom.xml, to pass it to the deploy script :
+FOR /F "usebackq delims=" %%v IN (`mvn -q help:evaluate "-Dexpression=project.version" -DforceStdout`) DO SET VERSION=%%v
+
+CALL Deploy_BuildOrchestrator.BAT "%VERSION%"
