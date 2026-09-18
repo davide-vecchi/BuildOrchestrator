@@ -40,7 +40,9 @@ IF !ERRORLEVEL! NEQ 0 (
 	EXIT /B !ERRORLEVEL!
 )
 
+REM -----------------------------------------------------------------------------
 REM Read the install folder from the first line of 'BO-Installation-folder.txt' :
+REM -----------------------------------------------------------------------------
 
 SET INSTALL_FOLDER_FILE_PATH=%~dp0%INSTALL_FOLDER_FILE_NAME%
 
@@ -88,7 +90,9 @@ IF NOT EXIST "%INSTALL_FOLDER%\" (
 	SET INSTALL_FOLDER_CREATED=yes
 )
 
+REM -----------------------------------------------------------------------------
 REM Derive this module's Maven coordinates (groupId, artifactId) from its pom.xml :
+REM -----------------------------------------------------------------------------
 FOR /F "usebackq delims=" %%g IN (`mvn -q help:evaluate "-Dexpression=project.groupId" -DforceStdout`) DO SET GROUP_ID=%%g
 
 FOR /F "usebackq delims=" %%a IN (`mvn -q help:evaluate "-Dexpression=project.artifactId" -DforceStdout`) DO SET ARTIFACT_ID=%%a
