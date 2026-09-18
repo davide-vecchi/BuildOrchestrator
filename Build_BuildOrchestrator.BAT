@@ -20,10 +20,6 @@ IF !ERRORLEVEL! NEQ 0 (
 	EXIT !ERRORLEVEL!
 )
 
-SET SafetyPathC=C:\TEMP
-IF NOT EXIST "%SafetyPathC%" MKDIR "%SafetyPathC%"
-CD /D "%SafetyPathC%"
-
 ECHO.
 ECHO Build BuildOrchestrator module :
 
