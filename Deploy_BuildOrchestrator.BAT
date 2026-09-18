@@ -58,7 +58,7 @@ IF NOT EXIST "%INSTALL_FOLDER_FILE_PATH%" (
 REM Read only the first line, so this works whatever line endings the file uses
 REM (SET /P would read the whole file if it uses LF-only endings) :
 SET INSTALL_FOLDER=
-FOR /F "usebackq delims=" %%i IN (`pwsh -NoProfile -Command "(Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)"`) DO SET INSTALL_FOLDER=%%i
+FOR /F "usebackq delims=" %%i IN (`pwsh -NoProfile -Command "('' + (Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)).Trim()"`) DO SET INSTALL_FOLDER=%%i
 
 IF "%INSTALL_FOLDER%"=="" (
 	ECHO.
