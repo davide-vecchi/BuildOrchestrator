@@ -53,6 +53,30 @@ IF "%INSTALL_FOLDER%"=="" (
 	EXIT /B 1
 )
 
+REM Derive this module's Maven coordinates (groupId, artifactId) from its pom.xml :
+FOR /F "usebackq delims=" %%g IN (`mvn -q help:evaluate "-Dexpression=project.groupId" -DforceStdout`) DO SET GROUP_ID=%%g
+
+FOR /F "usebackq delims=" %%a IN (`mvn -q help:evaluate "-Dexpression=project.artifactId" -DforceStdout`) DO SET ARTIFACT_ID=%%a
+
+IF "!GROUP_ID!"=="" (
+	ECHO.
+	ECHO CRITICAL ERROR; could not read the Maven groupId/artifactId from pom.xml.
+	ECHO.
+	PAUSE
+	EXIT /B 1
+)
+
+IF "!ARTIFACT_ID!"=="" (
+	ECHO.
+	ECHO CRITICAL ERROR; could not read the Maven groupId/artifactId from pom.xml.
+	ECHO.
+	PAUSE
+	EXIT /B 1
+)
+
+REM The Maven local-repo path represents the groupId with dots replaced by slashes :
+SET GROUP_ID_PATH=!GROUP_ID:.=/!
+
 REM Determine the version to deploy : from the argument if given, otherwise ask the user,
 REM offering the pom.xml version as the default.
 SET VERSION=%~1
@@ -89,9 +113,9 @@ PAUSE
 
 @ECHO ON
 
-DEL %MavenRepoFolder%\DBuildTools\BuildOrchestrator\%VERSION%\BuildOrchestrator-%VERSION%.jar
+DEL %MavenRepoFolder%\%GROUP_ID_PATH%\%ARTIFACT_ID%\%VERSION%\BuildOrchestrator-%VERSION%.jar
 
-MOVE %MavenRepoFolder%\DBuildTools\BuildOrchestrator\%VERSION%\BuildOrchestrator-%VERSION%-jar-with-dependencies.jar ^
+MOVE %MavenRepoFolder%\%GROUP_ID_PATH%\%ARTIFACT_ID%\%VERSION%\BuildOrchestrator-%VERSION%-jar-with-dependencies.jar ^
      "%INSTALL_FOLDER%\%JAR_NAME%"
 
 @ECHO OFF
