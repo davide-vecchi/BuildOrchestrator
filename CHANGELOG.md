@@ -21,6 +21,7 @@
 - Use DFile 2.4.0 for its new FilesystemPathParser class, to convert paths to have the name separator ("\" vs. "/") of
   the current OS.
 
+
 ### Internal changes
 
 - Make private constructor protected.
