@@ -99,7 +99,7 @@ FOR /F "usebackq delims=" %%a IN (`mvn -q help:evaluate "-Dexpression=project.ar
 
 IF "!GROUP_ID!"=="" (
 	ECHO.
-	ECHO CRITICAL ERROR; could not read the Maven groupId/artifactId from pom.xml.
+	ECHO CRITICAL ERROR; could not read the Maven groupId from pom.xml.
 	ECHO.
 	PAUSE
 	EXIT /B 1
@@ -107,7 +107,7 @@ IF "!GROUP_ID!"=="" (
 
 IF "!ARTIFACT_ID!"=="" (
 	ECHO.
-	ECHO CRITICAL ERROR; could not read the Maven groupId/artifactId from pom.xml.
+	ECHO CRITICAL ERROR; could not read the Maven artifactId from pom.xml.
 	ECHO.
 	PAUSE
 	EXIT /B 1
