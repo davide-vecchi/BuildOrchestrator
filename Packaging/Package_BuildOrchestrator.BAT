@@ -4,7 +4,7 @@ REM ============================================================================
 REM NOTE : Packages BuildOrchestrator for distribution.
 REM
 REM        It reads the following files :
-
+REM
 REM          - BuildOrchestrator.jar         (from this folder; the built
 REM                                           executable JAR; overridable by
 REM                                           the first argument)
