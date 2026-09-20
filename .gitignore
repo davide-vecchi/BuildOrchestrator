@@ -6,3 +6,4 @@
 *.DUMP
 *.LOG
 .DS_Store
+/Packaging/BuildOrchestrator.zip
