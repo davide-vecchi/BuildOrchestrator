@@ -7,7 +7,7 @@ REM Set codepage to UTF-8 (CHCP 65001) :
 
 CHCP 65001 >NUL
 
-ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
+ECHO Launch script of BuildOrchestrator program.
 PAUSE
 
 REM java -jar BuildOrchestrator.jar
