@@ -20,8 +20,12 @@
 #            list of modules to build and the build settings of each of them.
 #
 # Default : If missing, it will be asked to the user at runtime.
+#
+#           Examples :
 
-# BuildListFile = <path of your Build List file>
+# BuildListFile = /path/of/my/Build/List/file.ext
+# BuildListFile = C:\folder1\folder2\Build List of my program.txt
+
 
 ################################################################################
 
