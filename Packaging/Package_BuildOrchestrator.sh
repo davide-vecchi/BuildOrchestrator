@@ -31,6 +31,9 @@ if [ -n "${1:-}" ]; then
     JAR_FILE="$1"
 fi
 
+# The folder the packaged JAR comes from (shown in the summary) :
+JAR_DIR="$(dirname "$JAR_FILE")/"
+
 # Optional version, used in the archive name :
 VERSION="${2:-}"
 
@@ -116,6 +119,7 @@ echo "  $ARCHIVE_FILE"
 echo ""
 echo "It contains the folder \"$PACKAGE_FOLDER\" with :"
 echo "  BuildOrchestrator.jar"
+echo "    from \"$JAR_DIR\""
 echo "  BuildOrchestrator-Config.TXT"
 echo "  BuildOrchestrator.BAT"
 echo "  BuildOrchestrator.sh"

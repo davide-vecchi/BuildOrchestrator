@@ -30,6 +30,9 @@ REM The executable JAR to package (default : this folder's BuildOrchestrator.jar
 SET JAR_FILE=%~dp0BuildOrchestrator.jar
 IF NOT "%~1"=="" SET JAR_FILE=%~1
 
+REM The folder the packaged JAR comes from (shown in the summary) :
+FOR %%F IN ("!JAR_FILE!") DO SET JAR_DIR=%%~dpF
+
 REM Optional version, used in the archive name :
 SET VERSION=%~2
 
@@ -109,6 +112,7 @@ ECHO   !ARCHIVE_FILE!
 ECHO.
 ECHO It contains the folder "!PACKAGE_FOLDER!" with :
 ECHO   BuildOrchestrator.jar
+ECHO     from "!JAR_DIR!"
 ECHO   BuildOrchestrator-Config.TXT
 ECHO   BuildOrchestrator.BAT
 ECHO   BuildOrchestrator.sh
