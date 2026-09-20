@@ -1,0 +1,57 @@
+
+# Build List EXAMPLE.
+#
+# A Build List is the text file that tells BuildOrchestrator which modules to
+# build, with which command, and (optionally) where to move the built artifact.
+#
+# Copy this file, adjust it for your project, and reference it from
+# "BuildOrchestrator-Config.TXT" (parameter BuildListFile), or pass its path
+# to the BuildOrchestrator launcher.
+
+
+[Initialization]
+
+# Optional : OS commands to run once, before the modules are built.
+# Each line is a command. Comment them out or remove them if not needed.
+# Lines can start with "#" to be treated as comments.
+
+# For Windows :
+
+# pwsh -Command "if (Test-Path C:\MyProject\MyApp.jar) { Copy-Item C:\MyProject\MyApp.jar ('C:\MyProject\MyApp-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar') }"
+
+# For Unix :
+
+# if [ -f /home/user/MyProject/MyApp.jar ]; then cp /home/user/MyProject/MyApp.jar /home/user/MyProject/MyApp-$(date +'%Y-%m-%d_%H-%M-%S').jar; fi
+
+
+[Options]
+
+# This section may contain or not the following line (case-insensitive) :
+#
+# NoPause
+
+
+[Modules]
+
+#
+# Beginning of the module list.
+#
+# Each module is represented by a block made of 2 or 3 lines :
+#
+#   The 1st line is the filesystem path to the module's folder,
+#   that is the folder where the pom.xml is.
+#
+#   The 2nd line is the build command to issue for that module;
+#   it can have any arguments.
+#
+#   The 3nd line, if present, is the path of the folder where the artifact built
+#   for that module must be moved. If the line is not present, the artifact will
+#   not be moved.
+#
+#   There can not be any comment or empty line inside a block.
+#   There must be at least one empty line between blocks.
+#
+
+<path of your module folder>
+mvn clean install
+<path of the folder where the built artifact must be moved>
