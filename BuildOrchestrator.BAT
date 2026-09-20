@@ -10,6 +10,7 @@ CHCP 65001 >NUL
 ECHO SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator.
 PAUSE
 
+REM java -jar BuildOrchestrator.jar
 REM java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
     java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar

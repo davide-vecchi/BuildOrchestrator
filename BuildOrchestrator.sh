@@ -12,7 +12,7 @@ read -r -p "Press Enter to continue..."
 # Note: On macOS, the JAR name is case-sensitive. Ensure BuildOrchestrator.jar exists.
 # Examples :
 # java -jar BuildOrchestrator.jar
-# java -jar BuildOrchestrator.jar "/Users/pino/Documents/Progetti software/BuildTools/BuildOrchestrator/src/main/resources/Build List BuildOrchestrator ONLY.TXT"
+# java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar "/Users/pino/Documents/Progetti software/BuildTools/BuildOrchestrator/src/main/resources/Build List BuildOrchestrator ONLY.TXT"
 
 java -jar BuildOrchestrator.jar
 
