@@ -3,14 +3,15 @@
 REM =============================================================================
 REM NOTE : Packages BuildOrchestrator for distribution.
 REM
-REM        It reads the following files from this same folder :
-REM
-REM          - BuildOrchestrator.jar         (the built executable JAR;
-REM                                           overridable by the first argument)
-REM          - BuildOrchestrator-Config.TXT
-REM          - BuildOrchestrator.BAT
-REM          - BuildOrchestrator.sh
-REM          - Build List EXAMPLE.TXT
+REM        It reads the following files :
+
+REM          - BuildOrchestrator.jar         (from this folder; the built
+REM                                           executable JAR; overridable by
+REM                                           the first argument)
+REM          - BuildOrchestrator-Config.TXT  (from this folder)
+REM          - Build List EXAMPLE.TXT        (from this folder)
+REM          - BuildOrchestrator.BAT         (from the parent module folder)
+REM          - BuildOrchestrator.sh          (from the parent module folder)
 REM
 REM        and produces a ZIP archive containing a top-level "BuildOrchestrator"
 REM        folder with all of them, ready to be extracted into the user's chosen
@@ -32,10 +33,10 @@ IF NOT "%~1"=="" SET JAR_FILE=%~1
 REM Optional version, used in the archive name :
 SET VERSION=%~2
 
-REM The other input files (in this folder) :
+REM The other input files (the launchers are in the parent module folder) :
 SET CONFIG_FILE=%~dp0BuildOrchestrator-Config.TXT
-SET LAUNCHER_BAT=%~dp0BuildOrchestrator.BAT
-SET LAUNCHER_SH=%~dp0BuildOrchestrator.sh
+SET LAUNCHER_BAT=%~dp0..\BuildOrchestrator.BAT
+SET LAUNCHER_SH=%~dp0..\BuildOrchestrator.sh
 SET BUILD_LIST=%~dp0Build List EXAMPLE.TXT
 
 REM Name of the top-level folder inside the archive :

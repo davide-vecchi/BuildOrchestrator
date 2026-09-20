@@ -3,13 +3,14 @@
 # =============================================================================
 # NOTE : Packages BuildOrchestrator for distribution.
 #
-#        It reads the following files from this same folder :
-#          - BuildOrchestrator.jar         (the built executable JAR;
-#                                           overridable by the first argument)
-#          - BuildOrchestrator-Config.TXT
-#          - BuildOrchestrator.BAT
-#          - BuildOrchestrator.sh
-#          - Build List EXAMPLE.TXT
+#        It reads the following files :
+#          - BuildOrchestrator.jar         (from this folder; the built
+#                                           executable JAR; overridable by
+#                                           the first argument)
+#          - BuildOrchestrator-Config.TXT  (from this folder)
+#          - Build List EXAMPLE.TXT        (from this folder)
+#          - BuildOrchestrator.BAT         (from the parent module folder)
+#          - BuildOrchestrator.sh          (from the parent module folder)
 #
 #        and produces a ZIP archive containing a top-level "BuildOrchestrator"
 #        folder with all of them, ready to be extracted into the user's chosen
@@ -33,10 +34,10 @@ fi
 # Optional version, used in the archive name :
 VERSION="${2:-}"
 
-# The other input files (in this folder) :
+# The other input files (the launchers are in the parent module folder) :
 CONFIG_FILE="$SCRIPT_DIR/BuildOrchestrator-Config.TXT"
-LAUNCHER_BAT="$SCRIPT_DIR/BuildOrchestrator.BAT"
-LAUNCHER_SH="$SCRIPT_DIR/BuildOrchestrator.sh"
+LAUNCHER_BAT="$SCRIPT_DIR/../BuildOrchestrator.BAT"
+LAUNCHER_SH="$SCRIPT_DIR/../BuildOrchestrator.sh"
 BUILD_LIST="$SCRIPT_DIR/Build List EXAMPLE.TXT"
 
 # Name of the top-level folder inside the archive :
