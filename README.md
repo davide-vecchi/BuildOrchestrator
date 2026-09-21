@@ -26,7 +26,7 @@ The application writes its messages to the console and to log files.
 2. Make the scripts executable (git tracks the executable bit, but a Windows checkout does not apply it):
 
    ```bash
-   chmod +x Build_BuildOrchestrator.sh Deploy_BuildOrchestrator.sh BuildOrchestrator.sh Packaging/Package_BuildOrchestrator.sh
+   chmod +x Build_BuildOrchestrator.sh Deploy_BuildOrchestrator.sh BuildOrchestrator.sh Packaging/Package_BuildOrchestrator.sh install-deps.sh
    ```
 
 3. Tell the deploy step where to install the built jar. The folder path is read from the first line of `BO-Installation-folder.txt` (in this folder, git-ignored). A template is provided as `BO-Installation-folder.example.txt`:
@@ -38,7 +38,13 @@ The application writes its messages to the console and to log files.
 
    If the folder does not exist yet, the deploy script creates it.
 
-The `mvn clean install` command resolves the project's dependencies, including the `djavalibraries:*` modules, from the `github` repository declared in `pom.xml` (GitHub Packages). Because GitHub Packages requires authentication and access to the repositories that publish those packages, a first build normally requires credentials to be configured.
+4. Get the DLibs dependencies (`djavalibraries:*`). `mvn clean install` resolves them from the `github` repository declared in `pom.xml` (GitHub Packages), which requires credentials for it and access to the repositories that publish those packages. If you do not have such access, run `install-deps` instead, which installs them into your local Maven repo from the public `Libs-JARs` repository:
+
+   ```bash
+   ./install-deps.sh
+   ```
+
+   On Windows, run `install-deps.bat` (it launches `install-deps.ps1`). If `Libs-JARs` is not found in a sibling `..\Libs-JARs` folder, the script offers to clone it.
 
 ## Building and deploying
 
@@ -91,5 +97,6 @@ See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example 
 | `Build_BuildOrchestrator.sh` / `.BAT` | Build this module (`mvn clean install`) then deploy it | Linux/macOS / Windows |
 | `Deploy_BuildOrchestrator.sh` / `.BAT` | Move the built jar from the Maven repo to the install folder | Linux/macOS / Windows |
 | `Packaging/Package_BuildOrchestrator.sh` / `.BAT` | Bundle the built jar and the config/launcher files into a distributable ZIP | Linux/macOS / Windows |
+| `install-deps.sh` / `.ps1` / `.bat` | Install the DLibs dependencies from `Libs-JARs` into the local Maven repo | Linux/macOS / Windows |
 
 The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk.
