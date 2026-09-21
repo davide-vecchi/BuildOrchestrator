@@ -62,7 +62,7 @@ This:
 - With **0 arguments**, the program asks you for the path of the Build List file to use.
 - With **1 argument**, that argument is the path of the Build List file to use.
 
-Progress is printed while it runs; the last lines should show **"... Executed successfully."**.
+Progress is printed while it runs; the last lines should show **"... executed successfully in <N> ms."**.
 
 ## The Build List format
 
@@ -89,4 +89,3 @@ See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example 
 | `Packaging/Package_BuildOrchestrator.sh` / `.BAT` | Bundle the built jar and the config/launcher files into a distributable ZIP | Linux/macOS / Windows |
 
 The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk.
-The only machine-specific value is the install folder, configured through `BO-Installation-folder.txt`.
