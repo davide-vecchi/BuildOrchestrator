@@ -38,7 +38,7 @@ The application writes its messages to the console and to log files.
 
    If the folder does not exist yet, the deploy script creates it.
 
-The `mvn clean install` command downloads the project's dependencies (including the `djavalibraries:*` modules it depends on), so no further setup is normally required for the first build.
+The `mvn clean install` command resolves the project's dependencies, including the `djavalibraries:*` modules, from the `github` repository declared in `pom.xml` (GitHub Packages). Because GitHub Packages requires authentication and access to the repositories that publish those packages, a first build normally requires credentials to be configured.
 
 ## Building and deploying
 
@@ -63,6 +63,10 @@ This:
 - With **1 argument**, that argument is the path of the Build List file to use.
 
 Progress is printed while it runs; the last lines should show **"... executed successfully in <N> ms."**.
+
+### Configuration
+
+The program reads its settings from a configuration file named `<jar-name-without-extension>-Config.TXT` and located next to the JAR (for the shipped JAR: `BuildOrchestrator-Config.TXT`); the file must exist. All of its parameters are optional and fall back to defaults, and they are documented, with their defaults and examples, inside the file itself: `BuildListFile`, `MavenFolder`, `MavenRepoFolder`, `CommandTimeoutMs`, `CaptureBuildOutput`, `ShowCapturedOutput` and the `RunInScriptIfWinN` list. A copy is kept in `src/main/resources/` and shipped as `Packaging/BuildOrchestrator-Config.TXT`.
 
 ## The Build List format
 
