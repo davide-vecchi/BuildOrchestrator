@@ -26,7 +26,7 @@ The application writes its messages to the console and to log files.
 2. Make the scripts executable (git does not preserve the executable bit):
 
    ```bash
-   chmod +x Build_BuildOrchestrator.sh Deploy_BuildOrchestrator.sh BuildOrchestrator.sh
+   chmod +x Build_BuildOrchestrator.sh Deploy_BuildOrchestrator.sh BuildOrchestrator.sh Packaging/Package_BuildOrchestrator.sh
    ```
 
 3. Tell the deploy step where to install the built jar. The folder path is read from the first line of `BO-Installation-folder.txt` (in this folder, git-ignored). A template is provided as `BO-Installation-folder.example.txt`:
@@ -86,6 +86,7 @@ See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example 
 | `BuildOrchestrator.sh` / `.BAT` | Launch the application (`java -jar BuildOrchestrator.jar ...`) | Linux/macOS / Windows |
 | `Build_BuildOrchestrator.sh` / `.BAT` | Build this module (`mvn clean install`) then deploy it | Linux/macOS / Windows |
 | `Deploy_BuildOrchestrator.sh` / `.BAT` | Move the built jar from the Maven repo to the install folder | Linux/macOS / Windows |
+| `Packaging/Package_BuildOrchestrator.sh` / `.BAT` | Bundle the built jar and the config/launcher files into a distributable ZIP | Linux/macOS / Windows |
 
 The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk.
 The only machine-specific value is the install folder, configured through `BO-Installation-folder.txt`.
