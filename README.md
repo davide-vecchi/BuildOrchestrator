@@ -23,7 +23,7 @@ The application writes its messages to the console and to log files.
 ## Dev env setup
 
 1. Clone this repository.
-2. Make the scripts executable (git does not preserve the executable bit):
+2. Make the scripts executable (git tracks the executable bit, but a Windows checkout does not apply it):
 
    ```bash
    chmod +x Build_BuildOrchestrator.sh Deploy_BuildOrchestrator.sh BuildOrchestrator.sh Packaging/Package_BuildOrchestrator.sh
