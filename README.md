@@ -12,7 +12,7 @@ A Maven build orchestrator for building Java projects. It reads a **Build List**
 
 Builds run with a configurable timeout, and their output can be captured (and optionally still shown to the user). On Windows it can also run the commands through a temporary `.BAT` script when the build requires preliminary shell-environment changes that must persist.
 
-The application writes its messages to the console and to log files, and it reports whether the whole run finished **"Executed successfully"**.
+The application writes its messages to the console and to log files.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ The application writes its messages to the console and to log files, and it repo
 - **Apache Maven** — `mvn` must be on `PATH`.
 - **Bash** (Linux/macOS) for the `.sh` scripts, or **Windows** for the `.BAT` scripts.
 
-## Setup
+## Dev env setup
 
 1. Clone this repository.
 2. Make the scripts executable (git does not preserve the executable bit):
