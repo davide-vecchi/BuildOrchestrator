@@ -28,6 +28,24 @@ SET JAR_NAME=BuildOrchestrator.jar
 
 SET MavenRepoFolder=%USERPROFILE%\.m2\repository
 
+REM Locate the PowerShell executable (prefer pwsh, fall back to Windows PowerShell) :
+SET PS_EXE=
+WHERE pwsh >NUL 2>NUL
+IF !ERRORLEVEL! EQU 0 (
+	SET PS_EXE=pwsh
+) ELSE (
+	WHERE powershell >NUL 2>NUL
+	IF !ERRORLEVEL! EQU 0 SET PS_EXE=powershell
+)
+
+IF "!PS_EXE!"=="" (
+	ECHO.
+	ECHO CRITICAL ERROR; PowerShell was not found on the PATH.
+	ECHO.
+	PAUSE
+	EXIT /B 1
+)
+
 REM Change to the folder this script is located in (the module folder, containing pom.xml) :
 CD /D "%~dp0"
 IF !ERRORLEVEL! NEQ 0 (
@@ -60,7 +78,7 @@ IF NOT EXIST "%INSTALL_FOLDER_FILE_PATH%" (
 REM Read only the first line, so this works whatever line endings the file uses
 REM (SET /P would read the whole file if it uses LF-only endings) :
 SET INSTALL_FOLDER=
-FOR /F "usebackq delims=" %%i IN (`pwsh -NoProfile -ExecutionPolicy Bypass -Command "('' + (Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)).Trim()"`) DO SET INSTALL_FOLDER=%%i
+FOR /F "usebackq delims=" %%i IN (`!PS_EXE! -NoProfile -ExecutionPolicy Bypass -Command "('' + (Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)).Trim()"`) DO SET INSTALL_FOLDER=%%i
 
 IF "%INSTALL_FOLDER%"=="" (
 	ECHO.
@@ -147,7 +165,7 @@ IF EXIST "%DEST_JAR%" (
 	ECHO.
 	PAUSE
 
-	pwsh -NoProfile -ExecutionPolicy Bypass -Command "Copy-Item '%DEST_JAR%' ('%DEST_JAR%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
+	!PS_EXE! -NoProfile -ExecutionPolicy Bypass -Command "Copy-Item '%DEST_JAR%' ('%DEST_JAR%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
 
 	DIR "%DEST_JAR%*" /O-D
 ) ELSE (

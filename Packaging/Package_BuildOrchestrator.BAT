@@ -54,11 +54,19 @@ IF "!VERSION!"=="" (
 )
 SET ARCHIVE_FILE=%~dp0!ARCHIVE_NAME!
 
-REM Ensure the required tools are available :
+REM Locate the PowerShell executable (prefer pwsh, fall back to Windows PowerShell) :
+SET PS_EXE=
 WHERE pwsh >NUL 2>NUL
-IF !ERRORLEVEL! NEQ 0 (
+IF !ERRORLEVEL! EQU 0 (
+	SET PS_EXE=pwsh
+) ELSE (
+	WHERE powershell >NUL 2>NUL
+	IF !ERRORLEVEL! EQU 0 SET PS_EXE=powershell
+)
+
+IF "!PS_EXE!"=="" (
 	ECHO.
-	ECHO CRITICAL ERROR; "pwsh" was not found on the PATH.
+	ECHO CRITICAL ERROR; PowerShell was not found on the PATH.
 	ECHO.
 	PAUSE
 	EXIT /B 1
@@ -92,7 +100,7 @@ COPY /Y "!BUILD_LIST!"   "!STAGING_FOLDER!\Build List EXAMPLE.TXT"       >NUL
 
 REM Create the archive :
 IF EXIST "!ARCHIVE_FILE!" DEL /Q "!ARCHIVE_FILE!"
-pwsh -NoProfile -ExecutionPolicy Bypass -Command "Compress-Archive -Path '%STAGING_FOLDER%' -DestinationPath '%ARCHIVE_FILE%' -Force"
+!PS_EXE! -NoProfile -ExecutionPolicy Bypass -Command "Compress-Archive -Path '%STAGING_FOLDER%' -DestinationPath '%ARCHIVE_FILE%' -Force"
 IF !ERRORLEVEL! NEQ 0 (
 	ECHO.
 	ECHO CRITICAL ERROR; could not create the archive :
