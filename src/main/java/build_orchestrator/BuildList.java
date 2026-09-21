@@ -462,13 +462,14 @@ class BuildList {
   }
   
   /**
-   * Parse Initialization section.<br>Currently throws if actual lines (not comments) are found in this section, because
-   * issuing initialization commands is not implemented yet.
+   * Parses the [Initialization] section, returning its commands as a list.
    *
-   * @param sectionLines
-   * @param initSectionKey
+   * @param sectionLines The Build List lines, grouped by (upper-cased) section name.<br>
    *
-   * @return TODO @@@@ COMMENT
+   * @param initSectionKey The upper-cased name of the [Initialization] section.
+   *
+   * @return The Initialization commands, in file order; each is asserted non-blank and has its trailing whitespace
+   *         stripped.
    */
   private static @NotNull List<String> extractInitializationSection(
                                                               @NotEmpty Map<String, List<LineWithNumber>> sectionLines
