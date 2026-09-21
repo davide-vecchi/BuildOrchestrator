@@ -60,7 +60,7 @@ IF NOT EXIST "%INSTALL_FOLDER_FILE_PATH%" (
 REM Read only the first line, so this works whatever line endings the file uses
 REM (SET /P would read the whole file if it uses LF-only endings) :
 SET INSTALL_FOLDER=
-FOR /F "usebackq delims=" %%i IN (`pwsh -NoProfile -Command "('' + (Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)).Trim()"`) DO SET INSTALL_FOLDER=%%i
+FOR /F "usebackq delims=" %%i IN (`pwsh -NoProfile -ExecutionPolicy Bypass -Command "('' + (Get-Content -LiteralPath '%INSTALL_FOLDER_FILE_PATH%' -TotalCount 1)).Trim()"`) DO SET INSTALL_FOLDER=%%i
 
 IF "%INSTALL_FOLDER%"=="" (
 	ECHO.
@@ -147,7 +147,7 @@ IF EXIST "%DEST_JAR%" (
 	ECHO.
 	PAUSE
 
-	pwsh -Command "Copy-Item '%DEST_JAR%' ('%DEST_JAR%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
+	pwsh -NoProfile -ExecutionPolicy Bypass -Command "Copy-Item '%DEST_JAR%' ('%DEST_JAR%-' + (Get-Date -Format 'yyyy-MM-dd_HH-mm-ss') + '.jar')"
 
 	DIR "%DEST_JAR%*" /O-D
 ) ELSE (

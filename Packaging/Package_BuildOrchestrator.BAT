@@ -92,7 +92,7 @@ COPY /Y "!BUILD_LIST!"   "!STAGING_FOLDER!\Build List EXAMPLE.TXT"       >NUL
 
 REM Create the archive :
 IF EXIST "!ARCHIVE_FILE!" DEL /Q "!ARCHIVE_FILE!"
-pwsh -NoProfile -Command "Compress-Archive -Path '%STAGING_FOLDER%' -DestinationPath '%ARCHIVE_FILE%' -Force"
+pwsh -NoProfile -ExecutionPolicy Bypass -Command "Compress-Archive -Path '%STAGING_FOLDER%' -DestinationPath '%ARCHIVE_FILE%' -Force"
 IF !ERRORLEVEL! NEQ 0 (
 	ECHO.
 	ECHO CRITICAL ERROR; could not create the archive :
