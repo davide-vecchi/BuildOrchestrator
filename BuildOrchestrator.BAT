@@ -13,6 +13,10 @@ PAUSE
 REM java -jar BuildOrchestrator.jar
 REM java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar "H:\Users\Davide\Davide\Sviluppo\REPOS\BuildTools\BuildOrchestrator\src\main\resources\Build List BuildOrchestrator ONLY.TXT"
 
+REM Change to the folder this script is located in, so that the JAR and the Build List
+REM are resolved relative to it, wherever the script is launched from :
+CD /D "%~dp0"
+
     java -Dfile.encoding=UTF-8 -jar BuildOrchestrator.jar
 
 PAUSE

@@ -2,6 +2,11 @@
 
 # Beginning of BuildOrchestrator launch script.
 
+# Change to the folder this script is located in, so that the JAR and the Build List
+# are resolved relative to it, wherever the script is launched from :
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
+
 # Set terminal to UTF-8 (macOS Terminal does this by default, but setting explicitly helps)
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
