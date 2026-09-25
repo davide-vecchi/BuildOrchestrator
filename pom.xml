@@ -28,6 +28,19 @@
 		
 	</repositories>
 	
+	<!-- slf4j-api is only used transitively here, so it is pinned rather than declared, at the same
+	     version as the slf4j-reload4j binding in <dependencies>; this stops the older slf4j-api that
+	     TestNG brings transitively from winning. -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>2.0.20</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		
         <!-- Beginning of DJavaLibraries . -->
@@ -112,7 +125,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-reload4j</artifactId>
-			<version>2.0.18</version>
+			<version>2.0.20</version>
 			<scope>compile</scope>
 		</dependency>
 	
