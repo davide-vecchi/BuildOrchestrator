@@ -7,3 +7,4 @@
 *.LOG
 .DS_Store
 /Packaging/BuildOrchestrator.zip
+/dependency-updates.tsv
