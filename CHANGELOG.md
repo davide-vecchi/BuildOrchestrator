@@ -10,6 +10,9 @@
 - Use DMaven 2.3.0 for its new findMavenHome() method, that makes attempts at discovering the Maven installation folder.
   Will be used if the Maven installation folder is not given as a config param.
 
+- Update all dependencies (DLibs and 3rd party) to their latest versions.
+
+
 ### Added
 
 
