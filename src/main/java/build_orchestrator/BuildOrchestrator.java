@@ -589,7 +589,7 @@ public final class BuildOrchestrator {
     String mvnCmd = args.getFirst();
     
     final String mvnExecPath = assertExistingPath(calcPath(this.params.mavenFolder.value, "bin")
-                                                         , true);
+                                                            , TRUE);
     
     if (SystemUtils.IS_OS_WINDOWS && isEmpty(getExtension(mvnCmd))) {
       
