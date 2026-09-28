@@ -193,12 +193,12 @@ public class BuildOrchestratorTest {
       final BuildList buildList = BuildList.newBuildList(orchestrator.getBuildListFile(), ac);
       
       final File fileTest = newValidatedFile(calcPath(testDataPath, "TEST-BuildList-" + testID + ".DUMP")
-                                          , false, MINUS1_i);
+                                       , false, MINUS1_i);
       
       write(fileTest, buildList.toString(), null);
       
       final File fileOK = newValidatedFile(calcPath(testDataPath, fileTest.getName() + "-{OK}")
-                                        , true, TEN_i);
+                                     , true, TEN_i);
       
       assertFilesEqual(fileTest, fileOK, L(10));
       
