@@ -9,3 +9,5 @@
 /Packaging/BuildOrchestrator.zip
 /dependency-updates.tsv
 /node_modules/
+/package-lock.json
+/package.json
