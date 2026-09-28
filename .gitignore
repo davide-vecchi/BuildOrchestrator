@@ -8,3 +8,4 @@
 .DS_Store
 /Packaging/BuildOrchestrator.zip
 /dependency-updates.tsv
+/node_modules/
