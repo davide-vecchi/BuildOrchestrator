@@ -19,12 +19,6 @@ Builds run with a configurable timeout, and their output can be captured (and op
 
 The application writes its messages to the console and to log files.
 
-## Requirements
-
-- **JDK 21** — the project is compiled for Java release 21.
-- **Apache Maven** — `mvn` must be on `PATH`.
-- **Bash** (Linux/macOS) for the `.sh` scripts, or **Windows** for the `.BAT` scripts.
-
 ## Quick Start (using the executable JAR)
 
 If you just want to use BuildOrchestrator without building from source:
@@ -34,6 +28,12 @@ If you just want to use BuildOrchestrator without building from source:
 2. Run `BuildOrchestrator.BAT` (Windows) or `BuildOrchestrator.sh` (Linux/macOS).
 
    The ZIP contains the executable jar, the launcher scripts and an example configuration file (`BuildOrchestrator-Config.TXT`). The configuration file must be kept next to the jar (see [Configuration](#configuration)); Java 21 or higher is required.
+
+## Requirements
+
+- **JDK 21** — the project is compiled for Java release 21.
+- **Apache Maven** — `mvn` must be on `PATH`.
+- **Bash** (Linux/macOS) for the `.sh` scripts, or **Windows** for the `.BAT` scripts.
 
 ## Dev env setup
 
@@ -53,13 +53,55 @@ If you just want to use BuildOrchestrator without building from source:
 
    If the folder does not exist yet, the deploy script creates it.
 
-4. Get the DLibs dependencies (`djavalibraries:*`). `mvn clean install` resolves them from the `github` repository declared in `pom.xml` (GitHub Packages), which requires credentials for it and access to the repositories that publish those packages. If you do not have such access, run `install-deps` instead, which installs them into your local Maven repo from the public `Libs-JARs` repository:
+4. Install the DLibs dependencies — see [Installing the required libraries (DLibs)](#installing-the-required-libraries-dlibs).
 
-   ```bash
-   ./install-deps.sh
-   ```
+## Installing the required libraries (DLibs)
 
-   On Windows, run `install-deps.bat` (it launches `install-deps.ps1`). If `Libs-JARs` is not found in a sibling `..\Libs-JARs` folder, the script offers to clone it.
+*This section is only needed if you are building from source.*
+
+`BuildOrchestrator` depends on several libraries (`DLibs`) that are distributed as pre-compiled JARs in
+the [Libs-JARs](https://github.com/davide-vecchi/Libs-JARs) repository.
+
+Alternatively, if you have access to the GitHub Packages repository declared in `pom.xml` (and to the repositories
+that publish these libraries), you can configure your credentials for it and let `mvn clean install` resolve the DLibs
+directly, skipping the steps below.
+
+**Step 1: Clone the `Libs-JARs` repository**
+
+```bash
+git clone https://github.com/davide-vecchi/Libs-JARs.git ../Libs-JARs
+```
+
+**Step 2: Install the DLibs libraries**
+
+From the `Libs-JARs` folder, run the installation script:
+
+```bash
+cd ../Libs-JARs
+```
+
+```bash
+./install-all-dlibs.sh        # Linux, macOS, or Git Bash on Windows
+```
+
+or
+
+```bash
+install-all-dlibs.bat         # Windows Command Prompt or PowerShell
+```
+
+Alternatively, you can go inside the `BuildOrchestrator` folder and run the provided `install-deps.sh` or
+`install-deps.bat` script to install only the libraries needed by this project.
+
+Either way, the script will install the JARs into your local Maven repository (`~/.m2/repository`).
+
+When you build the project, e.g. using
+
+```bash
+mvn clean install
+```
+
+, Maven will resolve these dependencies from your local repository.
 
 ## Building and deploying
 
