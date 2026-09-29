@@ -5,6 +5,8 @@
 
 A Maven build orchestrator for building Java projects. It reads a **Build List** file that describes which modules to build and how, then runs each module's build command in sequence, optionally moving the produced artifact to a destination folder. It is meant to replace hand-written Batch / Bash Maven build scripts.
 
+If you just want to run it without building from source, see the [Quick Start](#quick-start-using-the-executable-jar).
+
 ## Overview
 
 `BuildOrchestrator` is a Java console application. Given a Build List file, it:
@@ -22,6 +24,16 @@ The application writes its messages to the console and to log files.
 - **JDK 21** — the project is compiled for Java release 21.
 - **Apache Maven** — `mvn` must be on `PATH`.
 - **Bash** (Linux/macOS) for the `.sh` scripts, or **Windows** for the `.BAT` scripts.
+
+## Quick Start (using the executable JAR)
+
+If you just want to use BuildOrchestrator without building from source:
+
+1. Download the distributable ZIP from the [Releases](https://github.com/davide-vecchi/BuildOrchestrator/releases) page and unzip it into a convenient folder (e.g. `C:\BuildOrchestrator\`).
+
+2. Run `BuildOrchestrator.BAT` (Windows) or `BuildOrchestrator.sh` (Linux/macOS).
+
+   The ZIP contains the executable jar, the launcher scripts and an example configuration file (`BuildOrchestrator-Config.TXT`). The configuration file must be kept next to the jar (see [Configuration](#configuration)); Java 21 or higher is required.
 
 ## Dev env setup
 
@@ -111,6 +123,10 @@ The `.sh` scripts are location-relative: they operate on the folder they are loc
 ## Changelog
 
 See the [CHANGELOG](CHANGELOG.md) for the list of changes.
+
+## Contributing
+
+See the [CONTRIBUTING](CONTRIBUTING.md) page.
 
 ## Contacts
 
