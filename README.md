@@ -29,11 +29,13 @@ If you just want to use BuildOrchestrator without building from source:
 
    The ZIP contains the executable jar, the launcher scripts and an example configuration file (`BuildOrchestrator-Config.TXT`). The configuration file must be kept next to the jar (see [Configuration](#configuration)); Java 21 or higher is required.
 
-## Requirements
+## Prerequisites (for building from source)
 
-- **JDK 21** — the project is compiled for Java release 21.
-- **Apache Maven** — `mvn` must be on `PATH`.
-- **Bash** (Linux/macOS) for the `.sh` scripts, or **Windows** for the `.BAT` scripts.
+- Java 21 or higher installed and configured.
+- Maven 3.6 or higher (tested with 3.9).
+- Git (to clone the required repositories).
+- Bash (Linux/macOS) for the `.sh` scripts, or Windows for the `.BAT` scripts.
+- TestNG is used to run the tests (Maven downloads it automatically).
 
 ## Dev env setup
 
