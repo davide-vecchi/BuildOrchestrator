@@ -1,5 +1,8 @@
 # BuildOrchestrator
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Java 21](https://img.shields.io/badge/Java-21-blue.svg)](https://adoptium.net/)
+
 A Maven build orchestrator for building Java projects. It reads a **Build List** file that describes which modules to build and how, then runs each module's build command in sequence, optionally moving the produced artifact to a destination folder. It is meant to replace hand-written Batch / Bash Maven build scripts.
 
 ## Overview
@@ -100,3 +103,24 @@ See `src/main/resources/Build List BuildOrchestrator.TXT` for a working example 
 | `install-deps.sh` / `.ps1` / `.bat` | Install the DLibs dependencies from `Libs-JARs` into the local Maven repo | Linux/macOS / Windows |
 
 The `.sh` scripts are location-relative: they operate on the folder they are located in, so the repository can live anywhere on disk.
+
+## Project Status
+
+- Active and in use.
+
+## Changelog
+
+See the [CHANGELOG](CHANGELOG.md) for the list of changes.
+
+## Contacts
+
+You can reach me in two ways:
+
+- **Open an issue:** For bug reports, feature requests, or general questions,
+  please [open a new issue](https://github.com/davide-vecchi/BuildOrchestrator/issues/new) on GitHub.
+- **Mention me:** If you need to communicate with me, mention my username (`@davide-vecchi`) in a comment.
+  I will be notified.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
