@@ -2,14 +2,7 @@
 /test-output/
 /target/
 /BO-Installation-folder.txt
-*.bak
 *.DUMP
 *.LOG
 /Packaging/BuildOrchestrator.zip
 /Packaging/BuildOrchestrator.jar
-/dependency-updates.tsv
-*.lnk
-/0.txt
-Clean*.BAT
-Git tags.txt
-\!Situaz.TXT
