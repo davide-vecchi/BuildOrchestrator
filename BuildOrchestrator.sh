@@ -11,7 +11,7 @@ cd "$SCRIPT_DIR" || exit 1
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-echo "SCRIPT DI LANCIO DEL PROGRAMMA BuildOrchestrator."
+echo "Launch script of BuildOrchestrator program."
 read -r -p "Press Enter to continue..."
 
 # Note: On macOS, the JAR name is case-sensitive. Ensure BuildOrchestrator.jar exists.
