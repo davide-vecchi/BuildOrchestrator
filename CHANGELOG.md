@@ -2,7 +2,7 @@
 
 # Changelog
 
-## [2.3.0-SNAPSHOT]
+## [2.3.0]
 
 
 ### Changed
