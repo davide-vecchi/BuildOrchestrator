@@ -5,15 +5,11 @@
 *.bak
 *.DUMP
 *.LOG
-.DS_Store
 /Packaging/BuildOrchestrator.zip
 /Packaging/BuildOrchestrator.jar
 /dependency-updates.tsv
-/node_modules/
-/package-lock.json
-/package.json
 *.lnk
-0.txt
+/0.txt
 Clean*.BAT
 Git tags.txt
 \!Situaz.TXT
