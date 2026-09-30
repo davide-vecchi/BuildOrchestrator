@@ -62,7 +62,8 @@ If you just want to use BuildOrchestrator without building from source:
 *This section is only needed if you are building from source.*
 
 `BuildOrchestrator` depends on several libraries (`DLibs`) that are distributed as pre-compiled JARs in
-the [Libs-JARs](https://github.com/davide-vecchi/Libs-JARs) repository.
+the [Libs-JARs](https://github.com/davide-vecchi/Libs-JARs) repository. The steps below explain how to install these
+libraries in your local Maven repo.
 
 Alternatively, if you have access to the GitHub Packages repository declared in `pom.xml` (and to the repositories
 that publish these libraries), you can configure your credentials for it and let `mvn clean install` resolve the DLibs
