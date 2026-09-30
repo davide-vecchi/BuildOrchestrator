@@ -11,3 +11,7 @@
 /node_modules/
 /package-lock.json
 /package.json
+*.lnk
+0.txt
+Clean*.BAT
+Git tags.txt
