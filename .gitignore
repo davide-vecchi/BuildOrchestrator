@@ -7,7 +7,6 @@
 *.LOG
 .DS_Store
 /Packaging/BuildOrchestrator.zip
-/Packaging/BuildOrchestrator.jar
 /dependency-updates.tsv
 /node_modules/
 /package-lock.json
@@ -16,4 +15,3 @@
 0.txt
 Clean*.BAT
 Git tags.txt
-\!Situaz.TXT
