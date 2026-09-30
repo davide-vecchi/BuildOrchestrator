@@ -4,5 +4,5 @@
 /BO-Installation-folder.txt
 *.DUMP
 *.LOG
-/Packaging/BuildOrchestrator.zip
+/Packaging/BuildOrchestrator*.zip
 /Packaging/BuildOrchestrator.jar
