@@ -25,8 +25,18 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# The executable JAR to package (default : this folder's BuildOrchestrator.jar) :
-JAR_FILE="$SCRIPT_DIR/BuildOrchestrator.jar"
+# The application name, the base for the file names below :
+APP_NAME="BuildOrchestrator"
+
+# The file names (used both to locate the inputs and as the staged names) :
+JAR_NAME="$APP_NAME.jar"
+CONFIG_NAME="$APP_NAME-Config.TXT"
+LAUNCHER_BAT_NAME="$APP_NAME.BAT"
+LAUNCHER_SH_NAME="$APP_NAME.sh"
+BUILD_LIST_NAME="Build List EXAMPLE.TXT"
+
+# The executable JAR to package (default : this folder's $JAR_NAME) :
+JAR_FILE="$SCRIPT_DIR/$JAR_NAME"
 if [ -n "${1:-}" ]; then
     JAR_FILE="$1"
 fi
@@ -38,20 +48,20 @@ JAR_DIR="$(dirname "$JAR_FILE")/"
 VERSION="${2:-}"
 
 # The other input files (the launchers are in the parent module folder) :
-CONFIG_FILE="$SCRIPT_DIR/BuildOrchestrator-Config.TXT"
-LAUNCHER_BAT="$SCRIPT_DIR/../BuildOrchestrator.BAT"
-LAUNCHER_SH="$SCRIPT_DIR/../BuildOrchestrator.sh"
-BUILD_LIST="$SCRIPT_DIR/Build List EXAMPLE.TXT"
+CONFIG_FILE="$SCRIPT_DIR/$CONFIG_NAME"
+LAUNCHER_BAT="$SCRIPT_DIR/../$LAUNCHER_BAT_NAME"
+LAUNCHER_SH="$SCRIPT_DIR/../$LAUNCHER_SH_NAME"
+BUILD_LIST="$SCRIPT_DIR/$BUILD_LIST_NAME"
 
 # Name of the top-level folder inside the archive :
-PACKAGE_FOLDER="BuildOrchestrator"
+PACKAGE_FOLDER="$APP_NAME"
 STAGING_FOLDER="$SCRIPT_DIR/$PACKAGE_FOLDER"
 
 # Output archive :
 if [ -z "$VERSION" ]; then
-    ARCHIVE_NAME="BuildOrchestrator.zip"
+    ARCHIVE_NAME="$APP_NAME.zip"
 else
-    ARCHIVE_NAME="BuildOrchestrator-$VERSION.zip"
+    ARCHIVE_NAME="$APP_NAME-$VERSION.zip"
 fi
 ARCHIVE_FILE="$SCRIPT_DIR/$ARCHIVE_NAME"
 
@@ -92,11 +102,11 @@ fi
 rm -rf "$STAGING_FOLDER"
 mkdir -p "$STAGING_FOLDER"
 
-cp "$JAR_FILE"     "$STAGING_FOLDER/BuildOrchestrator.jar"
-cp "$CONFIG_FILE"  "$STAGING_FOLDER/BuildOrchestrator-Config.TXT"
-cp "$LAUNCHER_BAT" "$STAGING_FOLDER/BuildOrchestrator.BAT"
-cp "$LAUNCHER_SH"  "$STAGING_FOLDER/BuildOrchestrator.sh"
-cp "$BUILD_LIST"   "$STAGING_FOLDER/Build List EXAMPLE.TXT"
+cp "$JAR_FILE"     "$STAGING_FOLDER/$JAR_NAME"
+cp "$CONFIG_FILE"  "$STAGING_FOLDER/$CONFIG_NAME"
+cp "$LAUNCHER_BAT" "$STAGING_FOLDER/$LAUNCHER_BAT_NAME"
+cp "$LAUNCHER_SH"  "$STAGING_FOLDER/$LAUNCHER_SH_NAME"
+cp "$BUILD_LIST"   "$STAGING_FOLDER/$BUILD_LIST_NAME"
 
 # Create the archive :
 rm -f "$ARCHIVE_FILE"
@@ -118,12 +128,12 @@ echo "Archive created :"
 echo "  $ARCHIVE_FILE"
 echo ""
 echo "It contains the folder \"$PACKAGE_FOLDER\" with :"
-echo "  BuildOrchestrator.jar"
+echo "  $JAR_NAME"
 echo "    from \"$JAR_DIR\""
-echo "  BuildOrchestrator-Config.TXT"
-echo "  BuildOrchestrator.BAT"
-echo "  BuildOrchestrator.sh"
-echo "  Build List EXAMPLE.TXT"
+echo "  $CONFIG_NAME"
+echo "  $LAUNCHER_BAT_NAME"
+echo "  $LAUNCHER_SH_NAME"
+echo "  $BUILD_LIST_NAME"
 echo ""
 
 read -r -p "Press Enter to exit..."
