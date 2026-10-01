@@ -26,8 +26,18 @@ REM ============================================================================
 
 SETLOCAL EnableDelayedExpansion
 
-REM The executable JAR to package (default : this folder's BuildOrchestrator.jar) :
-SET JAR_FILE=%~dp0BuildOrchestrator.jar
+REM The application name, the base for the file names below :
+SET APP_NAME=BuildOrchestrator
+
+REM The file names (used both to locate the inputs and as the staged names) :
+SET JAR_NAME=%APP_NAME%.jar
+SET CONFIG_NAME=%APP_NAME%-Config.TXT
+SET LAUNCHER_BAT_NAME=%APP_NAME%.BAT
+SET LAUNCHER_SH_NAME=%APP_NAME%.sh
+SET BUILD_LIST_NAME=Build List EXAMPLE.TXT
+
+REM The executable JAR to package (default : this folder's %JAR_NAME%) :
+SET JAR_FILE=%~dp0%JAR_NAME%
 IF NOT "%~1"=="" SET JAR_FILE=%~1
 
 REM The folder the packaged JAR comes from (shown in the summary) :
@@ -37,20 +47,20 @@ REM Optional version, used in the archive name :
 SET VERSION=%~2
 
 REM The other input files (the launchers are in the parent module folder) :
-SET CONFIG_FILE=%~dp0BuildOrchestrator-Config.TXT
-SET LAUNCHER_BAT=%~dp0..\BuildOrchestrator.BAT
-SET LAUNCHER_SH=%~dp0..\BuildOrchestrator.sh
-SET BUILD_LIST=%~dp0Build List EXAMPLE.TXT
+SET CONFIG_FILE=%~dp0%CONFIG_NAME%
+SET LAUNCHER_BAT=%~dp0..\%LAUNCHER_BAT_NAME%
+SET LAUNCHER_SH=%~dp0..\%LAUNCHER_SH_NAME%
+SET BUILD_LIST=%~dp0%BUILD_LIST_NAME%
 
 REM Name of the top-level folder inside the archive :
-SET PACKAGE_FOLDER=BuildOrchestrator
+SET PACKAGE_FOLDER=%APP_NAME%
 SET STAGING_FOLDER=%~dp0%PACKAGE_FOLDER%
 
 REM Output archive :
 IF "!VERSION!"=="" (
-	SET ARCHIVE_NAME=BuildOrchestrator.zip
+	SET ARCHIVE_NAME=%APP_NAME%.zip
 ) ELSE (
-	SET ARCHIVE_NAME=BuildOrchestrator-!VERSION!.zip
+	SET ARCHIVE_NAME=%APP_NAME%-!VERSION!.zip
 )
 SET ARCHIVE_FILE=%~dp0!ARCHIVE_NAME!
 
@@ -92,11 +102,11 @@ REM Stage the files into the top-level folder :
 IF EXIST "!STAGING_FOLDER!" RMDIR /S /Q "!STAGING_FOLDER!"
 MKDIR "!STAGING_FOLDER!"
 
-COPY /Y "!JAR_FILE!"     "!STAGING_FOLDER!\BuildOrchestrator.jar"        >NUL
-COPY /Y "!CONFIG_FILE!"  "!STAGING_FOLDER!\BuildOrchestrator-Config.TXT" >NUL
-COPY /Y "!LAUNCHER_BAT!" "!STAGING_FOLDER!\BuildOrchestrator.BAT"        >NUL
-COPY /Y "!LAUNCHER_SH!"  "!STAGING_FOLDER!\BuildOrchestrator.sh"         >NUL
-COPY /Y "!BUILD_LIST!"   "!STAGING_FOLDER!\Build List EXAMPLE.TXT"       >NUL
+COPY /Y "!JAR_FILE!"     "!STAGING_FOLDER!\!JAR_NAME!"          >NUL
+COPY /Y "!CONFIG_FILE!"  "!STAGING_FOLDER!\!CONFIG_NAME!"       >NUL
+COPY /Y "!LAUNCHER_BAT!" "!STAGING_FOLDER!\!LAUNCHER_BAT_NAME!" >NUL
+COPY /Y "!LAUNCHER_SH!"  "!STAGING_FOLDER!\!LAUNCHER_SH_NAME!"  >NUL
+COPY /Y "!BUILD_LIST!"   "!STAGING_FOLDER!\!BUILD_LIST_NAME!"   >NUL
 
 REM Create the archive :
 IF EXIST "!ARCHIVE_FILE!" DEL /Q "!ARCHIVE_FILE!"
@@ -119,12 +129,12 @@ ECHO Archive created :
 ECHO   !ARCHIVE_FILE!
 ECHO.
 ECHO It contains the folder "!PACKAGE_FOLDER!" with :
-ECHO   BuildOrchestrator.jar
+ECHO   !JAR_NAME!
 ECHO     from "!JAR_DIR!"
-ECHO   BuildOrchestrator-Config.TXT
-ECHO   BuildOrchestrator.BAT
-ECHO   BuildOrchestrator.sh
-ECHO   Build List EXAMPLE.TXT
+ECHO   !CONFIG_NAME!
+ECHO   !LAUNCHER_BAT_NAME!
+ECHO   !LAUNCHER_SH_NAME!
+ECHO   !BUILD_LIST_NAME!
 ECHO.
 PAUSE
 EXIT /B 0
