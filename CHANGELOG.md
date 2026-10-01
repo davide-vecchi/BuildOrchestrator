@@ -20,3 +20,5 @@
 
 
 ### Internal changes
+
+- Extract the file-name literals into constants in the packaging scripts.
