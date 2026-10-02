@@ -23,6 +23,8 @@
 
 - Extract the file-name literals into constants in the packaging scripts.
 
+- Include the `README.md` and the `LICENSE` in the distributable ZIP.
+
 
 ## [2.3.0] - 2026-09-30
 
