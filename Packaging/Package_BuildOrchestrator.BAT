@@ -12,6 +12,8 @@ REM          - BuildOrchestrator-Config.TXT  (from this folder)
 REM          - Build List EXAMPLE.TXT        (from this folder)
 REM          - BuildOrchestrator.BAT         (from the parent module folder)
 REM          - BuildOrchestrator.sh          (from the parent module folder)
+REM          - README.md                     (from the parent module folder)
+REM          - LICENSE                       (from the parent module folder)
 REM
 REM        and produces a ZIP archive containing a top-level "BuildOrchestrator"
 REM        folder with all of them, ready to be extracted into the user's chosen
@@ -35,6 +37,8 @@ SET CONFIG_NAME=%APP_NAME%-Config.TXT
 SET LAUNCHER_BAT_NAME=%APP_NAME%.BAT
 SET LAUNCHER_SH_NAME=%APP_NAME%.sh
 SET BUILD_LIST_NAME=Build List EXAMPLE.TXT
+SET README_NAME=README.md
+SET LICENSE_NAME=LICENSE
 
 REM The executable JAR to package (default : this folder's %JAR_NAME%) :
 SET JAR_FILE=%~dp0%JAR_NAME%
@@ -46,11 +50,13 @@ FOR %%F IN ("!JAR_FILE!") DO SET JAR_DIR=%%~dpF
 REM Optional version, used in the archive name :
 SET VERSION=%~2
 
-REM The other input files (the launchers are in the parent module folder) :
+REM The other input files (the launchers, README and LICENSE are in the parent module folder) :
 SET CONFIG_FILE=%~dp0%CONFIG_NAME%
 SET LAUNCHER_BAT=%~dp0..\%LAUNCHER_BAT_NAME%
 SET LAUNCHER_SH=%~dp0..\%LAUNCHER_SH_NAME%
 SET BUILD_LIST=%~dp0%BUILD_LIST_NAME%
+SET README_FILE=%~dp0..\%README_NAME%
+SET LICENSE_FILE=%~dp0..\%LICENSE_NAME%
 
 REM Name of the top-level folder inside the archive :
 SET PACKAGE_FOLDER=%APP_NAME%
@@ -89,6 +95,8 @@ CALL :Require "!CONFIG_FILE!"  "configuration file"
 CALL :Require "!LAUNCHER_BAT!" "Windows launcher"
 CALL :Require "!LAUNCHER_SH!"  "Unix launcher"
 CALL :Require "!BUILD_LIST!"   "example Build List"
+CALL :Require "!README_FILE!"  "README"
+CALL :Require "!LICENSE_FILE!" "license"
 
 IF !MISSING! NEQ 0 (
 	ECHO.
@@ -107,6 +115,8 @@ COPY /Y "!CONFIG_FILE!"  "!STAGING_FOLDER!\!CONFIG_NAME!"       >NUL
 COPY /Y "!LAUNCHER_BAT!" "!STAGING_FOLDER!\!LAUNCHER_BAT_NAME!" >NUL
 COPY /Y "!LAUNCHER_SH!"  "!STAGING_FOLDER!\!LAUNCHER_SH_NAME!"  >NUL
 COPY /Y "!BUILD_LIST!"   "!STAGING_FOLDER!\!BUILD_LIST_NAME!"   >NUL
+COPY /Y "!README_FILE!"  "!STAGING_FOLDER!\!README_NAME!"       >NUL
+COPY /Y "!LICENSE_FILE!" "!STAGING_FOLDER!\!LICENSE_NAME!"      >NUL
 
 REM Create the archive :
 IF EXIST "!ARCHIVE_FILE!" DEL /Q "!ARCHIVE_FILE!"
@@ -135,6 +145,8 @@ ECHO   !CONFIG_NAME!
 ECHO   !LAUNCHER_BAT_NAME!
 ECHO   !LAUNCHER_SH_NAME!
 ECHO   !BUILD_LIST_NAME!
+ECHO   !README_NAME!
+ECHO   !LICENSE_NAME!
 ECHO.
 PAUSE
 EXIT /B 0
