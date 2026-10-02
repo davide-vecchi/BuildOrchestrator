@@ -11,6 +11,8 @@
 #          - Build List EXAMPLE.TXT        (from this folder)
 #          - BuildOrchestrator.BAT         (from the parent module folder)
 #          - BuildOrchestrator.sh          (from the parent module folder)
+#          - README.md                     (from the parent module folder)
+#          - LICENSE                       (from the parent module folder)
 #
 #        and produces a ZIP archive containing a top-level "BuildOrchestrator"
 #        folder with all of them, ready to be extracted into the user's chosen
@@ -34,6 +36,8 @@ CONFIG_NAME="$APP_NAME-Config.TXT"
 LAUNCHER_BAT_NAME="$APP_NAME.BAT"
 LAUNCHER_SH_NAME="$APP_NAME.sh"
 BUILD_LIST_NAME="Build List EXAMPLE.TXT"
+README_NAME="README.md"
+LICENSE_NAME="LICENSE"
 
 # The executable JAR to package (default : this folder's $JAR_NAME) :
 JAR_FILE="$SCRIPT_DIR/$JAR_NAME"
@@ -47,11 +51,13 @@ JAR_DIR="$(dirname "$JAR_FILE")/"
 # Optional version, used in the archive name :
 VERSION="${2:-}"
 
-# The other input files (the launchers are in the parent module folder) :
+# The other input files (the launchers, README and LICENSE are in the parent module folder) :
 CONFIG_FILE="$SCRIPT_DIR/$CONFIG_NAME"
 LAUNCHER_BAT="$SCRIPT_DIR/../$LAUNCHER_BAT_NAME"
 LAUNCHER_SH="$SCRIPT_DIR/../$LAUNCHER_SH_NAME"
 BUILD_LIST="$SCRIPT_DIR/$BUILD_LIST_NAME"
+README_FILE="$SCRIPT_DIR/../$README_NAME"
+LICENSE_FILE="$SCRIPT_DIR/../$LICENSE_NAME"
 
 # Name of the top-level folder inside the archive :
 PACKAGE_FOLDER="$APP_NAME"
@@ -89,6 +95,8 @@ require "$CONFIG_FILE"  "configuration file"
 require "$LAUNCHER_BAT" "Windows launcher"
 require "$LAUNCHER_SH"  "Unix launcher"
 require "$BUILD_LIST"   "example Build List"
+require "$README_FILE"  "README"
+require "$LICENSE_FILE" "license"
 
 if [ "$MISSING" -ne 0 ]; then
     echo ""
@@ -107,6 +115,8 @@ cp "$CONFIG_FILE"  "$STAGING_FOLDER/$CONFIG_NAME"
 cp "$LAUNCHER_BAT" "$STAGING_FOLDER/$LAUNCHER_BAT_NAME"
 cp "$LAUNCHER_SH"  "$STAGING_FOLDER/$LAUNCHER_SH_NAME"
 cp "$BUILD_LIST"   "$STAGING_FOLDER/$BUILD_LIST_NAME"
+cp "$README_FILE"  "$STAGING_FOLDER/$README_NAME"
+cp "$LICENSE_FILE" "$STAGING_FOLDER/$LICENSE_NAME"
 
 # Create the archive :
 rm -f "$ARCHIVE_FILE"
@@ -134,6 +144,8 @@ echo "  $CONFIG_NAME"
 echo "  $LAUNCHER_BAT_NAME"
 echo "  $LAUNCHER_SH_NAME"
 echo "  $BUILD_LIST_NAME"
+echo "  $README_NAME"
+echo "  $LICENSE_NAME"
 echo ""
 
 read -r -p "Press Enter to exit..."
