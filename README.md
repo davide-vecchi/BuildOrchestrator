@@ -27,7 +27,7 @@ If you just want to use BuildOrchestrator without building from source:
 
 2. Run `BuildOrchestrator.BAT` (Windows) or `BuildOrchestrator.sh` (Linux/macOS).
 
-   The ZIP contains the executable jar, the launcher scripts, an example configuration file (`BuildOrchestrator-Config.TXT`) and an example Build List (`Build List EXAMPLE.TXT`). The configuration file must be kept next to the jar (see [Configuration](#configuration)); Java 21 or higher is required.
+   The ZIP contains the executable jar, the launcher scripts, an example configuration file (`BuildOrchestrator-Config.TXT`), an example Build List (`Build List EXAMPLE.TXT`), the `README.md` and the `LICENSE`. The configuration file must be kept next to the jar (see [Configuration](#configuration)); Java 21 or higher is required.
 
 ## Prerequisites (for building from source)
 
