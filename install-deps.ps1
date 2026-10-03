@@ -38,7 +38,7 @@ function Write-Info { Write-Host $args[0] -ForegroundColor Cyan }
 function Write-Normal { Write-Host $args[0] -ForegroundColor White }
 
 
-# BuildOrchestrator version that this script is for
+# BuildOrchestrator (BO) version that this script is for
 $BO_VERSION = "2.3.0-SNAPSHOT"
 
 # Dependencies required by BuildOrchestrator (direct + transitive)
