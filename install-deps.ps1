@@ -46,9 +46,9 @@ $BO_VERSION = "2.3.0-SNAPSHOT"
 $DEPS = @(
     "djavalibraries/dapplication/2.3.0",
     "djavalibraries/dutil/2.3.0",
+    "djavalibraries/dfile/2.4.0",
     "djavalibraries/dlog/2.3.0",
     "djavalibraries/duserinputoutput/2.3.0",
-    "djavalibraries/dfile/2.4.0",
     "djavalibraries/dparam/2.2.2",
     "djavalibraries/dmaven/2.3.0",
     "djavalibraries/dtest/2.2.2",
