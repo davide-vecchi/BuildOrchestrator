@@ -30,6 +30,9 @@
 $DLIBS_DIR = "dlibs"
 $LJ_REPO_URL = "https://github.com/davide-vecchi/Libs-JARs.git"
 
+$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
+$POM_FILE = "$SCRIPT_DIR\pom.xml"
+
 # Color definitions
 function Write-Success { Write-Host $args[0] -ForegroundColor Green }
 function Write-Warning { Write-Host $args[0] -ForegroundColor Yellow }
@@ -39,7 +42,7 @@ function Write-Normal { Write-Host $args[0] -ForegroundColor White }
 
 
 # BuildOrchestrator (BO) version that this script is for
-$BO_VERSION = "2.3.0-SNAPSHOT"
+$BO_VERSION = "2.3.1-SNAPSHOT"
 
 # Dependencies required by BuildOrchestrator (direct + transitive)
 # Format: groupId/artifactId/version
@@ -63,9 +66,69 @@ Write-Normal "  Installing dependencies for BuildOrchestrator version $BO_VERSIO
 Write-Normal "=================================================================="
 Write-Normal ""
 
+# =============================================================================
+# Drift guard
+#
+# The DEPS list and the BO_VERSION constant are hand-maintained. Before
+# installing, warn (and wait for a key, so the message does not scroll away) if
+# they no longer match pom.xml :
+#   (a) BO_VERSION vs. the pom's project.version;
+#   (b) the DLibs declared in the pom vs. the DEPS list.
+# Note that (b) is intentionally partial: the transitive DEPS entries (such as
+# dsax, dxml and threadsafenumberformat) are not declared in the pom, so they
+# cannot be checked this way. The snapshot guard below has no such limitation:
+# it reads snapshot-ness from the DEPS list itself.
+# =============================================================================
+
+# Pause so that a warning does not scroll away unnoticed :
+function Pause-ForReview {
+    Read-Host "Press Enter to continue" | Out-Null
+}
+
+$POM_VERSION = (@(& mvn -q help:evaluate -f $POM_FILE "-Dexpression=project.version" -DforceStdout 2>$null) | Where-Object { $_ -ne "" } | Select-Object -Last 1)
+$POM_DEPS_RAW = (@(& mvn -q help:evaluate -f $POM_FILE "-Dexpression=project.dependencies" -DforceStdout 2>$null)) -join "`n"
+
+# (a) The validated-for constant vs. the pom version :
+if ($POM_VERSION -and $POM_VERSION -ne $BO_VERSION) {
+    Write-Warning "WARNING: the DEPS list was validated for BuildOrchestrator $BO_VERSION, but the project is now $POM_VERSION. Please review the list and update BO_VERSION."
+    Pause-ForReview
+}
+
+# (b) The DLibs declared in the pom vs. the DEPS list :
+$depTokens = [regex]::Matches($POM_DEPS_RAW, '<(groupId|artifactId|version)>([^<]+)</\1>') | ForEach-Object { $_.Groups[2].Value }
+
+for ($tokenIndex = 0; $tokenIndex + 2 -lt $depTokens.Count; $tokenIndex += 3) {
+    $groupId = $depTokens[$tokenIndex]
+    $artifactId = $depTokens[$tokenIndex + 1]
+    $version = $depTokens[$tokenIndex + 2]
+
+    if ($groupId -ne 'djavalibraries' -and $groupId -ne 'javalibraries3rdparty') {
+        continue
+    }
+
+    $expectedEntry = "$groupId/$artifactId/$version"
+    if ($DEPS -notcontains $expectedEntry) {
+        Write-Warning "WARNING: the pom declares $expectedEntry, which is missing from (or at a different version in) the DEPS list. Please review the list."
+        Pause-ForReview
+    }
+}
+
+# (c) Snapshot guard: a snapshot DEPS list requires a snapshot consumer :
+$depsHasSnapshot = $false
+foreach ($dep in $DEPS) {
+    if ($dep -like '*-SNAPSHOT') {
+        $depsHasSnapshot = $true
+        break
+    }
+}
+
+if ($depsHasSnapshot -and $BO_VERSION -notlike '*-SNAPSHOT') {
+    Write-Warning "WARNING: the DEPS list contains snapshots, but BuildOrchestrator $BO_VERSION is not a snapshot. A released consumer must not depend on snapshot DLibs."
+    Pause-ForReview
+}
+
 # Determine the location of Libs-JARs
 $LJ_PATH = "..\Libs-JARs"
-$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # Check if LJ exists at the default location
 if (Test-Path "$SCRIPT_DIR\$LJ_PATH\$DLIBS_DIR") {
