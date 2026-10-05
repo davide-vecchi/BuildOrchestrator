@@ -68,7 +68,7 @@ public class Journal {
    *
    * @param buildListFile {@link #buildListFile}.
    */
-  private Journal() {
+  protected Journal() {
     
     this.issuedInitCommands = new ArrayList<>();
     
@@ -151,7 +151,7 @@ public class Journal {
      * @param sourceFolder   {@link #sourceFolder}.<br>
      * @param durationMs     {@link #durationMs}.
      */
-    private Entry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
+    protected Entry(@NotBlank String operationDescr, File sourceFolder, Long durationMs) {
       
       this.operationDescr = assertNonBlank(operationDescr);
       
