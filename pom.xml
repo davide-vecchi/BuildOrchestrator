@@ -48,13 +48,13 @@
         <dependency>
             <groupId>djavalibraries</groupId>
             <artifactId>dapplication</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.1-SNAPSHOT</version>
         </dependency>
         
         <dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dutil</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
@@ -66,32 +66,32 @@
 		<dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>duserinputoutput</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dtest</artifactId>
-            <version>2.2.2</version>
+            <version>2.2.3-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dfile</artifactId>
-			<version>2.4.0</version>
+			<version>2.4.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dparam</artifactId>
-			<version>2.2.2</version>
+            <version>2.2.3-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>djavalibraries</groupId>
 			<artifactId>dmaven</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.1-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- End of DJavaLibraries . -->
