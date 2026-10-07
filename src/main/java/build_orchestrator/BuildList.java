@@ -135,9 +135,9 @@ class BuildList {
   
   
   /**
-   * Private constructor.
+   * Protected constructor.
    */
-  private BuildList() {}
+  protected BuildList() {}
   
   
   /**
