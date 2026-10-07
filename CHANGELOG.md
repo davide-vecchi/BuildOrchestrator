@@ -18,6 +18,8 @@
 
 - Translate a message into English in the bash version of the launch script.
 
+- Convert a groupId's dots to path separators for the Maven-repo path.
+
 
 ### Internal changes
 

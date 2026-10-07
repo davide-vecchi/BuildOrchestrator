@@ -46,6 +46,7 @@ import static dfile.file.FileUtilities.getCanonicalPath;
 import static dfile.file.FileUtilities.getCanonicalPathAsDescr;
 import static dfile.file.FileUtilities.isExistingFolder;
 import static dmaven.MavenUtilities.calcMavenArtifactInfo;
+import static dmaven.MavenUtilities.calcMvnRepoGroupIdFolder;
 import static dmaven.MavenUtilities.calcNonRunnableJarPath;
 import static dutil.exception.ExceptionUtilities.calcUnchecked;
 import static dutil.exception.ExceptionUtilities.getFullDescriptionWithRootCause;
@@ -380,7 +381,7 @@ public final class BuildOrchestrator {
     final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
     
     final String mvnRepoArtifactFolder = calcPath(mvnRepoFolder
-                                                            , assertNonBlankNorTrimmable(mvnGroupId)
+                                                            , calcMvnRepoGroupIdFolder(mvnGroupId)
                                                             , assertNonBlankNorTrimmable(mvnArtifactId));
     
     result.object = new File(mvnRepoArtifactFolder);
