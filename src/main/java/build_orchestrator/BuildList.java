@@ -389,19 +389,22 @@ class BuildList {
   }
   
   /**
-   * Throws if the given {@code mavenCommand} is not a valid command to invoke Maven.
+   * Throws if the given Maven command is not a valid command to invoke Maven.
    *
-   * @param mavenCommand
+   * @param commandLineWithNumber The {@link LineWithNumber} containing the {@link LineWithNumber#line Maven command
+   *                              line} to validate.<br>
    *
-   * @param errorMsgPrefix If {@link StringUtils#isNotBlank not blank}, will be prepended to the message of the
-   *                       exception thrown if the validation fails.
+   * @param pathLineWithNumber The {@link LineWithNumber} of the module path the given Maven command is for. Only for
+   *                           the error message.<br>
    *
-   * @return The given {@code mavenCommand}.
+   * @param buildListFileDescr Description of the path of the {@link BuildList} file. Only for the error message.
    *
-   * @throws InvalidExternalValueException <ul><li>If the given {@code mavenCommand} is {@link TextUtilities#isBlankOrTrimmable
+   * @return The given {@link LineWithNumber#line Maven command}.
+   *
+   * @throws InvalidExternalValueException <ul><li>If the given Maven command is {@link TextUtilities#isBlankOrTrimmable
    *                                               blank or trimmable}.</li>
-   *                                           <li>If the given {@code mavenCommand} is not {@link TextUtilities#isBlankOrTrimmable
-   *                                               blank or trimmable} but it's not a valid command to invoke Maven.</li></ul>
+   *                                           <li>If the given Maven command does not start with {@code mvn}
+   *                                               (case-insensitive).</li></ul>
    */
   private static String validateMavenCommand(@NotNull LineWithNumber commandLineWithNumber
                                            , @NotNull LineWithNumber pathLineWithNumber,   String buildListFileDescr) {
