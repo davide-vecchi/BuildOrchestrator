@@ -736,11 +736,13 @@ class BuildList {
      *
      * @param mvnCommand {@link #mvnCommand}.<br>
      *
-     * @param executableDestPath {@link #executableDestPath}. Must be {@code null} or match an existing folder.<br>
+     * @param executableDestPath {@link #executableDestPath}. Must be {@code null}, or match an existing folder, or be a
+     *                           non-existing path (which will be created at deployment time).<br>
      *
-     * @throws MissingExternalValueException – If any of the given paths don't exist on the filesystem.<br>
+     * @throws MissingExternalValueException – If the given {@code modulePath} doesn't exist on the filesystem.<br>
      *
-     * @throws InvalidExternalValueException – If any of the given paths represents an existing file instead of a folder.<br>
+     * @throws InvalidExternalValueException – If the given {@code modulePath}, or an existing {@code executableDestPath},
+     *                                       represents an existing file instead of a folder.<br>
      *
      * @throws InvalidValueException If the given {@code mvnCommand} is not valid.
      */
@@ -750,7 +752,12 @@ class BuildList {
       
       this.mvnCommand = assertNonBlankNorTrimmable(mvnCommand);
       
-      this.executableDestPath = executableDestPath != null ? assertExistingPath(executableDestPath, TRUE) : null;
+      // The executable destination folder is created at deployment time if it does not exist, so a non-existent path
+      // is allowed here; if it does exist, though, it must be a folder :
+      
+      this.executableDestPath = executableDestPath != null && new File(executableDestPath).exists()
+                                ? assertExistingPath(executableDestPath, TRUE)
+                                : executableDestPath;
     }
     
   }
