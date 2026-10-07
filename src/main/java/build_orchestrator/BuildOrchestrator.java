@@ -378,7 +378,7 @@ public final class BuildOrchestrator {
                                                                                    , boolean createIfMissing) {
     final ObjectAndDescr<File> result = new ObjectAndDescr<>();
     
-    final String mvnRepoFolder = assertExistingPath( this.params.mavenRepoFolder.value, true);
+    final String mvnRepoFolder = assertExistingPath(this.params.mavenRepoFolder.value, TRUE);
     
     final String mvnRepoArtifactFolder = calcPath(mvnRepoFolder
                                                             , calcMvnRepoGroupIdFolder(mvnGroupId)
