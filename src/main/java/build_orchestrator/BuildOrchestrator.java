@@ -491,8 +491,17 @@ public final class BuildOrchestrator {
         
         if (msg == null) {
           
-          // : The runnable jar to move exists. Move it, first deleting the old one if it's there :
+          // : The runnable jar to move exists. Move it, first creating the destination folder if needed and deleting
+          //   the old jar if it's there :
           
+          final File destFolder = new File(moduleBlock.executableDestPath());
+          
+          if (! isExistingFolder(destFolder.getPath())) {
+            
+            this.appContext.warnUser(NL + "Creating non-existing artifact destination folder " + getCanonicalPathAsDescr(destFolder) + ".");
+            
+            FileUtils.forceMkdir(destFolder);
+          }
           final File oldRunnableJar = new File(calcPath(moduleBlock.executableDestPath(),
                                                                               runnableJar.getName()));
           if (oldRunnableJar.exists()) {
@@ -501,8 +510,7 @@ public final class BuildOrchestrator {
             
             FileUtils.delete(oldRunnableJar);
           }
-          FileUtils.moveFileToDirectory(runnableJar, new File(moduleBlock.executableDestPath())
-                                 , false);
+          FileUtils.moveFileToDirectory(runnableJar, destFolder, true);
           
           // Rename the moved runnable jar to its final name, first deleting the old one if it's there :
           

@@ -312,7 +312,7 @@ class BuildList {
   }
   
   /**
-   * Throws if the given {@link LineWithNumber#line artifact path} is not an existing folder.
+   * Throws if the given {@link LineWithNumber#line artifact path} exists but is not a folder.
    *
    * @param artifactPathLineWithNumber The {@link LineWithNumber} containing the {@link LineWithNumber#line line} that
    *                                   represents the artifact destination path.<br>
@@ -321,18 +321,25 @@ class BuildList {
    *
    * @return The given {@link LineWithNumber#line artifact path}.
    *
-   * @throws MissingExternalValueException If the given artifact path is not an existing folder.
+   * @throws InvalidExternalValueException If the given artifact path exists but is not a folder.
    */
   private static String validateArtifactPath(@NotNull LineWithNumber artifactPathLineWithNumber
                                                     , String         buildListFileDescr) {
     
     final String artifactPath = artifactPathLineWithNumber.line;
     
-    final String ko = checkIsExistingFolder(artifactPath);
+    // The destination folder is created at deployment time if it does not exist, so a non-existent path is allowed :
     
-    if (ko != null) {
+    if (new File(artifactPath).exists()) {
       
-      throw new MissingExternalValueException("Non-existent artifact destination path specified in line " + artifactPathLineWithNumber.line + " of file " + buildListFileDescr + ":" + NL + ko);
+      // : The path exists, so it must be a folder :
+      
+      final String ko = checkIsExistingFolder(artifactPath);
+      
+      if (ko != null) {
+        
+        throw new InvalidExternalValueException("Invalid artifact destination path specified in line " + artifactPathLineWithNumber.line + " of file " + buildListFileDescr + ":" + NL + ko);
+      }
     }
     return artifactPath;
   }
