@@ -506,7 +506,7 @@ public final class BuildOrchestrator {
                                                                               runnableJar.getName()));
           if (oldRunnableJar.exists()) {
           
-            this.appContext.warnUser(NL + "Overwriting old non-renamed runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + " .");
+            this.appContext.warnUser(NL + "Overwriting old non-renamed runnable jar " + getCanonicalPathAsDescr(oldRunnableJar) + ".");
             
             FileUtils.delete(oldRunnableJar);
           }
