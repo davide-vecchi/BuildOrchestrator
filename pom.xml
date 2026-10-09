@@ -151,6 +151,7 @@
 							<encoding>UTF-8</encoding>
 							<archive>
 								<manifest>
+									<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 									<mainClass>
 										build_orchestrator.BuildOrchestratorMain
 									</mainClass>

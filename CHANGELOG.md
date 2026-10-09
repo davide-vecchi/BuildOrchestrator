@@ -27,6 +27,8 @@
 
 ### Internal changes
 
+- Enable `addDefaultImplementationEntries` in the assembly plugin, so the executable JAR's manifest carries the module's `Implementation-Version`.
+
 - Extract the file-name literals into constants in the packaging scripts.
 
 - Include the `README.md` and the `LICENSE` in the distributable ZIP.
