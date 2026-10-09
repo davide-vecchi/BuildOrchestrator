@@ -7,6 +7,8 @@
 
 ### Changed
 
+- Update the DUtil dependency to 2.4.0-SNAPSHOT .
+
 
 ### Added
 
