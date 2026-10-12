@@ -7,6 +7,8 @@
 
 ### Changed
 
+- Update the DFile dependency to its latest version.
+
 - Update the DApplication dependency to 2.4.0-SNAPSHOT .
 
 - Update the DUtil dependency to 2.4.0-SNAPSHOT .
