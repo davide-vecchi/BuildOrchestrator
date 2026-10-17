@@ -51,7 +51,7 @@ $DEPS = @(
     "djavalibraries/dutil/2.4.0-SNAPSHOT",
     "djavalibraries/dfile/2.5.0-SNAPSHOT",
     "djavalibraries/dlog/2.3.0",
-    "djavalibraries/duserinputoutput/2.3.1-SNAPSHOT",
+    "djavalibraries/duserinputoutput/2.4.0-SNAPSHOT",
     "djavalibraries/dparam/2.2.3-SNAPSHOT",
     "djavalibraries/dmaven/2.3.1-SNAPSHOT",
     "djavalibraries/dtest/2.2.3-SNAPSHOT",
