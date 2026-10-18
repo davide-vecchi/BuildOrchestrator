@@ -713,8 +713,8 @@ public final class BuildOrchestrator {
       
       cmdOutcome = OSUtilities.runCommand(folder,                                          command
                                ,this.params.commandTimeoutMs.value.longValue(), this.appContext.devLog
-                    , adjustForLog,                 outToUser
-                                        , runInScriptIfWin,                  null
+                    , adjustForLog,              outToUser
+                                        , runInScriptIfWin,                 null
                                , args);
       
       resultExitValue = cmdOutcome.exitValue();
