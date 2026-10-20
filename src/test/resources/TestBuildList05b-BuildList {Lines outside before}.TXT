@@ -27,7 +27,7 @@ TEST Line before the first section. Must be caught as an error.
 #   The 2nd line is the build command to issue for that module;
 #   it can have any arguments.
 #
-#   The 3nd line, if present, is the path of the folder where the artifact built
+#   The 3rd line, if present, is the path of the folder where the artifact built
 #   for that module must be moved. If the line is not present, the artifact will
 #   not be moved.
 #
