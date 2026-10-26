@@ -52,7 +52,7 @@ $DEPS = @(
     "djavalibraries/dfile/2.5.0",
     "djavalibraries/dlog/2.3.0",
     "djavalibraries/duserinputoutput/2.4.0",
-    "djavalibraries/dparam/2.2.3",
+    "djavalibraries/dparam/3.0.0-SNAPSHOT",
     "djavalibraries/dmaven/2.3.1",
     "djavalibraries/dtest/2.2.3",
     "djavalibraries/dsax/2.2.3",

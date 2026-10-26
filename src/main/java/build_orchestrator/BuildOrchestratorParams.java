@@ -12,8 +12,6 @@ import dparam.AParams;
 import dparam.ParamMono;
 import dparam.ParamMulti;
 import dparam.pvdc.AValueChangeInfo;
-import dparam.pvdc.change_loader.AValueChangeTextReader;
-import dparam.pvdc.change_loader.EmptyValueChangeTextReader;
 import dutil.string.value_parser.BooleanStringParser;
 import dutil.string.value_parser.LongStringParser;
 import dutil.string.value_parser.NeutralStringParser;
@@ -169,31 +167,31 @@ public class BuildOrchestratorParams extends AParams<Object> {
 		
 		// Param BuildListFilePath :
 		
-		this.buildListFilepath = new ParamMono<>(this, "BuildListFile");
+		this.buildListFilepath = newParamMono("BuildListFile");
     
     // Param MavenFolder :
     
-    this.mavenFolder = new ParamMono<>(this, "MavenFolder");
+    this.mavenFolder = newParamMono("MavenFolder");
     
     // Param MavenRepoFolder :
     
-    this.mavenRepoFolder = new ParamMono<>(this, "MavenRepoFolder");
+    this.mavenRepoFolder = newParamMono("MavenRepoFolder");
 		
 		// Param CommandTimeoutMs :
 		
-		this.commandTimeoutMs  = new ParamMono<>(this, "CommandTimeoutMs");
+		this.commandTimeoutMs  = newParamMono("CommandTimeoutMs");
     
     // Param CaptureBuildOutput :
     
-    this.captureBuildOutput = new ParamMono<>(this, "CaptureBuildOutput");
+    this.captureBuildOutput = newParamMono("CaptureBuildOutput");
     
     // Param ShowCapturedOutput :
     
-    this.showCapturedOutput =  new ParamMono<>(this, "ShowCapturedOutput");
+    this.showCapturedOutput =  newParamMono("ShowCapturedOutput");
     
     // Param RunInScriptIfWin :
     
-    this.runInScriptIfWin = new ParamMulti<>(this, "RunInScriptIfWin", ONE_i);
+    this.runInScriptIfWin = newParamMulti("RunInScriptIfWin", ONE_i);
   }
 	
 	@Override
@@ -279,16 +277,4 @@ public class BuildOrchestratorParams extends AParams<Object> {
     /* Already validated at loading time, see {@link ParamMulti#validateCounters()} . */
   }
 	
-	/**
-	 * Returns a new {@link EmptyValueChangeTextReader} because {@link BuildOrchestrator} doesn't use the PVDC
-	 * functionality (<b>PVDC</b> = <i>Parameter Value Dynamic Change</i>).
-	 * 
-	 * @see AParams#getDefaultValueChangeReader()
-	 */
-	@Override
-	protected @NotNull AValueChangeTextReader<Object, ?> getDefaultValueChangeReader() {
-		
-		return new EmptyValueChangeTextReader<>(this.log);
-	}
-
 }
