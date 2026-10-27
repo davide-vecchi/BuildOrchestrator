@@ -7,11 +7,17 @@
 
 ### Changed
 
-- Update the DFile dependency to its latest version.
+- Update the `duserinputoutput` dependency to its latest version.
 
-- Update the DApplication dependency to 2.4.0-SNAPSHOT .
+- Update the `dtest` dependency to its latest version.
 
-- Update the DUtil dependency to 2.4.0-SNAPSHOT .
+- Update the `dapplication` dependency to its latest version.
+
+- Update the `dutil` dependency to its latest version.
+
+- Update the `dmaven` dependency to its latest version.
+
+- Update the `dfile` dependency to its latest version.
 
 
 ### Added
