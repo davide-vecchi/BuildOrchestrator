@@ -7,6 +7,8 @@
 
 ### Changed
 
+- Update the `dlog` dependency to its latest version.
+
 - Update the `duserinputoutput` dependency to its latest version.
 
 - Update the `dtest` dependency to its latest version.
