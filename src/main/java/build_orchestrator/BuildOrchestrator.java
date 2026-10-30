@@ -701,7 +701,7 @@ public final class BuildOrchestrator {
                                            text -> this.appContext.userIO.screenToPlain(text) : null;
     
     final Function<String, String> outToUser =    this.params.showCapturedOutput.value.booleanValue() ?
-                                           text -> this.appContext.userIO.asIsChars(text + NL)      : null;
+                                           text -> this.appContext.outAsIsChars(ONE_i, text + NL)   : null;
     
     final List<String> runInScriptIfWin =  canRunInScript && SystemUtils.IS_OS_WINDOWS
                                                                    && this.params.runInScriptIfWin.values != null ?

@@ -273,7 +273,7 @@ public class BuildOrchestratorMain {
       
       if (! done) {
         
-        ac.userIO.warnChars(notExisting);
+        ac.warnUser(notExisting);
         
         final InterruptedException ie = waitMillis(500);
         

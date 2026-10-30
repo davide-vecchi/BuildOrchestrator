@@ -34,6 +34,10 @@
 
 - Convert a groupId's dots to path separators for the Maven-repo path.
 
+- The missing-file warning now goes through `AAppContext.warnUser`, so it is logged (it was previously only shown).
+  The captured Maven output now goes through the verbosity-aware `outAsIsChars`; it is unchanged at the current
+  maximum verbosity.
+
 
 ### Internal changes
 
