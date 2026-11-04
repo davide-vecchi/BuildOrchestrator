@@ -69,7 +69,7 @@ MavenRepoFolder = C:\Users\Davide\.m2\repository
 
 # 600000 = 10'
 # 60000  =  1'
-CommandTimeoutMs = 60000
+CommandTimeoutMs = 600000
 
 ################################################################################
 
