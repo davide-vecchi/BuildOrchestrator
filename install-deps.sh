@@ -41,16 +41,16 @@ BO_VERSION="2.3.1-SNAPSHOT"
 # List of DLibs required by BuildOrchestrator (direct + transitive)
 # Format: groupId/artifactId/version
 declare -a DEPS=(
-    "djavalibraries/dapplication/2.4.1-SNAPSHOT"
-    "djavalibraries/dutil/2.5.0-SNAPSHOT"
-    "djavalibraries/dlog/2.4.0-SNAPSHOT"
-    "djavalibraries/duserinputoutput/2.4.1-SNAPSHOT"
-    "djavalibraries/dfile/2.6.0-SNAPSHOT"
-    "djavalibraries/dparam/3.0.0-SNAPSHOT"
-    "djavalibraries/dmaven/2.3.2-SNAPSHOT"
-    "djavalibraries/dtest/2.2.4-SNAPSHOT"
-    "djavalibraries/dsax/2.2.4-SNAPSHOT"
-    "djavalibraries/dxml/2.2.4-SNAPSHOT"
+    "djavalibraries/dapplication/2.4.1"
+    "djavalibraries/dutil/2.5.0"
+    "djavalibraries/dlog/2.4.0"
+    "djavalibraries/duserinputoutput/2.4.1"
+    "djavalibraries/dfile/2.6.0"
+    "djavalibraries/dparam/3.0.0"
+    "djavalibraries/dmaven/2.3.2"
+    "djavalibraries/dtest/2.2.4"
+    "djavalibraries/dsax/2.2.4"
+    "djavalibraries/dxml/2.2.4"
     "javalibraries3rdparty/threadsafenumberformat/2.2.1"
 )
 
